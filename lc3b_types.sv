@@ -12,8 +12,6 @@ typedef logic  [2:0] lc3b_nzp;
 typedef logic  [1:0] lc3b_mem_wmask;
 typedef logic  [4:0] lc3b_imm5;
 typedef logic  [3:0] lc3b_imm4;
-typedef logic  [1:0] lc3b_mux4sel;
-typedef logic [2:0] lc3b_c_index;
 
 typedef enum bit [3:0] {
     op_add  = 4'b0001,
@@ -45,11 +43,18 @@ typedef enum bit [3:0] {
 } lc3b_aluop;
 
 typedef struct packed {
-	lc3b_opcode opcode;
-	lc3b_aluop aluop;
-	logic load_cc;
-	logic load_regfile;
-	/* ... other signals ... */
+    lc3b_opcode opcode;
+    logic load_cc;
+    logic load_regfile;
+    /* execute stage signals */
+    lc3b_aluop aluop;
+    logic addr1mux_sel;
+    logic [1:0] addr2mux_sel;
+    logic sr2mux_sel;
+    logic memaddrmux_sel;
+    /* write back stage signals */
+    logic drmux_sel;
+    /* add more pls */
 } lc3b_control_word;
 
 endpackage : lc3b_types
