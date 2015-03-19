@@ -9,24 +9,24 @@ module execute
     input lc3b_word ir_in,
     input lc3b_word sr1,
     input lc3b_word sr2,
-    input logic [2:0] cc_in,
-    input logic [2:0] dr_in,
+    input lc3b_nzp cc_in,
+    input lc3b_reg dr_in,
     input logic valid_in,
     
     output lc3b_word mem_address,
     output lc3b_control_word cw,
     output lc3b_word new_pc,
-    output lc3b_word cc,
+    output lc3b_nzp cc,
     output lc3b_word alu_out,
     output lc3b_word ir,
-    output lc3b_word dr,
+    output lc3b_reg dr,
     output lc3b_word valid
 );
 
 lc3b_word addr1mux_out;
 lc3b_word addr2mux_out;
 lc3b_word memaddrmux_out;
-lc3b_word sr2mux;
+lc3b_word sr2mux_out;
 lc3b_word adj6_out;
 lc3b_word adj9_out;
 lc3b_word adj11_out;
@@ -112,6 +112,11 @@ alu alu
     .b(sr2mux_out),
     .f(alu_out)
 );
+
+assign new_pc = new_pc_in;
+assign cc = cc_in;
+assign ir = ir_in;
+assign dr = dr_in;
 
 /* todo: logic blocks */
 
