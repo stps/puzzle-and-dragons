@@ -56,6 +56,8 @@ typedef struct packed {
     logic memaddrmux_sel;
     /* write back stage signals */
     logic drmux_sel;
+	 logic mem_read;
+	 logic mem_write;
     /* add more pls */
 } lc3b_control_word;
 
