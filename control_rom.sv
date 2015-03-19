@@ -14,21 +14,19 @@ begin
 ctrl.opcode = opcode;
 ctrl.load_cc = 0;
 ctrl.load_regfile = 0;
-/* ... other defaults ... */
+ctrl.sr2mux_sel = 0;
+ctrl.mem_read = 0;
+ctrl.mem_write = 0;
 
 /* Assign control signals based on opcode */
 case(opcode)
     op_add: begin
         ctrl.aluop = alu_add;
         ctrl.load_regfile = 1;
-        if(imm_check == 0)
-        begin
-            /* DR <= sr1 + sr2 */
+        if(imm_check == 0) begin
             ctrl.sr2mux_sel = 0;
         end
-        else
-        begin
-            /* DR <= sr1 + SEXT(imm5) */
+        else begin
             ctrl.sr2mux_sel = 1;
         end
         ctrl.load_cc = 1;
@@ -37,14 +35,10 @@ case(opcode)
     op_and: begin
         ctrl.aluop = alu_and;
         ctrl.load_regfile = 1;
-        if(imm_check == 0)
-        begin
-            /* DR <= sr1 & sr2 */
+        if(imm_check == 0) begin
             ctrl.sr2mux_sel = 0;
         end
-        else
-        begin
-            /* DR <= sr1 & SEXT(imm5) */
+        else begin
             ctrl.sr2mux_sel = 1;
         end
         ctrl.load_cc = 1;
@@ -57,12 +51,20 @@ case(opcode)
     end
     
     op_ldr: begin
+        ctrl.mem_read = 1;
+        ctrl.load_cc = 1;
+        addr1mux_sel = 1;
+        addr2mux_sel = 2'b01;
     end
     
     op_str: begin
+        ctrl.mem_write = 1;
+        addr1mux_sel = 1;
+        addr2mux_sel = 2'b01;
     end
     
     op_br: begin
+        //????? need mem stuff
     end
     
     default: begin

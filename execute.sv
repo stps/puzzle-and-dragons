@@ -20,7 +20,7 @@ module execute
     output lc3b_word alu_out,
     output lc3b_word ir,
     output lc3b_reg dr,
-    output lc3b_word valid
+    output logic valid
 );
 
 lc3b_word addr1mux_out;
@@ -38,6 +38,7 @@ assign new_pc = new_pc_in;
 assign cc = cc_in;
 assign ir = ir_in;
 assign dr = dr_in;
+assign cw = cw_in;
 
 mux2 addr1mux
 (
