@@ -17,6 +17,8 @@ ctrl.load_regfile = 0;
 ctrl.sr2mux_sel = 0;
 ctrl.mem_read = 0;
 ctrl.mem_write = 0;
+ctrl.addr1mux_sel = 0;
+ctrl.addr2mux_sel = 2'b00;
 
 /* Assign control signals based on opcode */
 case(opcode)
@@ -53,14 +55,14 @@ case(opcode)
     op_ldr: begin
         ctrl.mem_read = 1;
         ctrl.load_cc = 1;
-        addr1mux_sel = 1;
-        addr2mux_sel = 2'b01;
+        ctrl.addr1mux_sel = 1;
+        ctrl.addr2mux_sel = 2'b01;
     end
     
     op_str: begin
         ctrl.mem_write = 1;
-        addr1mux_sel = 1;
-        addr2mux_sel = 2'b01;
+        ctrl.addr1mux_sel = 1;
+        ctrl.addr2mux_sel = 2'b01;
     end
     
     op_br: begin
