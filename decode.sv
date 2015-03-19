@@ -30,7 +30,12 @@ begin
 	dr = destmux_out;
 end
 
-control_rom control_store(.opcode(ir_in[15:11]), .ctrl(cw));
+control_rom control_store
+(
+    .opcode(ir_in[15:11]),
+    .imm_check(ir_in[5]),
+    .ctrl(cw)
+);
 
 regfile regfile_int
 (

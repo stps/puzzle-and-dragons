@@ -2,7 +2,7 @@ import lc3b_types::*;
 
 module execute
 (
-    input clock,
+    input clk,
     
     input lc3b_word new_pc_in,
     input lc3b_control_word cw_in,
@@ -33,6 +33,11 @@ lc3b_word adj11_out;
 lc3b_word zadj_out;
 lc3b_word adder_out;
 lc3b_word sext_out;
+
+assign new_pc = new_pc_in;
+assign cc = cc_in;
+assign ir = ir_in;
+assign dr = dr_in;
 
 mux2 addr1mux
 (
@@ -112,11 +117,6 @@ alu alu
     .b(sr2mux_out),
     .f(alu_out)
 );
-
-assign new_pc = new_pc_in;
-assign cc = cc_in;
-assign ir = ir_in;
-assign dr = dr_in;
 
 /* todo: logic blocks */
 

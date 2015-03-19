@@ -2,7 +2,7 @@ import lc3b_types::*;
 
 module write_back
 (
-    input clock,
+    input clk,
     
     input lc3b_word mem_address,
     input lc3b_word data,
@@ -17,10 +17,6 @@ module write_back
 );
 
 lc3b_word drmux_out;
-
-/*logic_block
-(
-);*/
 
 mux4 drmux
 (
