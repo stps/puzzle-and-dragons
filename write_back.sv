@@ -24,7 +24,7 @@ lc3b_word drmux_out;
 
 mux4 drmux
 (
-    .sel(cw.drmux_sel)
+    .sel(cw.drmux_sel),
     .a(mem_address),
     .b(data),
     .c(new_pc),
