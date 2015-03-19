@@ -41,13 +41,31 @@ decode decode_int
 	.sr1(de_ex_sr1),
 	.sr2(de_ex_sr2),
 	.cc(de_ex_cc),
-	.dr(de_ex_cc),
+	.dr(de_ex_dr),
 	.valid()
 );
 
 //decode/execute registers
 register de_ex_npc_reg(.clk, .load(1'b1), .in(de_ex_npc), .out(de_ex_npc_out));
+register de_ex_cw_reg(.clk, .load(1'b1), .in(de_ex_cw), .out(de_ex_cw_out));
+register de_ex_ir_reg(.clk, .load(1'b1), .in(de_ex_ir), .out(de_ex_ir_out));
+register de_ex_sr1_reg(.clk, .load(1'b1), .in(de_ex_sr1), .out(de_ex_sr1_out));
+register de_ex_sr2_reg(.clk, .load(1'b1), .in(de_ex_sr2), .out(de_ex_sr2_out));
+register de_ex_cc_reg(.clk, .load(1'b1), .in(de_ex_cc), .out(de_ex_cc_out));
+register de_ex_dr_reg(.clk, .load(1'b1), .in(de_ex_dr), .out(de_ex_dr_out));
 
 
+execute execute_int
+(
+	.clk,
+
+	.new_pc_in(de_ex_npc_out),
+	.cw_in(de_ex_cw_out),
+	.sr1(de_ex_sr1_out),
+	.sr2(de_ex_sr2_out),
+	.cc_in(de_ex_cc_out),
+	.dr_in(de_ex_dr_out),
+	.valid_in(),
+);
 
 endmodule : mp3
