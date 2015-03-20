@@ -30,19 +30,17 @@ begin : state_actions
 	
 	case(state)
 		one: begin
+			mem_read = 1'b1;
+			
 			if (mem_write_in || mem_read_in) begin
-				mem_read = mem_read_in;
-				mem_write = mem_write_in;
-				mem_address = mem_address_mem;
 				ld_regs = 1'b0;
 			end
-			
-			else
-				mem_read = 1'b1;
 		end
 		
 		two: begin
-			mem_read = 1'b1;
+			mem_read = mem_read_in;
+			mem_write = mem_write_in;
+			mem_address = mem_address_mem;
 		end
 		
 		default: ;
