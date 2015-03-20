@@ -93,7 +93,7 @@ arbiter arbiter
 	.mem_address_fetch(pc_out),
 	.mem_address_mem(new_mem_address),
 	
-	.ld_regs(ld_regs),
+	.ld_regs(load_regs),
 	.mem_address,
 	.mem_read,
 	.mem_write
