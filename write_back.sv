@@ -10,19 +10,20 @@ module write_back
     input lc3b_word npc,
     input lc3b_word result,
     input lc3b_word ir,
-    //input logic [2:0] dr,
+    input logic [2:0] dr,
     input logic valid,
     
     output lc3b_nzp gencc_out,
     output lc3b_word reg_data,
     output lc3b_reg dest_reg,
-	 output logic ld_reg_store
+	output logic ld_reg_store
 );
 
 lc3b_word drmux_out;
 
 assign reg_data = drmux_out;
 assign ld_reg_store = cw.load_regfile;
+assign dest_reg = dr;
 
 mux4 drmux
 (
