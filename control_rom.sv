@@ -23,6 +23,7 @@ ctrl.addr2mux_sel = 2'b00;
 ctrl.drmux_sel = 1'b0;
 ctrl.regfilemux_sel = 1'b0;
 ctrl.memaddrmux_sel = 1'b0;
+ctrl.destmux_sel = 1'b0;
 
 /* Assign control signals based on opcode */
 case(opcode)

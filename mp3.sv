@@ -135,7 +135,7 @@ decode decode_int
    .ir_in(f_de_ir_out),
    .valid_in(),
 	.ld_reg_store,
-   .reg_data(reg_data),
+   .reg_data,
    .cc_data(gencc_out),
    .dest_reg(dest_reg),
 	
@@ -151,7 +151,7 @@ decode decode_int
 
 //decode/execute registers
 register de_ex_npc_reg(.clk, .load(load_regs), .in(de_ex_npc), .out(de_ex_npc_out));
-register #(.width(19)) de_ex_cw_reg(.clk, .load(load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
+register #(.width(20)) de_ex_cw_reg(.clk, .load(load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
 register de_ex_ir_reg(.clk, .load(load_regs), .in(de_ex_ir), .out(de_ex_ir_out));
 register de_ex_sr1_reg(.clk, .load(load_regs), .in(de_ex_sr1), .out(de_ex_sr1_out));
 register de_ex_sr2_reg(.clk, .load(load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
@@ -183,7 +183,7 @@ execute execute_int
 
 //execute/memory registers
 register ex_mem_address_reg(.clk, .load(load_regs), .in(ex_mem_address), .out(ex_mem_address_out));
-register #(.width(19)) ex_mem_cw_reg(.clk, .load(load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
+register #(.width(20)) ex_mem_cw_reg(.clk, .load(load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
 register ex_mem_npc_reg(.clk, .load(load_regs), .in(ex_mem_npc), .out(ex_mem_npc_out));
 register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_regs), .in(ex_mem_cc), .out(ex_mem_cc_out));
 register ex_mem_result_reg(.clk, .load(load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
@@ -225,7 +225,7 @@ mem mem_int
 //mem/write_back register
 register mem_wb_address_reg(.clk, .load(load_regs), .in(mem_wb_address), .out(mem_wb_address_out));
 register mem_wb_data_reg(.clk, .load(load_regs), .in(mem_wb_data), .out(mem_wb_data_out));
-register mem_wb_cw_reg(.clk, .load(load_regs), .in(mem_wb_cw), .out(mem_wb_cw_out));
+register #(.width(20)) mem_wb_cw_reg(.clk, .load(load_regs), .in(mem_wb_cw), .out(mem_wb_cw_out));
 register mem_wb_npc_reg(.clk, .load(load_regs), .in(mem_wb_npc), .out(mem_wb_npc_out));
 register mem_wb_result_reg(.clk, .load(load_regs), .in(mem_wb_result), .out(mem_wb_result_out));
 register mem_wb_ir_reg(.clk, .load(load_regs), .in(mem_wb_ir), .out(mem_wb_ir_out));
@@ -244,7 +244,7 @@ write_back write_back_int
     .valid(),
     
     .gencc_out(gencc_out),
-    .reg_data(reg_data),
+    .reg_data,
     .dest_reg(dest_reg),
 	 .ld_reg_store
 );

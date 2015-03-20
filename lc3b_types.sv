@@ -59,6 +59,7 @@ typedef struct packed {
 	 logic regfilemux_sel;
     logic mem_read;
     logic mem_write;
+	 logic destmux_sel;
     /* add more pls */
 } lc3b_control_word;
 

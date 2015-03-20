@@ -51,7 +51,7 @@ regfile regfile_int
 );
 
 mux2 regfilemux(.a(ir_in[11:9]), .b(ir_in[2:0]), .out(regfilemux_out), .sel(cw.regfilemux_sel));
-mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out), .sel(cw.drmux_sel));
+mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out), .sel(cw.destmux_sel));
 
 register #(.width(3)) cc
 (
