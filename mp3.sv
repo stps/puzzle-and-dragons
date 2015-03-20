@@ -54,7 +54,7 @@ lc3b_reg de_ex_dr_out;
 
 //execute/memory signals
 lc3b_word ex_mem_address;
-lc3b_word ex_mem_cw;
+lc3b_control_word ex_mem_cw;
 lc3b_word ex_mem_npc;
 lc3b_nzp ex_mem_cc;
 lc3b_word ex_mem_result;
@@ -62,7 +62,7 @@ lc3b_word ex_mem_ir;
 lc3b_reg ex_mem_dr;
 
 lc3b_word ex_mem_address_out;
-lc3b_word ex_mem_cw_out;
+lc3b_control_word ex_mem_cw_out;
 lc3b_word ex_mem_npc_out;
 lc3b_nzp ex_mem_cc_out;
 lc3b_word ex_mem_result_out;
@@ -72,7 +72,7 @@ lc3b_reg ex_mem_dr_out;
 //memory/write_back signals
 lc3b_word mem_wb_address;
 lc3b_word mem_wb_data;
-lc3b_word mem_wb_cw;
+lc3b_control_word mem_wb_cw;
 lc3b_word mem_wb_npc;
 lc3b_word mem_wb_result;
 lc3b_word mem_wb_ir;
@@ -80,7 +80,7 @@ lc3b_reg mem_wb_dr;
 
 lc3b_word mem_wb_address_out;
 lc3b_word mem_wb_data_out;
-lc3b_word mem_wb_cw_out;
+lc3b_control_word mem_wb_cw_out;
 lc3b_word mem_wb_npc_out;
 lc3b_word mem_wb_result_out;
 lc3b_word mem_wb_ir_out;
@@ -151,7 +151,7 @@ decode decode_int
 
 //decode/execute registers
 register de_ex_npc_reg(.clk, .load(load_regs), .in(de_ex_npc), .out(de_ex_npc_out));
-register #(.width(3)) de_ex_cw_reg(.clk, .load(load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
+register #(.width(19)) de_ex_cw_reg(.clk, .load(load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
 register de_ex_ir_reg(.clk, .load(load_regs), .in(de_ex_ir), .out(de_ex_ir_out));
 register de_ex_sr1_reg(.clk, .load(load_regs), .in(de_ex_sr1), .out(de_ex_sr1_out));
 register de_ex_sr2_reg(.clk, .load(load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
@@ -183,7 +183,7 @@ execute execute_int
 
 //execute/memory registers
 register ex_mem_address_reg(.clk, .load(load_regs), .in(ex_mem_address), .out(ex_mem_address_out));
-register ex_mem_cw_reg(.clk, .load(load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
+register #(.width(19)) ex_mem_cw_reg(.clk, .load(load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
 register ex_mem_npc_reg(.clk, .load(load_regs), .in(ex_mem_npc), .out(ex_mem_npc_out));
 register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_regs), .in(ex_mem_cc), .out(ex_mem_cc_out));
 register ex_mem_result_reg(.clk, .load(load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
