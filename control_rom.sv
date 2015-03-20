@@ -63,6 +63,7 @@ case(opcode)
         ctrl.aluop = alu_not;
         ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
+		  ctrl.drmux_sel = 2'b11;
     end
     
     op_ldr: begin
@@ -71,7 +72,7 @@ case(opcode)
         ctrl.load_cc = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
-		  ctrl.drmux_sel = 1'b1;
+		  ctrl.drmux_sel = 2'b01;
     end
     
     op_str: begin
