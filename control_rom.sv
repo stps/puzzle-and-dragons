@@ -81,6 +81,9 @@ case(opcode)
     end
     
     op_br: begin
+			ctrl.addr1mux_sel = 1'b0;
+			ctrl.addr2mux_sel = 2'b10;
+			ctrl.memaddrmux_sel = 1'b1;
     end
 
     
