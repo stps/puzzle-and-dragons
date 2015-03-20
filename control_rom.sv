@@ -30,12 +30,16 @@ case(opcode)
     op_add: begin
         ctrl.aluop = alu_add;
         ctrl.load_regfile = 1'b1;
+		  ctrl.drmux_sel = 2'b11;
+		  
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
         end
+		  
         else begin
             ctrl.sr2mux_sel = 1'b1;
         end
+		  
         ctrl.load_cc = 1'b1;
     end
     

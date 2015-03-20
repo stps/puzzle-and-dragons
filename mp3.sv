@@ -137,7 +137,7 @@ decode decode_int
 	.ld_reg_store,
    .reg_data,
    .cc_data(gencc_out),
-   .dest_reg(dest_reg),
+   .dest_reg,
 	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),
@@ -165,6 +165,7 @@ execute execute_int
 
 	.npc_in(de_ex_npc_out),
 	.cw_in(de_ex_cw_out),
+	.ir_in(de_ex_ir_out),
 	.sr1(de_ex_sr1_out),
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
@@ -245,7 +246,7 @@ write_back write_back_int
     
     .gencc_out(gencc_out),
     .reg_data,
-    .dest_reg(dest_reg),
+    .dest_reg,
 	 .ld_reg_store
 );
 
