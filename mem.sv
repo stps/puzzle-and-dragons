@@ -54,7 +54,7 @@ assign stall = 1'b0;
 
 cccomp comp
 (
-	.a(ir_in[11:9]),
+	.a(ir_in),
 	.b(cc_in),
 	.out(mem_pc_mux)
 );
