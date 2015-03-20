@@ -243,18 +243,12 @@ write_back write_back_int
     .result(mem_wb_result_out),
     .dr(mem_wb_dr_out),
     .ir(mem_wb_ir_out),
-	 .dr(mem_wb_dr_out),
     .valid(),
     
     .gencc_out(gencc_out),
-<<<<<<< HEAD
     .reg_data,
     .dest_reg,
 	 .ld_reg_store
-=======
-    .reg_data(reg_data),
-    .dest_reg(dest_reg)
->>>>>>> 4b9b8ac155e0705f9ab3b865fa58aacb3cc4a450
 );
 
 endmodule : mp3
