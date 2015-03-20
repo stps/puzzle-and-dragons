@@ -133,8 +133,10 @@ mem mem_int
     .mem_read,
     .mem_write,
     .mem_wdata,
+	 
+	 .mem_pc_mux(pc_mux_sel),
     
-    .address(),
+    .address(target_pc),
     .data(),
     .cw(),
     .new_pc(),

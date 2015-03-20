@@ -22,7 +22,7 @@ module mem
 	output logic mem_write,
 	output lc3b_word mem_wdata,
 	
-	
+	output logic [1:0] mem_pc_mux,
 	
 	output lc3b_word address,
 	output lc3b_word data,
@@ -51,6 +51,16 @@ assign dr = dr_in;
 assign valid = valid_in;
 
 assign stall = 1'b0;
+
+cccomp comp
+(
+	.a(ir_in[11:9]),
+	.b(cc_in),
+	.out(mem_pc_mux)
+);
+
+//TODO: add more BR logic for trap
+
 
 
 endmodule : mem
