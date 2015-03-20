@@ -24,6 +24,7 @@ lc3b_word drmux_out;
 
 assign reg_data = drmux_out;
 assign ld_reg_store = cw.load_regfile;
+assign ld_cc_store = cw.load_cc;
 assign dest_reg = dr;
 
 mux4 drmux
