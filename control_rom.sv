@@ -46,6 +46,8 @@ case(opcode)
     op_and: begin
         ctrl.aluop = alu_and;
         ctrl.load_regfile = 1'b1;
+		  ctrl.drmux_sel = 2'b11;
+		  
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
         end
@@ -72,8 +74,10 @@ case(opcode)
     
     op_str: begin
         ctrl.mem_write = 1'b1;
+        ctrl.load_cc = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
+		  ctrl.drmux_sel = 1'b1;
     end
     
     op_br: begin
