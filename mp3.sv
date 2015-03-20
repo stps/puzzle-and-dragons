@@ -211,7 +211,7 @@ mem mem_int
     .mem_write(new_mem_write),
     .mem_wdata,
     
-	.mem_pc_mux(pc_mux_sel),
+	 .mem_pc_mux(pc_mux_sel),
     
     .address(mem_wb_address),
     .data(mem_wb_data),
