@@ -55,7 +55,7 @@ typedef struct packed {
     logic sr2mux_sel;
     logic memaddrmux_sel;
     /* write back stage signals */
-    logic drmux_sel;
+    logic [1:0] drmux_sel;
 	 logic regfilemux_sel;
     logic mem_read;
     logic mem_write;

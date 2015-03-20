@@ -23,6 +23,8 @@ lc3b_word reg_data;
 lc3b_reg dest_reg;
 lc3b_word pc_out;
 lc3b_word new_mem_address;
+logic new_mem_write;
+logic new_mem_read;
 logic load_regs;
 logic ld_reg_store;
 
