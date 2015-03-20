@@ -16,7 +16,6 @@ typedef logic  [3:0] lc3b_imm4;
 //typedef logic [19:0] lc3b_control_word;
 
 typedef enum bit [3:0] {
-    op_nop  = 4'b0001,
     op_add  = 4'b0001,
     op_and  = 4'b0101,
     op_br   = 4'b0000,
@@ -57,6 +56,7 @@ typedef struct packed {
     logic memaddrmux_sel;
     /* write back stage signals */
     logic drmux_sel;
+	 logic regfilemux_sel;
     logic mem_read;
     logic mem_write;
     /* add more pls */

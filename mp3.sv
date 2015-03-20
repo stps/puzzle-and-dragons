@@ -24,6 +24,7 @@ lc3b_reg dest_reg;
 lc3b_word pc_out;
 lc3b_word new_mem_address;
 logic load_regs;
+logic ld_reg_store;
 
 //fetch/decode signals
 lc3b_word f_de_npc;
@@ -128,12 +129,13 @@ decode decode_int
 (
 	.clk,
 
-    .npc_in(f_de_npc_out),
-    .ir_in(f_de_ir_out),
-    .valid_in(),
-    .reg_data(reg_data),
-    .cc_data(gencc_out),
-    .dest_reg(dest_reg),
+   .npc_in(f_de_npc_out),
+   .ir_in(f_de_ir_out),
+   .valid_in(),
+	.ld_reg_store,
+   .reg_data(reg_data),
+   .cc_data(gencc_out),
+   .dest_reg(dest_reg),
 	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),

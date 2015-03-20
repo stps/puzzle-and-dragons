@@ -6,6 +6,7 @@ module decode
 	input lc3b_word npc_in,
 	input lc3b_word ir_in,
 	input valid_in,
+	input ld_reg_store,
 	input lc3b_word reg_data,
 	input lc3b_nzp cc_data,
 	input lc3b_reg dest_reg,
@@ -32,7 +33,7 @@ end
 
 control_rom control_store
 (
-    .opcode(lc3b_opcode'(ir_in[15:11])),
+    .opcode(lc3b_opcode'(ir_in[15:12])),
     .imm_check(ir_in[5]),
     .ctrl(cw)
 );
@@ -40,7 +41,7 @@ control_rom control_store
 regfile regfile_int
 (
 	.clk,
-	.load(cw.load_regfile),
+	.load(ld_reg),
 	.in(reg_data),
 	.src_a(ir_in[8:6]),
 	.src_b(regfilemux_out),
@@ -49,8 +50,8 @@ regfile regfile_int
 	.reg_b(sr2)
 );
 
-mux2 regfilemux(.a(ir_in[11:9]), .b(ir_in[2:0]), .out(regfilemux_out));
-mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out));
+mux2 regfilemux(.a(ir_in[11:9]), .b(ir_in[2:0]), .out(regfilemux_out), .sel(cw.regfilemux_sel));
+mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out), .sel(cw.drmux_sel));
 
 register #(.width(3)) cc
 (

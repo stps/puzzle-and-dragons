@@ -20,6 +20,8 @@ ctrl.mem_read = 1'b0;
 ctrl.mem_write = 1'b0;
 ctrl.addr1mux_sel = 1'b0;
 ctrl.addr2mux_sel = 2'b00;
+ctrl.drmux_sel = 1'b0;
+ctrl.regfilemux_sel = 1'b0;
 
 /* Assign control signals based on opcode */
 case(opcode)
@@ -68,10 +70,7 @@ case(opcode)
     
     op_br: begin
     end
-    
-    op_nop: begin
-        ctrl = 0;
-    end
+
     
     default: begin
         ctrl = 0; /* Unknown opcode, set control word to zero */
