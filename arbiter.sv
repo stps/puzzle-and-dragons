@@ -17,8 +17,8 @@ module arbiter
 );
 
 enum int unsigned {
-	fetch,
-	mem
+	one,
+	two
 } state, next_state;
 
 always_comb
@@ -29,15 +29,20 @@ begin : state_actions
 	ld_regs = 1'b1;
 	
 	case(state)
-		fetch: begin
-			mem_read = 1'b1;
+		one: begin
+			if (mem_write_in || mem_read_in) begin
+				mem_read = mem_read_in;
+				mem_write = mem_write_in;
+				mem_address = mem_address_mem;
+				ld_regs = 1'b0;
+			end
+			
+			else
+				mem_read = 1'b1;
 		end
 		
-		mem: begin
-			mem_read = mem_read_in;
-			mem_write = mem_write_in;
-			mem_address = mem_address_mem;
-			ld_regs = 1'b0;
+		two: begin
+			mem_read = 1'b1;
 		end
 		
 		default: ;
@@ -49,14 +54,16 @@ begin : next_state_logic
 	next_state = state;
 	
     case(state)
-        fetch: begin
+        one: begin
             if (mem_write_in || mem_read_in)
-                next_state = mem;
+                next_state = two;
+				else
+					next_state = one;
         end
 		
 		
-        mem: begin
-            next_state = fetch;
+        two: begin
+            next_state = one;
         end
         
         default: ;
