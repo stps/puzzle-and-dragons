@@ -4,7 +4,7 @@ module execute
 (
     input clk,
     
-    input lc3b_word new_pc_in,
+    input lc3b_word npc_in,
     input lc3b_control_word cw_in,
     input lc3b_word ir_in,
     input lc3b_word sr1,
@@ -13,11 +13,11 @@ module execute
     input lc3b_reg dr_in,
     input logic valid_in,
     
-    output lc3b_word mem_address,
+    output lc3b_word address,
     output lc3b_control_word cw,
-    output lc3b_word new_pc,
+    output lc3b_word npc,
     output lc3b_nzp cc,
-    output lc3b_word alu_out,
+    output lc3b_word result,
     output lc3b_word ir,
     output lc3b_reg dr,
     output logic valid
@@ -34,7 +34,7 @@ lc3b_word zadj_out;
 lc3b_word adder_out;
 lc3b_word sext_out;
 
-assign new_pc = new_pc_in;
+assign npc = npc_in;
 assign cc = cc_in;
 assign ir = ir_in;
 assign dr = dr_in;
@@ -43,7 +43,7 @@ assign cw = cw_in;
 mux2 addr1mux
 (
     .sel(cw_in.addr1mux_sel),
-    .a(new_pc_in),
+    .a(npc_in),
     .b(sr1),
     .out(addr1mux_out)
 );
@@ -116,7 +116,7 @@ alu alu
     .aluop(cw_in.aluop),
     .a(sr1),
     .b(sr2mux_out),
-    .f(alu_out)
+    .f(result)
 );
 
 /* todo: logic blocks */

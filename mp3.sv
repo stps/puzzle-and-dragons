@@ -14,15 +14,22 @@ module mp3
     output lc3b_word mem_wdata
 );
 
+//non-register signals
 logic [1:0] pc_mux_sel; //needs to come from mem
+logic gencc_out;
 lc3b_word trap_pc;
 lc3b_word target_pc;
+lc3b_word reg_data;
+lc3b_reg dest_reg;
+
+//fetch/decode signals
 lc3b_word f_de_npc;
 lc3b_word f_de_ir;
 
 lc3b_word f_de_npc_out;
 lc3b_word f_de_ir_out;
 
+//decode/execute signals
 lc3b_word de_ex_npc;
 lc3b_control_word de_ex_cw;
 lc3b_word de_ex_ir;
@@ -39,7 +46,39 @@ lc3b_word de_ex_sr2_out;
 lc3b_nzp de_ex_cc_out;
 lc3b_reg de_ex_dr_out;
 
-lc3b_word reg_data;
+//execute/memory signals
+lc3b_word ex_mem_address;
+lc3b_word ex_mem_cw;
+lc3b_word ex_mem_npc;
+lc3b_nzp ex_mem_cc;
+lc3b_word ex_mem_result;
+lc3b_word ex_mem_ir;
+lc3b_reg ex_mem_dr;
+
+lc3b_word ex_mem_address_out;
+lc3b_word ex_mem_cw_out;
+lc3b_word ex_mem_npc_out;
+lc3b_nzp ex_mem_cc_out;
+lc3b_word ex_mem_result_out;
+lc3b_word ex_mem_ir_out;
+lc3b_reg ex_mem_dr_out;
+
+//memory/write_back signals
+lc3b_word mem_wb_address;
+lc3b_word mem_wb_data;
+lc3b_word mem_wb_cw;
+lc3b_word mem_wb_npc;
+lc3b_word mem_wb_result;
+lc3b_word mem_wb_ir;
+lc3b_reg mem_wb_dr;
+
+lc3b_word mem_wb_address_out;
+lc3b_word mem_wb_data_out;
+lc3b_word mem_wb_cw_out;
+lc3b_word mem_wb_npc_out;
+lc3b_word mem_wb_result_out;
+lc3b_word mem_wb_ir_out;
+lc3b_reg mem_wb_dr_out;
 
 fetch fetch_int
 (
@@ -66,8 +105,8 @@ decode decode_int
     .ir_in(f_de_ir_out),
     .valid_in(),
     .reg_data(reg_data),
-    .cc_data(),
-    .dest_reg(),
+    .cc_data(gencc_out),
+    .dest_reg(dest_reg),
 	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),
@@ -81,19 +120,19 @@ decode decode_int
 
 //decode/execute registers
 register de_ex_npc_reg(.clk, .load(1'b1), .in(de_ex_npc), .out(de_ex_npc_out));
-register de_ex_cw_reg(.clk, .load(1'b1), .in(de_ex_cw), .out(de_ex_cw_out));
+register #(.width(3)) de_ex_cw_reg(.clk, .load(1'b1), .in(de_ex_cw), .out(de_ex_cw_out));
 register de_ex_ir_reg(.clk, .load(1'b1), .in(de_ex_ir), .out(de_ex_ir_out));
 register de_ex_sr1_reg(.clk, .load(1'b1), .in(de_ex_sr1), .out(de_ex_sr1_out));
 register de_ex_sr2_reg(.clk, .load(1'b1), .in(de_ex_sr2), .out(de_ex_sr2_out));
-register de_ex_cc_reg(.clk, .load(1'b1), .in(de_ex_cc), .out(de_ex_cc_out));
-register de_ex_dr_reg(.clk, .load(1'b1), .in(de_ex_dr), .out(de_ex_dr_out));
+register #(.width(3)) de_ex_cc_reg(.clk, .load(1'b1), .in(de_ex_cc), .out(de_ex_cc_out));
+register #(.width(3)) de_ex_dr_reg(.clk, .load(1'b1), .in(de_ex_dr), .out(de_ex_dr_out));
 
 
 execute execute_int
 (
 	.clk,
 
-	.new_pc_in(de_ex_npc_out),
+	.npc_in(de_ex_npc_out),
 	.cw_in(de_ex_cw_out),
 	.sr1(de_ex_sr1_out),
 	.sr2(de_ex_sr2_out),
@@ -101,29 +140,36 @@ execute execute_int
 	.dr_in(de_ex_dr_out),
 	.valid_in(),
 
-    .mem_address(),
-    .cw(),
-    .new_pc(),
-    .cc(),
-    .alu_out(),
-    .ir(),
-    .dr(),
+    .address(ex_mem_address),
+    .cw(ex_mem_cw),
+    .npc(ex_mem_npc),
+    .cc(ex_mem_cc),
+    .result(ex_mem_result),
+    .ir(ex_mem_ir),
+    .dr(ex_mem_dr),
     .valid()
 );
 
-//execute/mem registers
+//execute/memory registers
+register ex_mem_address_reg(.clk, .load(1'b1), .in(ex_mem_address), .out(ex_mem_address_out));
+register ex_mem_cw_reg(.clk, .load(1'b1), .in(ex_mem_cw), .out(ex_mem_cw_out));
+register ex_mem_npc_reg(.clk, .load(1'b1), .in(ex_mem_npc), .out(ex_mem_npc_out));
+register #(.width(3)) ex_mem_cc_reg(.clk, .load(1'b1), .in(ex_mem_cc), .out(ex_mem_cc_out));
+register ex_mem_result_reg(.clk, .load(1'b1), .in(ex_mem_result), .out(ex_mem_result_out));
+register ex_mem_ir_reg(.clk, .load(1'b1), .in(ex_mem_ir), .out(ex_mem_ir_out));
+register #(.width(3)) ex_mem_dr_reg(.clk, .load(1'b1), .in(ex_mem_dr), .out(ex_mem_dr_out));
 
 mem mem_int
 (
     .clk,
     
-    .address_in(),
-    .cw_in(),
-    .new_pc_in(),
-    .cc_in(),
-    .result_in(),
-    .ir_in(),
-    .dr_in(),
+    .address_in(ex_mem_address_out),
+    .cw_in(ex_mem_cw_out),
+    .new_pc_in(ex_mem_npc_out),
+    .cc_in(ex_mem_cc_out),
+    .result_in(ex_mem_result_out),
+    .ir_in(ex_mem_ir_out),
+    .dr_in(ex_mem_dr_out),
     .valid_in(),
     
     .mem_rdata,
@@ -134,33 +180,41 @@ mem mem_int
     .mem_write,
     .mem_wdata,
     
-    .address(),
-    .data(),
-    .cw(),
-    .new_pc(),
-    .result(),
-    .ir(),
-    .dr(),
+    .address(mem_wb_address),
+    .data(mem_wb_data),
+    .cw(mem_wb_cw),
+    .new_pc(mem_wb_npc),
+    .result(mem_wb_result),
+    .ir(mem_wb_ir),
+    .dr(mem_wb_dr),
     .valid(),
     .stall()
 );
 
-//mem/write_back registers
+//mem/write_back register
+register mem_wb_address_reg(.clk, .load(1'b1), .in(mem_wb_address), .out(mem_wb_address_out));
+register mem_wb_data_reg(.clk, .load(1'b1), .in(mem_wb_data), .out(mem_wb_data_out));
+register mem_wb_cw_reg(.clk, .load(1'b1), .in(mem_wb_cw), .out(mem_wb_cw_out));
+register mem_wb_npc_reg(.clk, .load(1'b1), .in(mem_wb_npc), .out(mem_wb_npc_out));
+register mem_wb_result_reg(.clk, .load(1'b1), .in(mem_wb_result), .out(mem_wb_result_out));
+register mem_wb_ir_reg(.clk, .load(1'b1), .in(mem_wb_ir), .out(mem_wb_ir_out));
+//register #(.width(3)) mem_wb_dr_reg(.clk, .load(1'b1), .in(mem_wb_dr), .out(mem_wb_dr_out));
 
 write_back write_back_int
 (
     .clk,
     
-    .mem_address(),
-    .data(),
-    .cw(),
-    .new_pc(),
-    .alu_out(),
-    .ir(),
+    .mem_address(mem_wb_address_out),
+    .data(mem_wb_data_out),
+    .cw(mem_wb_cw_out),
+    .npc(mem_wb_npc_out),
+    .result(mem_wb_result_out),
+    .ir(mem_wb_ir_out),
     .valid(),
     
-    .gencc_out(),
-    .reg_data(reg_data)
+    .gencc_out(gencc_out),
+    .reg_data(reg_data),
+    .dest_reg(dest_reg),
 );
 
 endmodule : mp3
