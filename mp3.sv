@@ -56,7 +56,7 @@ fetch fetch_int
 
 //fetch/decode registers
 register f_de_npc_reg(.clk, .load(1'b1), .in(f_de_npc), .out(f_de_npc_out));
-register f_de_ir_reg(.clk, .load(1'b1), .in(f_de_ir), .out(f_de_ir_out);
+register f_de_ir_reg(.clk, .load(1'b1), .in(f_de_ir), .out(f_de_ir_out));
 
 decode decode_int
 (
