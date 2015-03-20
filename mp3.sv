@@ -86,6 +86,8 @@ lc3b_word mem_wb_result_out;
 lc3b_word mem_wb_ir_out;
 lc3b_reg mem_wb_dr_out;
 
+assign mem_byte_enable = 2'b11;
+
 arbiter arbiter
 (
     .clk,
@@ -117,10 +119,9 @@ fetch fetch_int
     .stall(),
     
     .mem_rdata,
-	.mem_resp,
+	 .mem_resp,
 	
-	.mem_address(pc_out)
-	//.mem_read
+	 .mem_address(pc_out)
 );
 
 //fetch/decode registers
