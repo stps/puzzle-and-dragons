@@ -18,7 +18,6 @@ module mp3
 logic [1:0] pc_mux_sel; //needs to come from mem
 lc3b_nzp gencc_out;
 lc3b_word trap_pc;
-lc3b_word target_pc;
 lc3b_word reg_data;
 lc3b_reg dest_reg;
 lc3b_word pc_out;
@@ -108,7 +107,7 @@ fetch fetch_int
     .clk,
     .pc_mux_sel(pc_mux_sel),
     .trap_pc(trap_pc),
-    .target_pc(ex_mem_address),
+    .target_pc(ex_mem_address_out),
     .ld_pc(load_regs),
 
     .new_pc(f_de_npc),
