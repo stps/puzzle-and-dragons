@@ -4,7 +4,7 @@ module mem
 (
 	input clk,
 	
-	input lcb3_word address_in,
+	input lc3b_word address_in,
 	input lc3b_control_word cw_in,
 	input lc3b_word new_pc_in,
 	input logic [2:0] cc_in,

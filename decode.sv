@@ -15,7 +15,7 @@ module decode
 	output lc3b_word ir,
 	output lc3b_word sr1,
 	output lc3b_word sr2,
-	output lc3b_nzp cc,
+	output lc3b_nzp cc_out,
 	output lc3b_reg dr,
 	output logic valid
 );
@@ -55,9 +55,9 @@ mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out));
 register #(.width(3)) cc
 (
 	.clk,
-	.load(cw.ld_cc),
+	.load(cw.load_cc),
 	.in(cc_data),
-	.out(cc)
+	.out(cc_out)
 );
 
 

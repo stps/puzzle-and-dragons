@@ -6,6 +6,7 @@ module fetch
 	input logic [1:0] pc_mux_sel,
 	input lc3b_word trap_pc,
 	input lc3b_word target_pc,
+	input logic ld_pc,
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,

@@ -60,7 +60,7 @@ decode decode_int
 	.ir(de_ex_ir),
 	.sr1(de_ex_sr1),
 	.sr2(de_ex_sr2),
-	.cc(de_ex_cc),
+	.cc_out(de_ex_cc),
 	.dr(de_ex_dr),
 	.valid()
 );
@@ -85,7 +85,7 @@ execute execute_int
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
-	.valid_in(),
+	.valid_in()
 );
 
 //execute/mem registers
