@@ -32,7 +32,7 @@ end
 
 control_rom control_store
 (
-    .opcode(ir_in[15:11]),
+    .opcode(lc3b_opcode'(ir_in[15:11])),
     .imm_check(ir_in[5]),
     .ctrl(cw)
 );
