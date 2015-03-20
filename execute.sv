@@ -39,7 +39,6 @@ assign cc = cc_in;
 assign ir = ir_in;
 assign dr = dr_in;
 assign cw = cw_in;
-assign address = memaddrmux_out;
 
 mux2 addr1mux
 (
@@ -52,9 +51,9 @@ mux2 addr1mux
 mux2 memaddrmux
 (
     .sel(cw_in.memaddrmux_sel),
-    .a(zadj_out),
+    .a(adder_out),
     .b(adder_out),
-    .out(memaddrmux_out)
+    .out(address)
 );
 
 mux2 sr2mux
