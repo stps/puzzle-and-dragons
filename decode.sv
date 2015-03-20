@@ -7,6 +7,7 @@ module decode
 	input lc3b_word ir_in,
 	input valid_in,
 	input ld_reg_store,
+	input ld_cc_store,
 	input lc3b_word reg_data,
 	input lc3b_nzp cc_data,
 	input lc3b_reg dest_reg,
@@ -56,7 +57,7 @@ mux2 destmux(.a(ir_in[11:9]), .b(3'b111), .out(destmux_out), .sel(cw.destmux_sel
 register #(.width(3)) cc
 (
 	.clk,
-	.load(cw.load_cc),
+	.load(ld_cc_store),
 	.in(cc_data),
 	.out(cc_out)
 );

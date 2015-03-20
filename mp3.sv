@@ -27,6 +27,7 @@ logic new_mem_write;
 logic new_mem_read;
 logic load_regs;
 logic ld_reg_store;
+logic ld_cc_store;
 
 //fetch/decode signals
 lc3b_word f_de_npc;
@@ -136,6 +137,7 @@ decode decode_int
    .ir_in(f_de_ir_out),
    .valid_in(),
 	.ld_reg_store,
+	.ld_cc_store,
    .reg_data,
    .cc_data(gencc_out),
    .dest_reg,
@@ -246,10 +248,11 @@ write_back write_back_int
     .ir(mem_wb_ir_out),
     .valid(),
     
-    .gencc_out(gencc_out),
+    .gencc_out,
     .reg_data,
     .dest_reg,
-	 .ld_reg_store
+	 .ld_reg_store,
+	 .ld_cc_store
 );
 
 endmodule : mp3
