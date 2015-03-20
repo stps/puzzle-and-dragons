@@ -179,6 +179,7 @@ mem mem_int
     .mem_read,
     .mem_write,
     .mem_wdata,
+	.mem_pc_mux(pc_mux_sel),
     
     .address(mem_wb_address),
     .data(mem_wb_data),
@@ -187,8 +188,6 @@ mem mem_int
     .result(mem_wb_result),
     .ir(mem_wb_ir),
     .dr(mem_wb_dr),
-    .valid(),
-    .stall()
 );
 
 //mem/write_back register

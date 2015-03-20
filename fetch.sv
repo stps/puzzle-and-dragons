@@ -11,7 +11,16 @@ module fetch
 	output lc3b_word new_pc,
 	output lc3b_word ir,
 	output logic valid,
-	output stall
+	output stall,
+	
+	
+	input lc3b_word mem_rdata,
+	input logic mem_resp,
+	
+	
+	output lc3b_word mem_address,
+	output logic mem_read
+	
 );
 
 lc3b_word pc_mux_out;
@@ -42,6 +51,11 @@ mux4 pc_mux
 	.sel(pc_mux_sel),
 	.out(pc_mux_out)
 );
+
+assign mem_address = pc_out;
+assign mem_read = 1'b1;
+assign ir = mem_rdata;
+
 
 
 endmodule : fetch
