@@ -31,6 +31,7 @@ case(opcode)
         ctrl.aluop = alu_add;
         ctrl.load_regfile = 1'b1;
 		  ctrl.drmux_sel = 2'b11;
+		  ctrl.regfilemux_sel = 1'b1;
 		  
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
@@ -47,6 +48,7 @@ case(opcode)
         ctrl.aluop = alu_and;
         ctrl.load_regfile = 1'b1;
 		  ctrl.drmux_sel = 2'b11;
+		  ctrl.regfilemux_sel = 1'b1;
 		  
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
