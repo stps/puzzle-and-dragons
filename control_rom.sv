@@ -80,7 +80,6 @@ case(opcode)
         ctrl.load_cc = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
-		  ctrl.drmux_sel = 1'b1;
     end
     
     op_br: begin
