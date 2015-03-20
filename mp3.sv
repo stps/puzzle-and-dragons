@@ -108,7 +108,7 @@ fetch fetch_int
     .clk,
     .pc_mux_sel(pc_mux_sel),
     .trap_pc(trap_pc),
-    .target_pc(ex_mem_address),
+    .target_pc(ex_mem_address_out),
     .ld_pc(load_regs),
 
     .new_pc(f_de_npc),
