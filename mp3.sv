@@ -230,7 +230,7 @@ register #(.width(20)) mem_wb_cw_reg(.clk, .load(load_regs), .in(mem_wb_cw), .ou
 register mem_wb_npc_reg(.clk, .load(load_regs), .in(mem_wb_npc), .out(mem_wb_npc_out));
 register mem_wb_result_reg(.clk, .load(load_regs), .in(mem_wb_result), .out(mem_wb_result_out));
 register mem_wb_ir_reg(.clk, .load(load_regs), .in(mem_wb_ir), .out(mem_wb_ir_out));
-//register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_regs), .in(mem_wb_dr), .out(mem_wb_dr_out));
+register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_regs), .in(mem_wb_dr), .out(mem_wb_dr_out));
 
 write_back write_back_int
 (
@@ -242,6 +242,7 @@ write_back write_back_int
     .npc(mem_wb_npc_out),
     .result(mem_wb_result_out),
     .ir(mem_wb_ir_out),
+	 .dr(mem_wb_dr_out),
     .valid(),
     
     .gencc_out(gencc_out),

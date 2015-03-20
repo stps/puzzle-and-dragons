@@ -41,7 +41,7 @@ control_rom control_store
 regfile regfile_int
 (
 	.clk,
-	.load(ld_reg),
+	.load(ld_reg_store),
 	.in(reg_data),
 	.src_a(ir_in[8:6]),
 	.src_b(regfilemux_out),
