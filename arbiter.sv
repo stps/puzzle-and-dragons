@@ -48,18 +48,19 @@ always_comb
 begin : next_state_logic
 	next_state = state;
 	
-	fetch: begin
-		if (mem_write_in || mem_read_in)
-			next_state = mem;
-	end
+    case(state)
+        fetch: begin
+            if (mem_write_in || mem_read_in)
+                next_state = mem;
+        end
 		
 		
-	mem: begin
-		next_state = fetch;
-	end
-	
-	default: ;
-
+        mem: begin
+            next_state = fetch;
+        end
+        
+        default: ;
+    endcase
 end
 
 always_ff @(posedge clk)

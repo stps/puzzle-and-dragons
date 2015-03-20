@@ -18,9 +18,8 @@ module fetch
 	input logic mem_resp,
 	
 	
-	output lc3b_word mem_address,
-	output logic mem_read
-	
+	output lc3b_word mem_address
+	//output logic mem_read
 );
 
 lc3b_word pc_mux_out;
@@ -53,7 +52,7 @@ mux4 pc_mux
 );
 
 assign mem_address = pc_out;
-assign mem_read = 1'b1;
+//assign mem_read = 1'b1;
 assign ir = mem_rdata;
 
 
