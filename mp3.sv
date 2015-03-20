@@ -16,7 +16,7 @@ module mp3
 
 //non-register signals
 logic [1:0] pc_mux_sel; //needs to come from mem
-logic gencc_out;
+lc3b_nzp gencc_out;
 lc3b_word trap_pc;
 lc3b_word target_pc;
 lc3b_word reg_data;
