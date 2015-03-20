@@ -13,10 +13,13 @@ module write_back
     //input logic [2:0] dr,
     input logic valid,
     
-    output lc3b_word gencc_out
+    output lc3b_word gencc_out,
+    output lc3b_word reg_data
 );
 
 lc3b_word drmux_out;
+
+assign reg_data = drmux_out;
 
 mux4 drmux
 (

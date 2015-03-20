@@ -20,6 +20,9 @@ lc3b_word target_pc;
 lc3b_word f_de_npc;
 lc3b_word f_de_ir;
 
+lc3b_word f_de_npc_out;
+lc3b_word f_de_ir_out;
+
 lc3b_word de_ex_npc;
 lc3b_control_word de_ex_cw;
 lc3b_word de_ex_ir;
@@ -36,6 +39,8 @@ lc3b_word de_ex_sr2_out;
 lc3b_nzp de_ex_cc_out;
 lc3b_reg de_ex_dr_out;
 
+lc3b_word reg_data;
+
 fetch fetch_int
 (
     .clk,
@@ -50,10 +55,19 @@ fetch fetch_int
 );
 
 //fetch/decode registers
+register f_de_npc_reg(.clk, .load(1'b1), .in(f_de_npc), .out(f_de_npc_out));
+register f_de_ir_reg(.clk, .load(1'b1), .in(f_de_ir), .out(f_de_ir_out);
 
 decode decode_int
 (
 	.clk,
+
+    .npc_in(f_de_npc_out),
+    .ir_in(f_de_ir_out),
+    .valid_in(),
+    .reg_data(reg_data),
+    .cc_data(),
+    .dest_reg(),
 	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),
@@ -85,7 +99,16 @@ execute execute_int
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
-	.valid_in()
+	.valid_in(),
+
+    .mem_address(),
+    .cw(),
+    .new_pc(),
+    .cc(),
+    .alu_out(),
+    .ir(),
+    .dr(),
+    .valid()
 );
 
 //execute/mem registers
@@ -136,7 +159,8 @@ write_back write_back_int
     .ir(),
     .valid(),
     
-    .gencc_out()
+    .gencc_out(),
+    .reg_data(reg_data)
 );
 
 endmodule : mp3
