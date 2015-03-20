@@ -12,6 +12,7 @@ begin
 
 /* Default assignments */
 ctrl.opcode = opcode;
+ctrl.aluop = alu_pass;
 ctrl.load_cc = 1'b0;
 ctrl.load_regfile = 1'b0;
 ctrl.sr2mux_sel = 1'b0;
@@ -66,7 +67,10 @@ case(opcode)
     end
     
     op_br: begin
-        //????? need mem stuff
+    end
+    
+    op_nop: begin
+        ctrl = 0;
     end
     
     default: begin

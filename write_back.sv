@@ -13,7 +13,7 @@ module write_back
     //input logic [2:0] dr,
     input logic valid,
     
-    output lc3b_word gencc_out,
+    output lc3b_nzp gencc_out,
     output lc3b_word reg_data,
     output lc3b_reg dest_reg
 );
@@ -27,7 +27,7 @@ mux4 drmux
     .sel(cw.drmux_sel),
     .a(mem_address),
     .b(data),
-    .c(new_pc),
+    .c(npc),
     .d(result),
     .out(drmux_out)
 );
