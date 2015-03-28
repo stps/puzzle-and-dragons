@@ -3,7 +3,9 @@ import lc3b_types::*;
 module control_rom
 (
     input lc3b_opcode opcode,
-    input logic imm_check,
+    input logic imm_check, //also determines if rshf is log or arithm
+    input logic jsr_check,
+    input logic rshf_check,
     output lc3b_control_word ctrl
 );
 
@@ -93,6 +95,14 @@ case(opcode)
     op_trap: begin
         ctrl.memaddrmux_sel = 1'b1;
         ctrl.destmux_sel = 1'b1;
+    end
+
+    op_jsr: begin
+    end
+
+    op_shf: begin
+        ctrl.load_regfile = 1'b1;
+        ctrl.load_cc = 1'b1;
     end
 
     default: begin
