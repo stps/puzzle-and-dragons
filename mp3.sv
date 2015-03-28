@@ -251,8 +251,8 @@ write_back write_back_int
     .gencc_out,
     .reg_data,
     .dest_reg,
-	 .ld_reg_store,
-	 .ld_cc_store
+    .ld_reg_store,
+    .ld_cc_store
 );
 
 endmodule : mp3

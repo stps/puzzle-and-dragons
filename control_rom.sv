@@ -20,7 +20,7 @@ ctrl.mem_read = 1'b0;
 ctrl.mem_write = 1'b0;
 ctrl.addr1mux_sel = 1'b0;
 ctrl.addr2mux_sel = 2'b00;
-ctrl.drmux_sel = 1'b0;
+ctrl.drmux_sel = 2'b00;
 ctrl.regfilemux_sel = 1'b0;
 ctrl.memaddrmux_sel = 1'b0;
 ctrl.destmux_sel = 1'b0;
@@ -30,32 +30,34 @@ case(opcode)
     op_add: begin
         ctrl.aluop = alu_add;
         ctrl.load_regfile = 1'b1;
-		  ctrl.drmux_sel = 2'b11;
-		  ctrl.regfilemux_sel = 1'b1;
-		  
+        ctrl.drmux_sel = 2'b11;
+        ctrl.regfilemux_sel = 1'b1;
+
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
         end
-		  
+
         else begin
             ctrl.sr2mux_sel = 1'b1;
         end
-		  
+
         ctrl.load_cc = 1'b1;
     end
     
     op_and: begin
         ctrl.aluop = alu_and;
         ctrl.load_regfile = 1'b1;
-		  ctrl.drmux_sel = 2'b11;
-		  ctrl.regfilemux_sel = 1'b1;
-		  
+        ctrl.drmux_sel = 2'b11;
+        ctrl.regfilemux_sel = 1'b1;
+
         if(imm_check == 0) begin
             ctrl.sr2mux_sel = 1'b0;
         end
+
         else begin
             ctrl.sr2mux_sel = 1'b1;
         end
+
         ctrl.load_cc = 1'b1;
     end
     
@@ -63,16 +65,16 @@ case(opcode)
         ctrl.aluop = alu_not;
         ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
-		  ctrl.drmux_sel = 2'b11;
+        ctrl.drmux_sel = 2'b11;
     end
     
     op_ldr: begin
         ctrl.mem_read = 1'b1;
-		  ctrl.load_regfile = 1'b1;
+        ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
-		  ctrl.drmux_sel = 2'b01;
+        ctrl.drmux_sel = 2'b01;
     end
     
     op_str: begin
@@ -83,12 +85,16 @@ case(opcode)
     end
     
     op_br: begin
-			ctrl.addr1mux_sel = 1'b0;
-			ctrl.addr2mux_sel = 2'b10;
-			ctrl.memaddrmux_sel = 1'b1;
+        ctrl.addr1mux_sel = 1'b0;
+        ctrl.addr2mux_sel = 2'b10;
+        ctrl.memaddrmux_sel = 1'b1;
     end
 
-    
+    op_trap: begin
+        ctrl.memaddrmux_sel = 1'b1;
+        ctrl.destmux_sel = 1'b1;
+    end
+
     default: begin
         ctrl = 0; /* Unknown opcode, set control word to zero */
     end
