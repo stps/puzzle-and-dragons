@@ -89,6 +89,11 @@ lc3b_reg mem_wb_dr_out;
 
 assign mem_byte_enable = 2'b11;
 
+//icache signals
+lc3b_word icache_rdata;
+logic icache_resp;
+lc3b_word inst_address;
+
 arbiter arbiter
 (
     .clk,
@@ -117,12 +122,12 @@ fetch fetch_int
     .new_pc(f_de_npc),
     .ir(f_de_ir),
     .valid(),
-    .stall(),
+    //.stall(),
     
-    .mem_rdata,
-	 .mem_resp,
+    .icache_rdata,
+	 .icache_resp,
 	
-	 .mem_address(pc_out)
+	 .inst_address(pc_out)
 );
 
 //fetch/decode registers

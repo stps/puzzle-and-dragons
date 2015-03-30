@@ -10,16 +10,16 @@ module fetch
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,
-	output logic valid,
-	output stall,
+	output logic valid, //set to 0 if icache gives garbage and not stalling for other reason
+	//output stall, //no stalls inherent to fetch
+	
+	//need to connect to icache
+	input lc3b_word icache_rdata,
+	input logic icache_resp,
 	
 	
-	input lc3b_word mem_rdata,
-	input logic mem_resp,
-	
-	
-	output lc3b_word mem_address
-	//output logic mem_read
+	output lc3b_word inst_address
+	//output logic mem_read //should always read so not needed?
 );
 
 lc3b_word pc_mux_out;
@@ -51,9 +51,9 @@ mux4 pc_mux
 	.out(pc_mux_out)
 );
 
-assign mem_address = pc_out;
+assign inst_address = pc_out;
 //assign mem_read = 1'b1;
-assign ir = mem_rdata;
+assign ir = icache_rdata;
 
 
 
