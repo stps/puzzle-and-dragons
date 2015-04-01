@@ -81,7 +81,7 @@ case(opcode)
     
     op_str: begin
         ctrl.mem_write = 1'b1;
-        ctrl.load_cc = 1'b1;
+        ctrl.load_cc = 1'b1; //??
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end
@@ -93,16 +93,25 @@ case(opcode)
     end
 
     op_trap: begin
+        ctrl.destmux_sel = 1'b1; // R7 <= PC
         ctrl.memaddrmux_sel = 1'b1;
-        ctrl.destmux_sel = 1'b1;
     end
 
     op_jsr: begin
     end
 
     op_shf: begin
+        if(rshf_check == 0) begin
+            ctrl.aluop = alu_sll;
+        end
+        else begin
+            if(imm_check == 0)
+                ctrl.aluop = alu_srl;
+            else ctrl.aluop = alu_sra;
+        end
         ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
+        ctrl.drmux_sel = 2'b11;
     end
 
     default: begin
