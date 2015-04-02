@@ -17,14 +17,11 @@ module fetch
 	//need to connect to icache
 	input lc3b_word icache_rdata,
 	input logic icache_resp,
+	output lc3b_word inst_address,
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,
-	output logic valid, //set to 0 if icache gives garbage and not stalling for other reason
-	//output stall, //no stalls inherent to fetch
-	
-	output lc3b_word inst_address
-	//output logic mem_read //should always read so not needed?
+	output logic valid //set to 0 if icache gives garbage and not stalling for other reason
 
 );
 

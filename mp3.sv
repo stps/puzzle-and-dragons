@@ -94,6 +94,16 @@ lc3b_word icache_rdata;
 logic icache_resp;
 lc3b_word inst_address;
 
+//dcache signals
+lc3b_word dcache_rdata;
+lc3b_word dcache_wdata;
+logic dcache_resp;
+lc3b_word data_address;
+logic dcache_read;
+logic dcache_write;
+lc3b_mem_wmask dcache_byte_enable;
+
+
 //stall signals
 logic dep_stall;
 logic decode_br_stall;

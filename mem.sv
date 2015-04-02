@@ -24,6 +24,7 @@ module mem
 	
 	output logic [1:0] mem_pc_mux,
 	
+	//latches
 	output lc3b_word address,
 	output lc3b_word data,
 	output lc3b_control_word cw,
@@ -32,7 +33,10 @@ module mem
 	output lc3b_word ir,
 	output lc3b_word dr,
 	output logic valid,
-	output stall
+	
+	//stalls originating from mem
+	output logic mem_stall,
+	output logic mem_br_stall
 );
 
 assign mem_address = address_in;
