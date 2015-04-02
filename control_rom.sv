@@ -94,10 +94,16 @@ case(opcode)
 
     op_trap: begin
         ctrl.destmux_sel = 1'b1; // R7 <= PC
-        ctrl.memaddrmux_sel = 1'b1;
+        ctrl.memaddrmux_sel = 1'b0;
     end
 
     op_jsr: begin
+    end
+    
+    op_jmp: begin
+        ctrl.addr1mux_sel = 1'b1;
+        ctrl.addr2mux_sel = 2'b00;
+        ctrl.memaddrmux_sel = 1'b1;
     end
 
     op_shf: begin

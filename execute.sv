@@ -55,8 +55,8 @@ mux2 addr1mux
 mux2 memaddrmux
 (
     .sel(cw_in.memaddrmux_sel),
-    .a(adder_out),
-    .b(zadj_out),
+    .a(zadj_out),
+    .b(adder_out),
     .out(address)
 );
 
