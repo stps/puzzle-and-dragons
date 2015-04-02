@@ -25,27 +25,27 @@ module fetch_stall_logic
 					valid = 1'b0;
 				end
 				
-				if (dep_stall == 1'b1) // DE stage tells fetch to stall, and EX to insert bubbles
-				begin
-					load_de = 1'b0;
-					valid = 1'b0;
-				end
-				
 				if (execute_br_stall == 1'b1) // control instruction still propogating, still insert bubbles
 				begin
 					load_de = 1'b1;
 					valid = 1'b0;
 				end
 				
-				if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
+				if (mem_br_stall == 1'b1) // control instruction still propogating, still insert bubble
+				begin
+					load_de = 1'b1;
+					valid = 1'b0;
+				end
+				
+				if (dep_stall == 1'b1) // DE stage tells fetch to stall, and EX to insert bubbles
 				begin
 					load_de = 1'b0;
 					valid = 1'b0;
 				end
 				
-				if (mem_br_stall == 1'b1) // control instruction still propogating, still insert bubble
+				if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
 				begin
-					load_de = 1'b1;
+					load_de = 1'b0;
 					valid = 1'b0;
 				end
 				
