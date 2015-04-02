@@ -20,7 +20,11 @@ module execute
     output lc3b_word result,
     output lc3b_word ir,
     output lc3b_reg dr,
-    output logic valid
+    output logic valid,
+    
+    output logic ex_load_cc,
+    output logic ex_load_regfile,
+    output logic ex_branch_stall
 );
 
 lc3b_word addr1mux_out;
@@ -119,6 +123,25 @@ alu alu
     .f(result)
 );
 
-/* todo: logic blocks */
+and_gate load_cc_check
+(
+    .a(valid_in),
+    .b(cw_in.load_cc),
+    .out(ex_load_cc)
+);
+
+and_gate load_regfile_check
+(
+    .a(valid_in),
+    .b(cw_in.load_regfile),
+    .out(ex_load_regfile)
+);
+
+and_gate branch_stall_check
+(
+    .a(valid_in),
+    .b(cw_in.branch_stall),
+    .out(ex_branch_stall)
+);
 
 endmodule : execute
