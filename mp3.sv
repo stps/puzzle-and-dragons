@@ -94,6 +94,13 @@ lc3b_word icache_rdata;
 logic icache_resp;
 lc3b_word inst_address;
 
+//stall signals
+logic dep_stall;
+logic decode_br_stall;
+logic execute_br_stall;
+logic mem_stall;
+logic mem_br_stall;
+
 arbiter arbiter
 (
     .clk,
@@ -117,12 +124,10 @@ fetch fetch_int
     .pc_mux_sel(pc_mux_sel),
     .trap_pc(trap_pc),
     .target_pc(ex_mem_address_out),
-    .ld_pc(load_regs),
 
     .new_pc(f_de_npc),
     .ir(f_de_ir),
     .valid(),
-    //.stall(),
     
     .icache_rdata,
 	 .icache_resp,
