@@ -7,7 +7,6 @@ module and_gate
     output logic out
 );
 
-always_comb 
-    out = a and b;
+assign out = a & b;
 
 endmodule : and_gate
