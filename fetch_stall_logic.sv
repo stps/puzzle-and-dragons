@@ -1,6 +1,6 @@
 import lc3b_types::*;
 
-module pc_logic
+module fetch_stall_logic
 (
 	input logic dep_stall,
 	input logic decode_br_stall,
@@ -10,13 +10,18 @@ module pc_logic
 	
 	input logic icache_resp,
 	
-	output logic ld_pc
+	output logic valid,
+	output logic load_de
 );
          always_comb
          begin
 				if (dep_stall == 1'b1 || decode_br_stall == 1'b1 || execute_br_stall == 1'b1 || mem_stall == 1'b1 || mem_br_stall == 1'b1 || icache_resp == 1'b0)
-					ld_pc = 1'b0;
+				begin
+					load_de = 1'b0;
+				end
 				else
-					ld_pc = 1'b1;
+				begin
+					load_de = 1'b1;
+				end
          end
-endmodule : pc_logic
+endmodule : fetch_stall_logic
