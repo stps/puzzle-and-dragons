@@ -9,7 +9,8 @@ module mem_stall_logic
 	input execute_br_stall,
 	input mem_br_stall,
 	input dcache_resp,
-	input logic icache_stall_int,
+	input icache_stall_int,
+	input indirect_op,
 	
 	output logic valid,
 	output logic load_wb,
@@ -50,6 +51,11 @@ begin
 	
 	if (mem_br_stall == 1'b1) // MEM keeps working, frontend stalls, fetch inserts bubbles
 	begin
+	end
+	
+	if (indirect_op) begin
+		load_wb = 1'b1;
+		valid = 1'b0;
 	end
 	
 	if (mem_stall_int == 1'b1) // stall everything except WB, insert bubbles in WB

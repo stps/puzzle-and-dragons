@@ -78,6 +78,7 @@ begin
 	ldi_ldr.drmux_sel = 2'b01;
 	ldi_ldr.regfilemux_sel = 1'b0;
 	ldi_ldr.memaddrmux_sel = 1'b0;
+	ldi_ldr.indirectaddrmux_sel = 1'b1;
 	ldi_ldr.destmux_sel = 1'b0;
 	ldi_ldr.sr1_needed = 1'b1;
 	ldi_ldr.sr2_needed = 1'b0;
@@ -96,6 +97,7 @@ begin
 	sti_str.drmux_sel = 2'b00;
 	sti_str.regfilemux_sel = 1'b0;
 	sti_str.memaddrmux_sel = 1'b0;
+	sti_str.indirectaddrmux_sel = 1'b1;
 	sti_str.destmux_sel = 1'b0;
 	sti_str.sr1_needed = 1'b1;
 	sti_str.sr2_needed = 1'b0;
@@ -108,11 +110,6 @@ begin
 	
 	if (next_opcode == op_sti)
 		memlatch_sel = 1'b1;
-	
-	/*if (cw_in.opcode == op_sti && next_opcode != op_sti)
-		execute_indirect_stall = 1'b1;
-	else
-		execute_indirect_stall = 1'b0;*/
 	
 	if (next_opcode == op_sti || next_opcode == op_ldi)
 		execute_indirect_stall = 1'b1;

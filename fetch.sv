@@ -77,7 +77,6 @@ pc_logic pc_logic
 
 assign icache_address = pc_out;
 assign icache_read = 1'b1;
-assign inst_address = pc_out;
 assign ir = icache_rdata;
 
 fetch_stall_logic fetch_stall_logic

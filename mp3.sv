@@ -390,6 +390,7 @@ mem mem_int
 		 
 	.mem_rdata(dcache_rdata),
 	.dcache_resp,
+	.indirect_data_in(mem_wb_data_out),
 		 
 	.mem_address(dcache_address),
 	.mem_read(dcache_read),
@@ -440,7 +441,7 @@ write_back write_back_int
     .result(mem_wb_result_out),
     .dr(mem_wb_dr_out),
     .ir(mem_wb_ir_out),
-    .valid(1'b1),
+    .valid(mem_wb_valid_out),
     
     .gencc_out,
     .reg_data,

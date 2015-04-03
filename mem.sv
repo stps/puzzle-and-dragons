@@ -15,6 +15,7 @@ module mem
 	
 	input lc3b_word mem_rdata,
 	input dcache_resp,
+	input lc3b_word indirect_data_in,
 	
 	output lc3b_word mem_address,
 	output logic mem_read,
@@ -33,19 +34,20 @@ module mem
 	output lc3b_word dr,
 	output logic valid,
 	
+	input logic icache_stall_int,
+	
 	//stalls originating from mem
 	output logic mem_stall,
 	output logic mem_br_stall,
 	output logic load_wb,
 	
 	output logic mem_load_cc,
-    output logic mem_load_regfile,
+   output logic mem_load_regfile,
     
-    output logic [1:0] mem_byte_enable,
-	 
-	input logic icache_stall_int
+   output logic [1:0] mem_byte_enable
 );
 
+logic indirect_op;
 lc3b_word trap_logic_out;
 
 assign mem_address = address_in;
@@ -53,15 +55,28 @@ assign mem_read = cw_in.mem_read && valid_in;
 assign mem_write = cw_in.mem_write && valid_in;
 assign mem_wdata = result_in;
 
-
-assign address = address_in;
-//assign data = mem_rdata;
+//assign address = address_in;
 assign data = trap_logic_out;
 assign cw = cw_in;
 assign new_pc = new_pc_in;
 assign result = result_in;
 assign ir = ir_in;
 assign dr = dr_in;
+
+always_comb begin
+	if (cw_in.opcode == op_sti || cw_in.opcode == op_ldi)
+		indirect_op = 1'b1;
+	else
+		indirect_op = 1'b0;
+end
+
+mux2 indirectaddr_mux
+(
+	.sel(cw_in.indirectaddrmux_sel),
+	.a(address_in),
+	.b(indirect_data_in),
+	.out(address)
+);
 
 we_logic we_logic
 (
@@ -114,6 +129,7 @@ mem_stall_logic mem_stall_logic
 	.execute_br_stall(),
 	.mem_br_stall(),
 	.dcache_resp,
+	.indirect_op,
 	
 	.valid,
 	.load_wb,

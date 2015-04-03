@@ -42,7 +42,6 @@ begin
 		valid = 1'b0;
 	end
 	
-	
 	if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
 	begin
 		load_ex = 1'b0;

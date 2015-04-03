@@ -26,6 +26,7 @@ begin
 	ctrl.regfilemux_sel = 1'b0;
 	ctrl.memaddrmux_sel = 1'b0;
 	ctrl.destmux_sel = 1'b0;
+	ctrl.indirectaddrmux_sel = 1'b0;
 	ctrl.sr1_needed = 1'b0;
 	ctrl.sr2_needed = 1'b0;
 	ctrl.lshf_enable = 1'b0;
