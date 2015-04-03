@@ -36,25 +36,23 @@ begin : state_actions
 	icache_pmem_resp = 1'b0;
 	dcache_pmem_resp = 1'b0;
 	pmem_address = icache_address;
-	ld_regs = 1'b1;
+	ld_regs = 1'b0;
 	
 	case(state)
 		one: begin
 			if (icache_read) begin
 				pmem_read = 1'b1;
 				
-				if (pmem_resp)
+				if (pmem_resp) begin
 					icache_pmem_resp = 1'b1;
-			end
 					
-			
-			if (dcache_write || dcache_read)
-				ld_regs = 1'b0;
+					if (~dcache_write && ~dcache_read)
+						ld_regs = 1'b1;
+				end
+			end
 		end
 		
-		two: begin
-			ld_regs = 1'b0;
-		end
+		two: ;
 		
 		three: begin
 			pmem_read = dcache_read;
@@ -63,6 +61,7 @@ begin : state_actions
 			
 			if (pmem_resp)
 				dcache_pmem_resp = 1'b1;
+				ld_regs = 1'b1;
 		end
 		
 		default: ;
