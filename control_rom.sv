@@ -147,16 +147,26 @@ case(opcode)
         ctrl.sr1_needed = 1'b1;
     end
     
-    op_ldi: begin
+    op_ldi: begin //just ldr atm
         ctrl.sr1_needed = 1'b1;
+        ctrl.mem_read = 1'b1;
+        ctrl.load_regfile = 1'b1;
+        ctrl.load_cc = 1'b1;
+        ctrl.addr1mux_sel = 1'b1;
+        ctrl.addr2mux_sel = 2'b01;
+        ctrl.drmux_sel = 2'b01;
     end
     
     op_stb: begin
         ctrl.sr1_needed = 1'b1;
     end
     
-    op_sti: begin
+    op_sti: begin //just str atm
         ctrl.sr1_needed = 1'b1;
+        ctrl.mem_write = 1'b1;
+        ctrl.load_cc = 1'b1; //??
+        ctrl.addr1mux_sel = 1'b1;
+        ctrl.addr2mux_sel = 2'b01;
     end
 
     
