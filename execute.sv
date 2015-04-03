@@ -168,11 +168,6 @@ ex_stall_logic ex_stall_logic
 	
 	.valid,
 	.load_mem
-
 );
-
-
-
-
 
 endmodule : execute

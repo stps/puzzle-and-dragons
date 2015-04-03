@@ -252,12 +252,10 @@ fetch fetch_int
 	 .execute_br_stall,
 	 .mem_stall,
 	 .mem_br_stall,
-
     
     .icache_rdata,
 	 .icache_resp,
 	 .icache_address,
-	 
 	 .icache_read,
 	 
 	 .new_pc(f_de_npc),
