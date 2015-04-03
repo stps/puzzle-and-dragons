@@ -96,14 +96,13 @@ case(opcode)
     op_br: begin
         ctrl.addr1mux_sel = 1'b0;
         ctrl.addr2mux_sel = 2'b10;
-        ctrl.memaddrmux_sel = 1'b0;
     end
 
     op_trap: begin //need trapvector shit
         ctrl.destmux_sel = 1'b1; // R7 <= PC
         ctrl.load_regfile = 1'b1;
         ctrl.drmux_sel = 2'b10;
-        ctrl.memaddrmux_sel = 1'b0;
+        ctrl.memaddrmux_sel = 1'b1;
     end
 
     op_jsr: begin //prob not done
@@ -113,11 +112,9 @@ case(opcode)
         if(jsr_check == 1'b0) begin
             ctrl.sr1_needed = 1'b1;
             ctrl.addr1mux_sel = 1'b1;
-            ctrl.memaddrmux_sel = 1'b1;
         end
         else begin
             ctrl.addr2mux_sel = 2'b11;
-            ctrl.memaddrmux_sel = 1'b1;
         end
     end
     
@@ -125,7 +122,6 @@ case(opcode)
         ctrl.sr1_needed = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b00;
-        ctrl.memaddrmux_sel = 1'b1;
     end
 
     op_shf: begin
@@ -146,7 +142,6 @@ case(opcode)
     op_lea: begin
         ctrl.addr1mux_sel = 1'b0;
         ctrl.addr2mux_sel = 2'b10;
-        ctrl.memaddrmux_sel = 1'b0;
         ctrl.drmux_sel = 2'b00;
         ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
