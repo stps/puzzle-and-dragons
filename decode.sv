@@ -35,6 +35,7 @@ module decode
 	output lc3b_nzp cc_out,
 	output lc3b_reg dr,
 	output logic valid,
+	output logic load_ex,
 	
 	output logic dep_stall
 );
