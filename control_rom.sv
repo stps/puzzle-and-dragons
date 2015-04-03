@@ -28,7 +28,7 @@ ctrl.memaddrmux_sel = 1'b0;
 ctrl.destmux_sel = 1'b0;
 ctrl.sr1_needed = 1'b0;
 ctrl.sr2_needed = 1'b0;
-ctrl.lshf_enable = 1'b1;
+ctrl.lshf_enable = 1'b0;
 
 /* Assign control signals based on opcode */
 case(opcode)
@@ -88,7 +88,6 @@ case(opcode)
     op_str: begin
         ctrl.sr1_needed = 1'b1;
         ctrl.mem_write = 1'b1;
-        ctrl.load_cc = 1'b1; //??
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end
@@ -99,17 +98,25 @@ case(opcode)
         ctrl.memaddrmux_sel = 1'b1;
     end
 
-    op_trap: begin //NOT DONE
+    op_trap: begin //need trapvector shit
         ctrl.destmux_sel = 1'b1; // R7 <= PC
+        ctrl.load_regfile = 1'b1;
+        ctrl.drmux_sel = 2'b10;
         ctrl.memaddrmux_sel = 1'b0;
     end
 
-    op_jsr: begin //NOT DONE
+    op_jsr: begin //prob not done
         ctrl.destmux_sel = 1'b1;
+        ctrl.load_regfile = 1'b1;
+        ctrl.drmux_sel = 2'b10;
         if(jsr_check == 1'b0) begin
             ctrl.sr1_needed = 1'b1;
+            ctrl.addr1mux_sel = 1'b1;
+            ctrl.memaddrmux_sel = 1'b1;
         end
         else begin
+            ctrl.addr2mux_sel = 2'b11;
+            ctrl.memaddrmux_sel = 1'b1;
         end
     end
     
@@ -174,11 +181,9 @@ case(opcode)
     op_sti: begin //just str atm
         ctrl.sr1_needed = 1'b1;
         ctrl.mem_write = 1'b1;
-        ctrl.load_cc = 1'b1; //??
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end
-
     
     default: begin
         ctrl = 0; /* Unknown opcode, set control word to zero */

@@ -1,5 +1,6 @@
 import lc3b_types::*;
 
+//left shifts when enable bit is low
 module cond_lshf
 (
     input logic enable,
@@ -11,7 +12,7 @@ module cond_lshf
 always_comb
 begin
     out = in;
-    if(enable == 1)
+    if(enable == 0)
         out = {in, 1'b0};
 end
 
