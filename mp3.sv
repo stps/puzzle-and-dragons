@@ -153,6 +153,19 @@ logic valid_ex;
 logic valid_mem;
 logic valid_wb;
 
+//dep stuff
+logic ex_ld_cc;
+logic mem_ld_cc;
+logic wb_ld_cc;
+	
+lc3b_reg ex_drid;
+lc3b_reg mem_drid;
+lc3b_reg wb_drid;
+	
+logic ex_ld_reg;
+logic mem_ld_reg;
+logic wb_ld_reg;
+
 cache i_cache
 (
 	.clk,
@@ -269,6 +282,18 @@ decode decode_int
    .cc_data(gencc_out),
    .dest_reg,
 	
+	.ex_ld_cc,
+	.mem_ld_cc,
+	.wb_ld_cc,
+	
+	.ex_drid,
+	.mem_drid,
+	.wb_drid,
+	
+	.ex_ld_reg,
+	.mem_ld_reg,
+	.wb_ld_reg,
+	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),
 	.ir(de_ex_ir),
@@ -276,7 +301,14 @@ decode decode_int
 	.sr2(de_ex_sr2),
 	.cc_out(de_ex_cc),
 	.dr(de_ex_dr),
-	.valid()
+	.valid(valid_mem),
+	.load_ex,
+	
+	.dep_stall,
+	.decode_br_stall,
+	.execute_br_stall,
+	.mem_stall,
+	.mem_br_stall
 );
 
 //decode/execute registers
