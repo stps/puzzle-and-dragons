@@ -10,7 +10,7 @@ module mp3
 	 
 	 output pmem_read,
 	 output pmem_write,
-	 output lc3b_mem_wmask mem_byte_enable,
+	 
 	 output lc3b_word pmem_address,
 	 output lc3b_c_block pmem_wdata
 );
@@ -23,20 +23,10 @@ lc3b_word target_pc;
 lc3b_word reg_data;
 lc3b_reg dest_reg;
 lc3b_word pc_out;
-lc3b_word new_mem_address;
-logic new_mem_write;
-logic new_mem_read;
+
 logic load_regs;
 logic ld_reg_store;
 logic ld_cc_store;
-
-//memory signals
-logic mem_resp;
-lc3b_word mem_rdata;
-logic mem_read;
-logic mem_write;
-lc3b_word mem_address;
-lc3b_word mem_wdata;
 
 //fetch/decode signals
 lc3b_word f_de_npc;
@@ -96,22 +86,44 @@ lc3b_word mem_wb_result_out;
 lc3b_word mem_wb_ir_out;
 lc3b_reg mem_wb_dr_out;
 
-assign mem_byte_enable = 2'b11;
-
 //icache signals
+lc3b_word icache_address;
+logic icache_read;
 lc3b_word icache_rdata;
 logic icache_resp;
-lc3b_word inst_address;
+
+lc3b_word icache_pmem_address;
+lc3b_c_block icache_pmem_rdata;
+logic icache_pmem_read;
+logic icache_pmem_resp;
 
 //dcache signals
-lc3b_word dcache_rdata;
-lc3b_word dcache_wdata;
+lc3b_word dcache_address;
 logic dcache_resp;
-lc3b_word data_address;
 logic dcache_read;
+lc3b_word dcache_rdata;
 logic dcache_write;
-lc3b_mem_wmask dcache_byte_enable;
+lc3b_word dcache_wdata;
 
+lc3b_word dcache_pmem_address;
+logic dcache_pmem_resp
+logic dcache_pmem_read;
+lc3b_c_block dcache_pmem_rdata;
+logic dcache_pmem_write;
+lc3b_c_block dcache_pmem_wdata;
+;
+
+/* T
+	E
+	M
+	P
+	O
+	R
+	A
+	R
+	Y
+	*/
+assign mem_byte_enable = 2'b11;
 
 //stall signals
 logic dep_stall;
@@ -120,31 +132,57 @@ logic execute_br_stall;
 logic mem_stall;
 logic mem_br_stall;
 
-cache l1_cache
+cache i_cache
 (
 	.clk,
 	
-	.mem_address,
-	.mem_wdata,
-	.mem_read,
-	.mem_write,
-	
+	.mem_address(icache_address),
 	.mem_byte_enable,
-	.mem_rdata,
-	.mem_resp,
+	.mem_resp(icache_resp),
+
+	.mem_write(1'b0),
+	.mem_wdata(),
 	
-	.pmem_rdata,
-	.pmem_resp,
+	.mem_read(),
+	.mem_rdata(icache_rdata),
 	
-	.pmem_address,
-	.pmem_read,
-	.pmem_write,
-	.pmem_wdata
+	.pmem_address(icache_pmem_address),
+	.pmem_resp(icache_pmem_resp),
+
+	.pmem_read(icache_pmem_read),
+	.pmem_rdata(icache_pmem_rdata),
+	
+	.pmem_write(),
+	.pmem_wdata()
+);
+
+cache d_cache
+(
+	.clk,
+	
+	.mem_address(dcache_address),
+	.mem_byte_enable,
+	.mem_resp(dcache_resp),
+
+	.mem_write(dcache_write),
+	.mem_wdata(dcache_wdata),
+	
+	.mem_read(dcache_read),
+	.mem_rdata(dcache_rdata),
+	
+	.pmem_address(dcache_pmem_address),
+	.pmem_resp(dcache_pmem_resp),
+
+	.pmem_read(dcache_pmem_read),
+	.pmem_rdata(dcache_pmem_rdata),
+	
+	.pmem_write(dcache_pmem_write),
+	.pmem_wdata(dcache_pmem_wdata)
 );
 
 arbiter arbiter
 (
-    .clk,
+	.clk,
 	
 	.mem_read_in(new_mem_read),
 	.mem_write_in(new_mem_write),
@@ -172,8 +210,9 @@ fetch fetch_int
     
     .icache_rdata,
 	 .icache_resp,
-	
-	 .inst_address(pc_out)
+	 .icache_address(pc_out),
+	 
+	 .icache_read
 );
 
 //fetch/decode registers
@@ -212,7 +251,6 @@ register de_ex_sr2_reg(.clk, .load(load_regs), .in(de_ex_sr2), .out(de_ex_sr2_ou
 register #(.width(3)) de_ex_cc_reg(.clk, .load(load_regs), .in(de_ex_cc), .out(de_ex_cc_out));
 register #(.width(3)) de_ex_dr_reg(.clk, .load(load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
 
-
 execute execute_int
 (
 	.clk,
@@ -226,14 +264,14 @@ execute execute_int
 	.dr_in(de_ex_dr_out),
 	.valid_in(),
 
-    .address(ex_mem_address),
-    .cw(ex_mem_cw),
-    .npc(ex_mem_npc),
-    .cc(ex_mem_cc),
-    .result(ex_mem_result),
-    .ir(ex_mem_ir),
-    .dr(ex_mem_dr),
-    .valid()
+	.address(ex_mem_address),
+	.cw(ex_mem_cw),
+	.npc(ex_mem_npc),
+	.cc(ex_mem_cc),
+	.result(ex_mem_result),
+	.ir(ex_mem_ir),
+	.dr(ex_mem_dr),
+	.valid()
 );
 
 //execute/memory registers
@@ -258,13 +296,13 @@ mem mem_int
     .dr_in(ex_mem_dr_out),
     .valid_in(),
     
-    .mem_rdata,
-    .mem_resp,
+    .mem_rdata(dcache_rdata),
+    .mem_resp(dcache_resp),
     
-    .mem_address(new_mem_address),
-    .mem_read(new_mem_read),
-    .mem_write(new_mem_write),
-    .mem_wdata,
+    .mem_address(dcache_address),
+    .mem_read(dcache_read),
+    .mem_write(dcache_write),
+    .mem_wdata(dcache_wdata),
     
 	 .mem_pc_mux(pc_mux_sel),
     

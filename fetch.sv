@@ -17,7 +17,9 @@ module fetch
 	//need to connect to icache
 	input lc3b_word icache_rdata,
 	input logic icache_resp,
-	output lc3b_word inst_address,
+	
+	output lc3b_word icache_address,
+	output logic icache_read,
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,
@@ -65,8 +67,8 @@ pc_logic pc_logic
 	.ld_pc
 );
 
-assign inst_address = pc_out;
-//assign mem_read = 1'b1;
+assign icache_address = pc_out;
+assign icache_read = 1'b1;
 assign ir = icache_rdata;
 
 
