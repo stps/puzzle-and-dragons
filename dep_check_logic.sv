@@ -22,7 +22,7 @@ module dep_check_logic
 	input logic mem_ld_reg,
 	input logic wb_ld_reg,
 	
-	output dep_stall
+	output logic dep_stall
 	
 );
          always_comb

@@ -104,8 +104,7 @@ dep_check_logic dep_check_logic
 	.mem_ld_reg,
 	.wb_ld_reg,
 	
-	.dep_stall,
-
+	.dep_stall
 );
 
 
