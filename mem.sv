@@ -35,7 +35,11 @@ module mem
 	
 	//stalls originating from mem
 	output logic mem_stall,
-	output logic mem_br_stall
+	output logic mem_br_stall,
+	
+	output logic mem_load_cc,
+   output logic mem_load_regfile,
+   output logic mem_branch_stall
 );
 
 assign mem_address = address_in;
@@ -64,6 +68,26 @@ cccomp comp
 
 //TODO: add more BR logic for trap
 
+and_gate load_cc_check
+(
+    .a(valid_in),
+    .b(cw_in.load_cc),
+    .out(mem_load_cc)
+);
+
+and_gate load_regfile_check
+(
+    .a(valid_in),
+    .b(cw_in.load_regfile),
+    .out(mem_load_regfile)
+);
+
+and_gate branch_stall_check
+(
+    .a(valid_in),
+    .b(cw_in.branch_stall),
+    .out(mem_branch_stall)
+);
 
 
 endmodule : mem
