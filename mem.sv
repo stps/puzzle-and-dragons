@@ -38,8 +38,7 @@ module mem
 	output logic mem_br_stall,
 	
 	output logic mem_load_cc,
-   output logic mem_load_regfile,
-   output logic mem_branch_stall
+   output logic mem_load_regfile
 );
 
 assign mem_address = address_in;
@@ -82,12 +81,6 @@ and_gate load_regfile_check
     .out(mem_load_regfile)
 );
 
-and_gate branch_stall_check
-(
-    .a(valid_in),
-    .b(cw_in.branch_stall),
-    .out(mem_branch_stall)
-);
 	
 mem_stall_logic mem_stall_logic
 (
