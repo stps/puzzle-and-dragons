@@ -146,7 +146,7 @@ case(opcode)
     
     op_ldb: begin
         ctrl.sr1_needed = 1'b1;
-        ctrl.lshf_enable = 1'b1;
+        ctrl.lshf_enable = 1'b0;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
         ctrl.load_regfile = 1'b1;
@@ -166,7 +166,7 @@ case(opcode)
     
     op_stb: begin
         ctrl.sr1_needed = 1'b1;
-        ctrl.lshf_enable = 1'b1;
+        ctrl.lshf_enable = 1'b0;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end

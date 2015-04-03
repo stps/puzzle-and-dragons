@@ -132,7 +132,7 @@ lc3b_c_block dcache_pmem_wdata;
 	R
 	Y
 	*/
-assign mem_byte_enable = 2'b11;
+//assign mem_byte_enable = 2'b11;
 
 //stall signals
 logic dep_stall;
@@ -361,6 +361,15 @@ register ex_mem_result_reg(.clk, .load(load_regs), .in(ex_mem_result), .out(ex_m
 register ex_mem_ir_reg(.clk, .load(load_regs), .in(ex_mem_ir), .out(ex_mem_ir_out));
 register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
 register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
+
+we_logic
+(
+    .write_enable(ex_mem_address_out),
+    .byte_check(ex_mem_cw_out.lshf_enable),
+    .rw(ex_mem_cw_out.mem_read || ex_mem_cw_out.mem_write),
+    
+    .mem_byte_enable
+);
 
 mem mem_int
 (
