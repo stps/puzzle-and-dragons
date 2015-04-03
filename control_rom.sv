@@ -103,6 +103,7 @@ begin
 			  ctrl.load_regfile = 1'b1;
 			  ctrl.drmux_sel = 2'b10;
 			  ctrl.memaddrmux_sel = 1'b1;
+			  ctrl.mem_read = 1'b1;
 		 end
 
 		 op_jsr: begin //prob not done

@@ -119,19 +119,6 @@ lc3b_c_block dcache_pmem_rdata;
 logic dcache_pmem_write;
 lc3b_c_block dcache_pmem_wdata;
 
-
-/* T
-	E
-	M
-	P
-	O
-	R
-	A
-	R
-	Y
-	*/
-//assign mem_byte_enable = 2'b11;
-
 //stall signals
 logic dep_stall;
 logic decode_br_stall;
@@ -168,6 +155,8 @@ logic wb_ld_reg;
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
 assign wb_drid = mem_wb_dr_out;
+
+assign trap_pc = mem_wb_data;
 
 cache i_cache
 (
