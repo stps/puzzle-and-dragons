@@ -37,7 +37,11 @@ module decode
 	output logic valid,
 	output logic load_ex,
 	
-	output logic dep_stall
+	output logic dep_stall,
+	output logic decode_br_stall,
+	input logic execute_br_stall,
+	input logic mem_stall,
+	input logic mem_br_stall
 );
 
 lc3b_reg regfilemux_out;
@@ -105,6 +109,18 @@ dep_check_logic dep_check_logic
 	.wb_ld_reg,
 	
 	.dep_stall
+);
+
+decode_stall_logic decode_stall_logic
+(
+	.dep_stall,
+	.decode_br_stall,
+	.execute_br_stall,
+	.mem_stall,
+	.mem_br_stall,
+	
+	.valid,
+	.load_ex
 );
 
 
