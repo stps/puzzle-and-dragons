@@ -15,7 +15,9 @@ module cccomp
 				else if (a[10] == 1 && b == 3'b010)
 					out = 1;
 				else if (a[9] == 1 && b == 3'b001)
-					out = 1;
+					out = 1;				
+				else if (a[9] == 1 && a[10] == 1 && a[11] == 1 && b == 3'b000)
+					out = 1;					
 				else
 					out = 0;
 			end
