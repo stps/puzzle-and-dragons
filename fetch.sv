@@ -21,8 +21,8 @@ module fetch
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,
-	output logic valid //set to 0 if icache gives garbage and not stalling for other reason
-
+	output logic valid, //set to 0 if icache gives garbage and not stalling for other reason
+	output logic load_de
 );
 
 lc3b_word pc_mux_out;
@@ -64,6 +64,21 @@ pc_logic pc_logic
 	.icache_resp,
 	.ld_pc
 );
+
+fetch_stall_logic fetch_stall_logic
+(
+	.dep_stall,
+	.decode_br_stall,
+	.execute_br_stall,
+	.mem_stall,
+	.mem_br_stall,
+	
+	.icache_resp,
+	
+	.valid,
+	.load_de
+);
+
 
 assign inst_address = pc_out;
 //assign mem_read = 1'b1;

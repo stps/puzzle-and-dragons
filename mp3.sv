@@ -120,6 +120,18 @@ logic execute_br_stall;
 logic mem_stall;
 logic mem_br_stall;
 
+//latch load signals
+logic load_de;
+logic load_ex;
+logic load_mem;
+logic load_wb;
+
+//latch valid signals
+logic valid_de;
+logic valid_ex;
+logic valid_mem;
+logic valid_wb;
+
 cache l1_cache
 (
 	.clk,
@@ -165,15 +177,22 @@ fetch fetch_int
     .pc_mux_sel(pc_mux_sel),
     .trap_pc(trap_pc),
     .target_pc(ex_mem_address_out),
+	 
+	 .dep_stall,
+	 .decode_br_stall,
+	 .execute_br_stall,
+	 .mem_stall,
+	 .mem_br_stall,
 
-    .new_pc(f_de_npc),
-    .ir(f_de_ir),
-    .valid(),
     
     .icache_rdata,
 	 .icache_resp,
-	
-	 .inst_address(pc_out)
+	 .inst_address(pc_out),
+	 
+	 .new_pc(f_de_npc),
+    .ir(f_de_ir),
+	 .valid(valid_de),
+	 .load_de
 );
 
 //fetch/decode registers
