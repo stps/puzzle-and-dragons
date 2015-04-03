@@ -55,9 +55,6 @@ assign new_pc = new_pc_in;
 assign result = result_in;
 assign ir = ir_in;
 assign dr = dr_in;
-assign valid = valid_in;
-
-assign stall = 1'b0;
 
 cccomp comp
 (
