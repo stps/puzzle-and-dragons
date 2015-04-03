@@ -15,7 +15,6 @@ module execute
 	 
 	 input logic dep_stall,
 	 input logic decode_br_stall,
-	 output logic execute_br_stall,
 	 input logic mem_stall,
 	 input logic mem_br_stall,
     
@@ -31,7 +30,7 @@ module execute
     
     output logic ex_load_cc,
     output logic ex_load_regfile,
-    output logic ex_branch_stall
+    output logic ex_branch_stall,
 );
 
 lc3b_word addr1mux_out;
@@ -176,11 +175,6 @@ ex_stall_logic ex_stall_logic
 	
 	.valid,
 	.load_mem
-
 );
-
-
-
-
 
 endmodule : execute
