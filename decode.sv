@@ -12,6 +12,21 @@ module decode
 	input lc3b_nzp cc_data,
 	input lc3b_reg dest_reg,
 	
+	// dep check signals
+	input logic ex_ld_cc,
+	input logic mem_ld_cc,
+	input logic wb_ld_cc,
+	
+	input lc3b_reg ex_drid,
+	input lc3b_reg mem_drid,
+	input lc3b_reg wb_drid,
+	
+	input logic ex_ld_reg,
+	input logic mem_ld_reg,
+	input logic wb_ld_reg,
+	//
+	
+	
 	output lc3b_word npc, 
 	output lc3b_control_word cw,
 	output lc3b_word ir,
@@ -19,7 +34,9 @@ module decode
 	output lc3b_word sr2,
 	output lc3b_nzp cc_out,
 	output lc3b_reg dr,
-	output logic valid
+	output logic valid,
+	
+	output logic dep_stall
 );
 
 lc3b_reg regfilemux_out;
@@ -62,6 +79,32 @@ register #(.width(3)) cc
 	.load(ld_cc_store),
 	.in(cc_data),
 	.out(cc_out)
+);
+
+dep_check_logic dep_check_logic
+(
+	.sr1(ir_in[8:6]),
+	.sr2(regfilemux_out),
+	.valid(valid_in),
+	
+	.sr1_needed(cw.sr1_needed),
+	.sr2_needed(cw.sr2_needed),
+	.opcode(cw.opcode),
+	
+	.ex_ld_cc,
+	.mem_ld_cc,
+	.wb_ld_cc,
+	
+	.ex_drid,
+	.mem_drid,
+	.wb_drid,
+	
+	.ex_ld_reg,
+	.mem_ld_reg,
+	.wb_ld_reg,
+	
+	.dep_stall,
+
 );
 
 

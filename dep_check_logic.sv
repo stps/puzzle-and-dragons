@@ -12,7 +12,7 @@ module dep_check_logic
 	
 	input logic ex_ld_cc,
 	input logic mem_ld_cc,
-	input logic wb_load_cc,
+	input logic wb_ld_cc,
 	
 	input lc3b_reg ex_drid,
 	input lc3b_reg mem_drid,
@@ -75,7 +75,7 @@ module dep_check_logic
 					
 					if (opcode == op_br)
 					begin
-						if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_load_cc == 1'b1)
+						if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_ld_cc == 1'b1)
 							dep_stall = 1'b1;
 					end
 					
