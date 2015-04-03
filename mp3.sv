@@ -151,7 +151,6 @@ logic load_wb;
 logic valid_de;
 logic valid_ex;
 logic valid_mem;
-logic valid_wb;
 
 //dep stuff
 logic ex_ld_cc;
@@ -407,7 +406,7 @@ mem mem_int
 	.ir(mem_wb_ir),
 	.dr(mem_wb_dr),
 
-	.valid(valid_wb),
+	.valid(mem_wb_valid),
 	
 	.icache_stall_int,
 	.mem_stall,
