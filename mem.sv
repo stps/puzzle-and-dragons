@@ -57,7 +57,6 @@ assign mem_read = cw_in.mem_read && valid_in;
 assign mem_write = cw_in.mem_write && valid_in;
 assign mem_wdata = result_in;
 
-//assign address = address_in;
 assign data = trap_logic_out;
 assign cw = cw_in;
 assign new_pc = new_pc_in;
@@ -77,6 +76,11 @@ always_comb begin
 		mem_pc_mux = 2'b10;
 	else
 		mem_pc_mux = br_pcmux_sel;
+		
+	if (cw_in.opcode == op_stb)
+		mem_wdata = {result_in[7:0], result_in[7:0]};
+	else
+		mem_wdata = result_in;
 end
 
 mux2 indirectaddr_mux

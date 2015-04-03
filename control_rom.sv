@@ -151,6 +151,7 @@ begin
 		 
 		 op_ldb: begin
 			  ctrl.sr1_needed = 1'b1;
+			  ctrl.mem_read = 1'b1;
 			  ctrl.lshf_enable = 1'b1;
 			  ctrl.addr1mux_sel = 1'b1;
 			  ctrl.addr2mux_sel = 2'b01;
@@ -171,6 +172,7 @@ begin
 		 
 		 op_stb: begin
 			  ctrl.sr1_needed = 1'b1;
+			  ctrl.mem_write = 1'b1;
 			  ctrl.lshf_enable = 1'b1;
 			  ctrl.addr1mux_sel = 1'b1;
 			  ctrl.addr2mux_sel = 2'b01;
