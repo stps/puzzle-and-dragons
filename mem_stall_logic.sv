@@ -9,6 +9,7 @@ module mem_stall_logic
 	input execute_br_stall,
 	input mem_br_stall,
 	input dcache_resp,
+	input logic icache_stall_int,
 	
 	output logic valid,
 	output logic load_wb,
@@ -54,6 +55,12 @@ begin
 	if (mem_stall_int == 1'b1) // stall everything except WB, insert bubbles in WB
 	begin
 		load_wb = 1'b1;
+		valid = 1'b0;
+	end
+	
+	if (icache_stall_int == 1'b1) // while waiting for cache miss, just stall fetch
+	begin
+		load_wb = 1'b0;
 		valid = 1'b0;
 	end
 	

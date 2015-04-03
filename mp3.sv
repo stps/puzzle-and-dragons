@@ -139,6 +139,7 @@ logic execute_br_stall;
 logic execute_indirect_stall;
 logic mem_stall;
 logic mem_br_stall;
+logic icache_stall_int;
 
 //latch load signals
 logic load_de;
@@ -259,6 +260,7 @@ fetch fetch_int
 	 .icache_resp,
 	 .icache_address,
 	 .icache_read,
+	 .icache_stall_int,
 	 
 	 .mem_valid_in(ex_mem_valid_out),
 	 
@@ -307,6 +309,7 @@ decode decode_int
 	.valid(valid_ex),
 	.load_ex,
 	
+	.icache_stall_int,
 	.dep_stall,
 	.decode_br_stall,
 	.execute_br_stall,
@@ -338,7 +341,7 @@ execute execute_int
 	.dr_in(de_ex_dr_out),
 	.valid_in(),
 
-	
+	.icache_stall_int,
 	.dep_stall,
 	.decode_br_stall,
 	.mem_stall,
@@ -405,6 +408,7 @@ mem mem_int
 
 	.valid(valid_wb),
 	
+	.icache_stall_int,
 	.mem_stall,
 	.mem_br_stall,
 	.load_wb,

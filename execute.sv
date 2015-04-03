@@ -33,7 +33,8 @@ module execute
     output logic ex_load_cc,
     output logic ex_load_regfile,
     output logic execute_br_stall,
-	 output logic execute_indirect_stall
+	 output logic execute_indirect_stall,
+	 input logic icache_stall_int
 );
 
 logic memlatch_sel;
@@ -253,7 +254,8 @@ ex_stall_logic ex_stall_logic
 	.mem_br_stall,
 	
 	.valid,
-	.load_mem
+	.load_mem,
+	.icache_stall_int
 );
 
 endmodule : execute

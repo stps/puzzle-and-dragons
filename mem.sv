@@ -41,7 +41,9 @@ module mem
 	output logic mem_load_cc,
     output logic mem_load_regfile,
     
-    output logic [1:0] mem_byte_enable
+    output logic [1:0] mem_byte_enable,
+	 
+	input logic icache_stall_int
 );
 
 lc3b_word trap_logic_out;
@@ -115,7 +117,8 @@ mem_stall_logic mem_stall_logic
 	
 	.valid,
 	.load_wb,
-	.mem_stall
+	.mem_stall,
+	.icache_stall_int
 );
 
 endmodule : mem

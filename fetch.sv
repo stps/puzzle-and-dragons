@@ -22,6 +22,7 @@ module fetch
 
 	output lc3b_word icache_address,
 	output logic icache_read,
+	output logic icache_stall_int,
 
 	output lc3b_word new_pc,
 	output lc3b_word ir,
@@ -34,7 +35,6 @@ logic ld_pc;
 lc3b_word pc_mux_out;
 lc3b_word pc_out;
 lc3b_word plus2_out;
-logic icache_stall_int;
 
 assign new_pc = plus2_out; 
 

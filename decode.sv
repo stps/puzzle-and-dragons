@@ -40,7 +40,8 @@ module decode
 	input execute_br_stall,
 	input execute_indirect_stall,
 	input mem_stall,
-	input mem_br_stall
+	input mem_br_stall,
+	input logic icache_stall_int
 );
 
 lc3b_reg regfilemux_out;
@@ -118,6 +119,7 @@ decode_stall_logic decode_stall_logic
 	.execute_indirect_stall,
 	.mem_stall,
 	.mem_br_stall,
+	.icache_stall_int,
 	
 	.valid,
 	.load_ex
