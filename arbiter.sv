@@ -4,12 +4,12 @@ module arbiter
 (
 	input clk,
 	
-	input icache_read,
-	input lc3b_word icache_address,
+	input icache_pmem_read,
+	input lc3b_word icache_pmem_address,
 	
-	input dcache_read,
-	input dcache_write,
-	input lc3b_word dcache_address,
+	input dcache_pmem_read,
+	input dcache_pmem_write,
+	input lc3b_word dcache_pmem_address,
 	
 	input logic pmem_resp,
 	
@@ -35,29 +35,32 @@ begin : state_actions
 	pmem_write = 1'b0;
 	icache_pmem_resp = 1'b0;
 	dcache_pmem_resp = 1'b0;
-	pmem_address = icache_address;
+	pmem_address = icache_pmem_address;
 	ld_regs = 1'b0;
 	
 	case(state)
 		one: begin
-			if (icache_read) begin
+			if (icache_pmem_read) begin
 				pmem_read = 1'b1;
 				
 				if (pmem_resp) begin
 					icache_pmem_resp = 1'b1;
 					
-					if (~dcache_write && ~dcache_read)
+					if (~dcache_pmem_write && ~dcache_pmem_read)
 						ld_regs = 1'b1;
 				end
 			end
+			
+			else
+				ld_regs = 1'b1;
 		end
 		
 		two: ;
 		
 		three: begin
-			pmem_read = dcache_read;
-			pmem_write = dcache_write;
-			pmem_address = dcache_address;
+			pmem_read = dcache_pmem_read;
+			pmem_write = dcache_pmem_write;
+			pmem_address = dcache_pmem_address;
 			
 			if (pmem_resp)
 				dcache_pmem_resp = 1'b1;
@@ -74,7 +77,7 @@ begin : next_state_logic
 	
     case(state)
         one: begin
-            if (dcache_write || dcache_read) begin
+            if (dcache_pmem_write || dcache_pmem_read) begin
 					if (pmem_resp)
 						next_state = two;
 				end

@@ -163,7 +163,7 @@ cache i_cache
 	.pmem_resp(icache_pmem_resp),
 
 	.pmem_read(icache_pmem_read),
-	.pmem_rdata(icache_pmem_rdata),
+	.pmem_rdata,
 	
 	.pmem_write(),
 	.pmem_wdata()
@@ -187,22 +187,22 @@ cache d_cache
 	.pmem_resp(dcache_pmem_resp),
 
 	.pmem_read(dcache_pmem_read),
-	.pmem_rdata(dcache_pmem_rdata),
+	.pmem_rdata,
 	
 	.pmem_write(dcache_pmem_write),
-	.pmem_wdata(dcache_pmem_wdata)
+	.pmem_wdata
 );
 
 arbiter arbiter
 (
 	.clk,
 	
-	.icache_read,
-	.icache_address,
+	.icache_pmem_read,
+	.icache_pmem_address,
 	
-	.dcache_read,
-	.dcache_write,
-	.dcache_address,
+	.dcache_pmem_read,
+	.dcache_pmem_write,
+	.dcache_pmem_address,
 	
 	.pmem_resp,
 	
