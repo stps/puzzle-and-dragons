@@ -366,15 +366,6 @@ register ex_mem_ir_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_ir), .out(
 register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
 register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
 
-we_logic we_logic
-(
-    .write_enable(ex_mem_address_out[0]),
-    .byte_check(ex_mem_cw_out.lshf_enable),
-    .rw(ex_mem_cw_out.mem_read || ex_mem_cw_out.mem_write),
-    
-    .mem_byte_enable
-);
-
 mem mem_int
 (
     .clk,
@@ -406,14 +397,16 @@ mem mem_int
     .ir(mem_wb_ir),
     .dr(mem_wb_dr),
 
-	 .valid(valid_wb),
-	 
-	 .mem_stall,
-	 .mem_br_stall,
-	 .load_wb,
+	.valid(valid_wb),
 	
-	 .mem_load_cc(mem_ld_cc),
+	.mem_stall,
+	.mem_br_stall,
+	.load_wb,
+	
+	.mem_load_cc(mem_ld_cc),
     .mem_load_regfile(mem_ld_reg)
+    
+    .mem_byte_enable
 );
 
 //mem/write_back register
