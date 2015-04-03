@@ -5,6 +5,7 @@ module decode_stall_logic
 	input logic dep_stall,
 	input logic decode_br_stall,
 	input logic execute_br_stall,
+	input logic execute_indirect_stall,
 	input logic mem_stall,
 	input logic mem_br_stall,
 	
@@ -33,6 +34,13 @@ begin
 		load_ex = 1'b1;
 		valid = 1'b0;
 	end
+	
+	if (execute_indirect_stall == 1'b1) // stall fetch and decode while EX inserts bubble for STI/LDI
+	begin
+		load_ex = 1'b0;
+		valid = 1'b0;
+	end
+	
 	
 	if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
 	begin
