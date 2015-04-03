@@ -145,7 +145,7 @@ logic valid_ex;
 logic valid_mem;
 logic valid_wb;
 
-cache l1_cache
+cache i_cache
 (
 	.clk,
 	
