@@ -4,11 +4,11 @@ module mem_stall_logic
 (
 	input mem_read,
 	input mem_write,
-	input logic dep_stall,
-	input logic decode_br_stall,
-	input logic execute_br_stall,
-	input logic mem_br_stall,
-	input logic dcache_resp,
+	input dep_stall,
+	input decode_br_stall,
+	input execute_br_stall,
+	input mem_br_stall,
+	input dcache_resp,
 	
 	output logic valid,
 	output logic load_wb,

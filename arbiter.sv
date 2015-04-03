@@ -78,7 +78,9 @@ begin : next_state_logic
     case(state)
         one: begin
             if (dcache_pmem_write || dcache_pmem_read) begin
-					if (pmem_resp)
+					if (icache_pmem_read && pmem_resp)
+						next_state = two;
+					else
 						next_state = two;
 				end
 				

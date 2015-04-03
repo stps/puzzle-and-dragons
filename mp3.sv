@@ -26,8 +26,6 @@ lc3b_word pc_out;
 lc3b_mem_wmask mem_byte_enable;
 
 logic load_regs;
-logic ld_reg_store;
-logic ld_cc_store;
 
 //fetch/decode signals
 lc3b_word f_de_npc;
@@ -166,7 +164,6 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
-
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
 assign wb_drid = mem_wb_dr_out;
@@ -281,8 +278,7 @@ decode decode_int
    .npc_in(f_de_npc_out),
    .ir_in(f_de_ir_out),
    .valid_in(),
-	.ld_reg_store,
-	.ld_cc_store,
+
    .reg_data,
    .cc_data(gencc_out),
    .dest_reg,
@@ -295,7 +291,7 @@ decode decode_int
 	.mem_drid,
 	.wb_drid,
 	
-	.ex_ld_reg,
+	.ex_ld_reg,	 
 	.mem_ld_reg,
 	.wb_ld_reg,
 	
@@ -373,7 +369,7 @@ mem mem_int
     .result_in(ex_mem_result_out),
     .ir_in(ex_mem_ir_out),
     .dr_in(ex_mem_dr_out),
-    .valid_in(),
+    .valid_in(1'b1),
     
     .mem_rdata(dcache_rdata),
     .dcache_resp,
@@ -424,13 +420,13 @@ write_back write_back_int
     .result(mem_wb_result_out),
     .dr(mem_wb_dr_out),
     .ir(mem_wb_ir_out),
-    .valid(),
+    .valid(1'b1),
     
     .gencc_out,
     .reg_data,
     .dest_reg,
-    .ld_reg_store(wb_ld_reg),
-    .ld_cc_store(wb_ld_cc)
+    .wb_ld_reg,
+    .wb_ld_cc
 );
 
 endmodule : mp3

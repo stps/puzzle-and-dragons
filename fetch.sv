@@ -27,9 +27,12 @@ module fetch
 	output logic load_de
 );
 
+logic ld_pc;
+
 lc3b_word pc_mux_out;
 lc3b_word pc_out;
 lc3b_word plus2_out;
+
 assign new_pc = plus2_out; 
 
 register #(.width(16)) pc

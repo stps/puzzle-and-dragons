@@ -10,21 +10,21 @@ module write_back
     input lc3b_word npc,
     input lc3b_word result,
     input lc3b_word ir,
+	 
     input logic [2:0] dr,
     input logic valid,
     
     output lc3b_nzp gencc_out,
     output lc3b_word reg_data,
     output lc3b_reg dest_reg,
-    output logic ld_reg_store,
-    output logic ld_cc_store
+	 
+    output logic wb_ld_reg,
+    output logic wb_ld_cc
 );
 
 lc3b_word drmux_out;
 
 assign reg_data = drmux_out;
-//assign ld_reg_store = cw.load_regfile;
-//assign ld_cc_store = cw.load_cc;
 assign dest_reg = dr;
 
 mux4 drmux
@@ -47,14 +47,14 @@ and_gate load_cc_check
 (
     .a(valid),
     .b(cw.load_cc),
-    .out(ld_cc_store)
+    .out(wb_ld_cc)
 );
 
 and_gate load_regfile_check
 (
     .a(valid),
     .b(cw.load_regfile),
-    .out(ld_reg_store)
+    .out(wb_ld_reg)
 );
 
 endmodule : write_back
