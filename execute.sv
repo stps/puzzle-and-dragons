@@ -18,8 +18,6 @@ module execute
 	 output logic execute_br_stall,
 	 input logic mem_stall,
 	 input logic mem_br_stall,
-	
-
     
     output lc3b_word address,
     output lc3b_control_word cw,
@@ -38,7 +36,6 @@ module execute
 
 lc3b_word addr1mux_out;
 lc3b_word addr2mux_out;
-lc3b_word memaddrmux_out;
 lc3b_word sr2mux_out;
 lc3b_word adj6_out;
 lc3b_word adj9_out;
@@ -65,8 +62,8 @@ mux2 addr1mux
 mux2 memaddrmux
 (
     .sel(cw_in.memaddrmux_sel),
-    .a(zadj_out),
-    .b(adder_out),
+    .a(adder_out),
+    .b(zadj_out),
     .out(address)
 );
 
