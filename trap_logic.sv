@@ -14,9 +14,9 @@ begin
     trap_logic_out = dcache_out;
     if(byte_check == 1) begin
         if(mem_bit == 1)
-            trap_logic_out = {8'b00000000, dcache_out[15:8]}
+            trap_logic_out = {8'b00000000, dcache_out[15:8]};
         else if (mem_bit == 0)
-            trap_logic_out = {8'b00000000, dcache_out[7:0]}
+            trap_logic_out = {8'b00000000, dcache_out[7:0]};
     end
 end
 
