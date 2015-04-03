@@ -25,7 +25,8 @@ module arbiter
 
 enum int unsigned {
 	one,
-	two
+	two,
+	three
 } state, next_state;
 
 always_comb
@@ -52,6 +53,10 @@ begin : state_actions
 		end
 		
 		two: begin
+			ld_regs = 1'b0;
+		end
+		
+		three: begin
 			pmem_read = dcache_read;
 			pmem_write = dcache_write;
 			pmem_address = dcache_address;
@@ -78,9 +83,13 @@ begin : next_state_logic
 				else
 					next_state = one;
         end
+		  
+			two: begin
+				next_state = three;
+			end
 		
 		
-        two: begin
+        three: begin
 				if (pmem_resp)
 					next_state = one;
         end
