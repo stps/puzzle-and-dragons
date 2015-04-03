@@ -43,8 +43,8 @@ module mem
 );
 
 assign mem_address = address_in;
-assign mem_read = cw_in.mem_read;
-assign mem_write = cw_in.mem_write;
+assign mem_read = cw_in.mem_read && valid_in;
+assign mem_write = cw_in.mem_write && valid_in;
 assign mem_wdata = result_in;
 
 
@@ -87,6 +87,21 @@ and_gate branch_stall_check
     .a(valid_in),
     .b(cw_in.branch_stall),
     .out(mem_branch_stall)
+);
+	
+mem_stall_logic mem_stall_logic
+(
+	.mem_read,
+	.mem_write,
+	.dep_stall(),
+	.decode_br_stall(),
+	.execute_br_stall(),
+	.mem_br_stall(),
+	.dcache_resp,
+	
+	.valid,
+	.load_wb,
+	.mem_stall
 );
 
 endmodule : mem
