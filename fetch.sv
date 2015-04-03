@@ -11,6 +11,7 @@ module fetch
 	input logic dep_stall,
 	input logic decode_br_stall,
 	input logic execute_br_stall,
+	input logic execute_indirect_stall,
 	input logic mem_stall,
 	input logic mem_br_stall,
 
@@ -76,12 +77,15 @@ pc_logic pc_logic
 
 assign icache_address = pc_out;
 assign icache_read = 1'b1;
+assign inst_address = pc_out;
+assign ir = icache_rdata;
 
 fetch_stall_logic fetch_stall_logic
 (
 	.dep_stall,
 	.decode_br_stall,
 	.execute_br_stall,
+	.execute_indirect_stall,
 	.mem_stall,
 	.mem_br_stall,
 	
@@ -92,9 +96,5 @@ fetch_stall_logic fetch_stall_logic
 	.load_de,
 	.icache_stall_int
 );
-
-
-assign inst_address = pc_out;
-assign ir = icache_rdata;
 
 endmodule : fetch

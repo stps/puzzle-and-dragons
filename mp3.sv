@@ -136,6 +136,7 @@ lc3b_c_block dcache_pmem_wdata;
 logic dep_stall;
 logic decode_br_stall;
 logic execute_br_stall;
+logic execute_indirect_stall;
 logic mem_stall;
 logic mem_br_stall;
 
@@ -250,6 +251,7 @@ fetch fetch_int
 	 .dep_stall,
 	 .decode_br_stall,
 	 .execute_br_stall,
+	 .execute_indirect_stall,
 	 .mem_stall,
 	 .mem_br_stall,
     
@@ -308,6 +310,7 @@ decode decode_int
 	.dep_stall,
 	.decode_br_stall,
 	.execute_br_stall,
+	.execute_indirect_stall,
 	.mem_stall,
 	.mem_br_stall
 );
@@ -341,6 +344,8 @@ execute execute_int
 	.mem_stall,
 	.mem_br_stall,
 	
+	.next_opcode(ex_mem_cw_out.opcode),
+	
 	.address(ex_mem_address),
 	.cw(ex_mem_cw),
 	.npc(ex_mem_npc),
@@ -353,7 +358,8 @@ execute execute_int
 	
 	.ex_load_cc(ex_ld_cc),
    .ex_load_regfile(ex_ld_reg),
-	.execute_br_stall
+	.execute_br_stall,
+	.execute_indirect_stall
 );
 
 //execute/memory registers

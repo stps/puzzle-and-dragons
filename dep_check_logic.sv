@@ -25,60 +25,62 @@ module dep_check_logic
 	output logic dep_stall
 	
 );
-         always_comb
-         begin
-				dep_stall = 1'b0;
-				if (valid == 1'b1)
-				begin
-				
-					if (sr1_needed  == 1'b1)
-					begin
-						if (ex_ld_reg == 1'b1)
-						begin
-							if (ex_drid == sr1)
-								dep_stall = 1'b1;
-						end
-						
-						if (mem_ld_reg  == 1'b1)
-						begin
-							if (mem_drid == sr1)
-								dep_stall = 1'b1;
-						end
-						
-						if (wb_ld_reg == 1'b1)
-						begin
-							if (wb_drid == sr1)
-								dep_stall = 1'b1;
-						end
-					end
-					
-					if (sr2_needed == 1'b1)
-					begin
-						if (ex_ld_reg == 1'b1)
-						begin
-							if (ex_drid == sr2)
-								dep_stall = 1'b1;
-						end
-						
-						if (mem_ld_reg  == 1'b1)
-						begin
-							if (mem_drid == sr2)
-								dep_stall = 1'b1;
-						end
-						
-						if (wb_ld_reg == 1'b1)
-						begin
-							if (wb_drid == sr2)
-								dep_stall = 1'b1;
-						end
-					end
-					
-					if (opcode == op_br)
-					begin
-						if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_ld_cc == 1'b1)
-							dep_stall = 1'b1;
-					end
-					
-				end
-         end
+
+always_comb
+begin
+	dep_stall = 1'b0;
+	if (valid == 1'b1)
+	begin
+	
+		if (sr1_needed  == 1'b1)
+		begin
+			if (ex_ld_reg == 1'b1)
+			begin
+				if (ex_drid == sr1)
+					dep_stall = 1'b1;
+			end
+			
+			if (mem_ld_reg  == 1'b1)
+			begin
+				if (mem_drid == sr1)
+					dep_stall = 1'b1;
+			end
+			
+			if (wb_ld_reg == 1'b1)
+			begin
+				if (wb_drid == sr1)
+					dep_stall = 1'b1;
+			end
+		end
+		
+		if (sr2_needed == 1'b1)
+		begin
+			if (ex_ld_reg == 1'b1)
+			begin
+				if (ex_drid == sr2)
+					dep_stall = 1'b1;
+			end
+			
+			if (mem_ld_reg  == 1'b1)
+			begin
+				if (mem_drid == sr2)
+					dep_stall = 1'b1;
+			end
+			
+			if (wb_ld_reg == 1'b1)
+			begin
+				if (wb_drid == sr2)
+					dep_stall = 1'b1;
+			end
+		end
+		
+		if (opcode == op_br)
+		begin
+			if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_ld_cc == 1'b1)
+				dep_stall = 1'b1;
+		end
+		
+	end
+end
+
 endmodule : dep_check_logic

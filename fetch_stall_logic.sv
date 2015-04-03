@@ -5,6 +5,7 @@ module fetch_stall_logic
 	input logic dep_stall,
 	input logic decode_br_stall,
 	input logic execute_br_stall,
+	input logic execute_indirect_stall,
 	input logic mem_stall,
 	input logic mem_br_stall,
 	
@@ -15,6 +16,7 @@ module fetch_stall_logic
 	output logic load_de,
 	output logic icache_stall_int
 );
+
 
          always_comb
          begin
@@ -43,6 +45,12 @@ module fetch_stall_logic
 				if (mem_br_stall == 1'b1) // control instruction still propogating, still insert bubble
 				begin
 					load_de = 1'b1;
+					valid = 1'b0;
+				end
+				
+				if (execute_indirect_stall == 1'b1) // stall fetch and decode while EX inserts bubble for STI/LDI
+				begin
+					load_de = 1'b0;
 					valid = 1'b0;
 				end
 				

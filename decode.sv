@@ -12,9 +12,9 @@ module decode
 	input lc3b_reg dest_reg,
 	
 	// dep check signals
-	input logic ex_ld_cc,
-	input logic mem_ld_cc,
-	input logic wb_ld_cc,
+	input ex_ld_cc,
+	input mem_ld_cc,
+	input wb_ld_cc,
 	
 	input lc3b_reg ex_drid,
 	input lc3b_reg mem_drid,
@@ -23,7 +23,6 @@ module decode
 	input logic ex_ld_reg,
 	input logic mem_ld_reg,
 	input logic wb_ld_reg,
-	//
 	
 	output lc3b_word npc, 
 	output lc3b_control_word cw,
@@ -37,9 +36,11 @@ module decode
 	
 	output logic dep_stall,
 	output logic decode_br_stall,
-	input logic execute_br_stall,
-	input logic mem_stall,
-	input logic mem_br_stall
+	
+	input execute_br_stall,
+	input execute_indirect_stall,
+	input mem_stall,
+	input mem_br_stall
 );
 
 lc3b_reg regfilemux_out;
@@ -114,6 +115,7 @@ decode_stall_logic decode_stall_logic
 	.dep_stall,
 	.decode_br_stall,
 	.execute_br_stall,
+	.execute_indirect_stall,
 	.mem_stall,
 	.mem_br_stall,
 	
