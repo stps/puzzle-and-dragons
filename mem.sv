@@ -14,7 +14,7 @@ module mem
 	input logic valid_in,
 	
 	input lc3b_word mem_rdata,
-	input logic mem_resp,
+	input dcache_resp,
 	
 	output lc3b_word mem_address,
 	output logic mem_read,
@@ -36,6 +36,7 @@ module mem
 	//stalls originating from mem
 	output logic mem_stall,
 	output logic mem_br_stall,
+	output logic load_wb,
 	
 	output logic mem_load_cc,
    output logic mem_load_regfile,
