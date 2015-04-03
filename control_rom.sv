@@ -88,7 +88,6 @@ case(opcode)
     op_str: begin
         ctrl.sr1_needed = 1'b1;
         ctrl.mem_write = 1'b1;
-        ctrl.load_cc = 1'b1; //??
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end
@@ -174,7 +173,6 @@ case(opcode)
     op_sti: begin //just str atm
         ctrl.sr1_needed = 1'b1;
         ctrl.mem_write = 1'b1;
-        ctrl.load_cc = 1'b1; //??
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
     end
