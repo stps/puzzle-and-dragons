@@ -11,60 +11,25 @@ module control_rom
 
 always_comb
 begin
+	/* Default assignments */
+	ctrl.opcode = opcode;
+	ctrl.aluop = alu_pass;
+	ctrl.load_cc = 1'b0;
+	ctrl.load_regfile = 1'b0;
+	ctrl.branch_stall = 1'b0;
+	ctrl.sr2mux_sel = 1'b0;
+	ctrl.mem_read = 1'b0;
+	ctrl.mem_write = 1'b0;
+	ctrl.addr1mux_sel = 1'b0;
+	ctrl.addr2mux_sel = 2'b00;
+	ctrl.drmux_sel = 2'b00;
+	ctrl.regfilemux_sel = 1'b0;
+	ctrl.memaddrmux_sel = 1'b0;
+	ctrl.destmux_sel = 1'b0;
+	ctrl.sr1_needed = 1'b0;
+	ctrl.sr2_needed = 1'b0;
+	ctrl.lshf_enable = 1'b0;
 
-/* Default assignments */
-ctrl.opcode = opcode;
-ctrl.aluop = alu_pass;
-ctrl.load_cc = 1'b0;
-ctrl.load_regfile = 1'b0;
-ctrl.branch_stall = 1'b0;
-ctrl.sr2mux_sel = 2'b00;
-ctrl.mem_read = 1'b0;
-ctrl.mem_write = 1'b0;
-ctrl.addr1mux_sel = 1'b0;
-ctrl.addr2mux_sel = 2'b00;
-ctrl.drmux_sel = 2'b00;
-ctrl.regfilemux_sel = 1'b0;
-ctrl.memaddrmux_sel = 1'b0;
-ctrl.destmux_sel = 1'b0;
-ctrl.sr1_needed = 1'b0;
-ctrl.sr2_needed = 1'b0;
-ctrl.lshf_enable = 1'b0;
-
-/* Assign control signals based on opcode */
-case(opcode)
-    op_add: begin
-        ctrl.sr1_needed = 1'b1;
-        
-        ctrl.aluop = alu_add;
-        ctrl.load_regfile = 1'b1;
-        ctrl.drmux_sel = 2'b11;
-        ctrl.regfilemux_sel = 1'b1;
-        if(imm_check == 0) begin
-            ctrl.sr2mux_sel = 2'b00;
-            ctrl.sr2_needed = 1'b1;
-        end
-        else begin
-            ctrl.sr2mux_sel = 2'b01;
-        end
-        ctrl.load_cc = 1'b1;
-    end
-    
-    op_and: begin
-        ctrl.sr1_needed = 1'b1;
-
-        ctrl.aluop = alu_and;
-        ctrl.load_regfile = 1'b1;
-        ctrl.drmux_sel = 2'b11;
-        ctrl.regfilemux_sel = 1'b1;
-        if(imm_check == 0) begin
-            ctrl.sr2mux_sel = 2'b00;
-            ctrl.sr2_needed = 1'b1;
-        end
-        else begin
-            ctrl.sr2mux_sel = 2'b01;
-        end
-=======
 	/* Assign control signals based on opcode */
 	case(opcode)
 		 op_add: begin
@@ -131,7 +96,6 @@ case(opcode)
 			  ctrl.addr1mux_sel = 1'b0;
 			  ctrl.addr2mux_sel = 2'b10;
 		 end
->>>>>>> 64e512015158862367fc9cfd2664fe76ee74a0fb
 
 		 op_trap: begin //need trapvector shit
 			  ctrl.destmux_sel = 1'b1; // R7 <= PC
@@ -159,93 +123,6 @@ case(opcode)
 			  ctrl.addr2mux_sel = 2'b00;
 		 end
 
-<<<<<<< HEAD
-    op_jsr: begin //prob not done
-        ctrl.destmux_sel = 1'b1;
-        ctrl.load_regfile = 1'b1;
-        ctrl.drmux_sel = 2'b10;
-        if(jsr_check == 1'b0) begin
-            ctrl.sr1_needed = 1'b1;
-            ctrl.addr1mux_sel = 1'b1;
-            ctrl.memaddrmux_sel = 1'b1;
-        end
-        else begin
-            ctrl.addr2mux_sel = 2'b11;
-            ctrl.memaddrmux_sel = 1'b1;
-        end
-    end
-    
-    op_jmp: begin
-        ctrl.sr1_needed = 1'b1;
-        ctrl.addr1mux_sel = 1'b1;
-        ctrl.addr2mux_sel = 2'b00;
-        ctrl.memaddrmux_sel = 1'b1;
-    end
-
-    op_shf: begin
-        ctrl.sr1_needed = 1'b1;
-        if(rshf_check == 0) begin
-            ctrl.aluop = alu_sll;
-        end
-        else begin
-            if(imm_check == 0)
-                ctrl.aluop = alu_srl;
-            else ctrl.aluop = alu_sra;
-        end
-        ctrl.load_regfile = 1'b1;
-        ctrl.load_cc = 1'b1;
-        ctrl.drmux_sel = 2'b11;
-		  ctrl.sr2mux_sel = 2'b10;
-    end
-    
-    op_lea: begin
-        ctrl.addr1mux_sel = 1'b0;
-        ctrl.addr2mux_sel = 2'b10;
-        ctrl.memaddrmux_sel = 1'b0;
-        ctrl.drmux_sel = 2'b00;
-        ctrl.load_regfile = 1'b1;
-        ctrl.load_cc = 1'b1;
-    end
-    
-    op_ldb: begin
-        ctrl.sr1_needed = 1'b1;
-        ctrl.lshf_enable = 1'b1;
-        ctrl.addr1mux_sel = 1'b1;
-        ctrl.addr2mux_sel = 2'b01;
-        ctrl.load_regfile = 1'b1;
-        ctrl.load_cc = 1'b1;
-        ctrl.drmux_sel = 2'b01;
-    end
-    
-    op_ldi: begin //just ldr atm
-        ctrl.sr1_needed = 1'b1;
-        ctrl.mem_read = 1'b1;
-        ctrl.load_regfile = 1'b1;
-        ctrl.load_cc = 1'b1;
-        ctrl.addr1mux_sel = 1'b1;
-        ctrl.addr2mux_sel = 2'b01;
-        ctrl.drmux_sel = 2'b01;
-    end
-    
-    op_stb: begin
-        ctrl.sr1_needed = 1'b1;
-        ctrl.lshf_enable = 1'b1;
-        ctrl.addr1mux_sel = 1'b1;
-        ctrl.addr2mux_sel = 2'b01;
-    end
-    
-    op_sti: begin //just str atm
-        ctrl.sr1_needed = 1'b1;
-        ctrl.mem_write = 1'b1;
-        ctrl.addr1mux_sel = 1'b1;
-        ctrl.addr2mux_sel = 2'b01;
-    end
-    
-    default: begin
-        ctrl = 0; /* Unknown opcode, set control word to zero */
-    end
-endcase
-=======
 		 op_shf: begin
 			  ctrl.sr1_needed = 1'b1;
 			  if(rshf_check == 0) begin
@@ -307,7 +184,6 @@ endcase
 			  ctrl = 0; /* Unknown opcode, set control word to zero */
 		 end
 	endcase
->>>>>>> 64e512015158862367fc9cfd2664fe76ee74a0fb
 end
 
 endmodule : control_rom
