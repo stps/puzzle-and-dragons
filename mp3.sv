@@ -358,7 +358,7 @@ register ex_mem_ir_reg(.clk, .load(load_regs), .in(ex_mem_ir), .out(ex_mem_ir_ou
 register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
 register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
 
-we_logic
+we_logic we_logic
 (
     .write_enable(ex_mem_address_out[0]),
     .byte_check(ex_mem_cw_out.lshf_enable),
