@@ -302,7 +302,7 @@ decode decode_int
 	.sr2(de_ex_sr2),
 	.cc_out(de_ex_cc),
 	.dr(de_ex_dr),
-	.valid(valid_mem),
+	.valid(valid_ex),
 	.load_ex,
 	
 	.dep_stall,
@@ -313,14 +313,14 @@ decode decode_int
 );
 
 //decode/execute registers
-register de_ex_npc_reg(.clk, .load(load_regs), .in(de_ex_npc), .out(de_ex_npc_out));
-register #(.width($bits(lc3b_control_word))) de_ex_cw_reg(.clk, .load(load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
-register de_ex_ir_reg(.clk, .load(load_regs), .in(de_ex_ir), .out(de_ex_ir_out));
-register de_ex_sr1_reg(.clk, .load(load_regs), .in(de_ex_sr1), .out(de_ex_sr1_out));
-register de_ex_sr2_reg(.clk, .load(load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
-register #(.width(3)) de_ex_cc_reg(.clk, .load(load_regs), .in(de_ex_cc), .out(de_ex_cc_out));
-register #(.width(3)) de_ex_dr_reg(.clk, .load(load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
-register #(.width(1)) de_ex_valid_reg(.clk, .load(load_regs), .in(de_ex_valid), .out(de_ex_valid_out));
+register de_ex_npc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_npc), .out(de_ex_npc_out));
+register #(.width($bits(lc3b_control_word))) de_ex_cw_reg(.clk, .load(load_ex && load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
+register de_ex_ir_reg(.clk, .load(load_ex && load_regs), .in(de_ex_ir), .out(de_ex_ir_out));
+register de_ex_sr1_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr1), .out(de_ex_sr1_out));
+register de_ex_sr2_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
+register #(.width(3)) de_ex_cc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_cc), .out(de_ex_cc_out));
+register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
+register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
 
 execute execute_int
 (
@@ -335,6 +335,13 @@ execute execute_int
 	.dr_in(de_ex_dr_out),
 	.valid_in(),
 
+	
+	.dep_stall,
+	.decode_br_stall,
+	.execute_br_stall,
+	.mem_stall,
+	.mem_br_stall,
+	
 	.address(ex_mem_address),
 	.cw(ex_mem_cw),
 	.npc(ex_mem_npc),
@@ -342,21 +349,22 @@ execute execute_int
 	.result(ex_mem_result),
 	.ir(ex_mem_ir),
 	.dr(ex_mem_dr),
-	.valid(),
+	.valid(valid_mem),
+	.load_mem,
 	
 	.ex_load_cc(ex_ld_cc),
    .ex_load_regfile(ex_ld_reg)
 );
 
 //execute/memory registers
-register ex_mem_address_reg(.clk, .load(load_regs), .in(ex_mem_address), .out(ex_mem_address_out));
-register #(.width($bits(lc3b_control_word))) ex_mem_cw_reg(.clk, .load(load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
-register ex_mem_npc_reg(.clk, .load(load_regs), .in(ex_mem_npc), .out(ex_mem_npc_out));
-register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_regs), .in(ex_mem_cc), .out(ex_mem_cc_out));
-register ex_mem_result_reg(.clk, .load(load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
-register ex_mem_ir_reg(.clk, .load(load_regs), .in(ex_mem_ir), .out(ex_mem_ir_out));
-register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
-register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
+register ex_mem_address_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_address), .out(ex_mem_address_out));
+register #(.width($bits(lc3b_control_word))) ex_mem_cw_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
+register ex_mem_npc_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_npc), .out(ex_mem_npc_out));
+register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_cc), .out(ex_mem_cc_out));
+register ex_mem_result_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
+register ex_mem_ir_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_ir), .out(ex_mem_ir_out));
+register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
+register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
 
 we_logic we_logic
 (
