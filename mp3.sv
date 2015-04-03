@@ -241,7 +241,7 @@ fetch fetch_int
     
     .icache_rdata,
 	 .icache_resp,
-	 .icache_address(pc_out),
+	 .icache_address,
 	 
 	 .icache_read,
 	 
