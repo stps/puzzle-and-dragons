@@ -166,6 +166,11 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
+
+assign mem_drid = ex_mem_dr_out;
+assign ex_drid = de_ex_dr_out;
+assign wb_drid = mem_wb_dr_out;
+
 cache i_cache
 (
 	.clk,
@@ -341,7 +346,10 @@ execute execute_int
 	.result(ex_mem_result),
 	.ir(ex_mem_ir),
 	.dr(ex_mem_dr),
-	.valid()
+	.valid(),
+	
+	.ex_load_cc(ex_ld_cc),
+   .ex_load_regfile(ex_ld_reg)
 );
 
 //execute/memory registers
@@ -384,15 +392,15 @@ mem mem_int
     .result(mem_wb_result),
     .ir(mem_wb_ir),
     .dr(mem_wb_dr),
+
 	 .valid(valid_wb),
 	 
 	 .mem_stall,
 	 .mem_br_stall,
 	 .load_wb,
 	
-	 .mem_load_cc(),
-    .mem_load_regfile(),
-    .mem_branch_stall()
+	 .mem_load_cc(mem_ld_cc),
+    .mem_load_regfile(mem_ld_reg)
 );
 
 //mem/write_back register
@@ -421,8 +429,8 @@ write_back write_back_int
     .gencc_out,
     .reg_data,
     .dest_reg,
-    .ld_reg_store,
-    .ld_cc_store
+    .ld_reg_store(wb_ld_reg),
+    .ld_cc_store(wb_ld_cc)
 );
 
 endmodule : mp3
