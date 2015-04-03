@@ -133,9 +133,6 @@ logic execute_br_stall;
 logic mem_stall;
 logic mem_br_stall;
 
-<<<<<<< HEAD
-cache i_cache
-=======
 //latch load signals
 logic load_de;
 logic load_ex;
@@ -149,7 +146,6 @@ logic valid_mem;
 logic valid_wb;
 
 cache l1_cache
->>>>>>> c5c3d7a58050bdae8e782c52b4ca89e73a690c33
 (
 	.clk,
 	
@@ -239,8 +235,7 @@ fetch fetch_int
 	 .icache_resp,
 	 .icache_address(pc_out),
 	 
-	 .icache_read
-	 .inst_address(pc_out),
+	 .icache_read,
 	 
 	 .new_pc(f_de_npc),
     .ir(f_de_ir),
