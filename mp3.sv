@@ -258,6 +258,8 @@ fetch fetch_int
 	 .icache_address,
 	 .icache_read,
 	 
+	 .mem_valid_in(ex_mem_valid_out),
+	 
 	 .new_pc(f_de_npc),
     .ir(f_de_ir),
 	 .valid(valid_de),
