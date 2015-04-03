@@ -62,15 +62,15 @@ assign tag = mem_address[15:7];
 assign pmem_wdata = datamux_out;
 
 // way1
-mux2 #(.width(128)) way1_mux(.sel(way1mux_sel), .a(update_out), .b(pmem_rdata), .f(way1mux_out));
+mux2 #(.width(128)) way1_mux(.sel(way1mux_sel), .a(update_out), .b(pmem_rdata), .out(way1mux_out));
 array way1_array(.clk, .write(ld_way1), .index(line), .datain(way1mux_out), .dataout(way1_out));
 
 // way2
-mux2 #(.width(128)) way2_mux(.sel(way2mux_sel), .a(update_out), .b(pmem_rdata), .f(way2mux_out));
+mux2 #(.width(128)) way2_mux(.sel(way2mux_sel), .a(update_out), .b(pmem_rdata), .out(way2mux_out));
 array way2_array(.clk, .write(ld_way2), .index(line), .datain(way2mux_out), .dataout(way2_out));
 
 // data
-mux2 #(.width(128)) data_mux(.sel(datamux_sel), .a(way1_out), .b(way2_out), .f(datamux_out));
+mux2 #(.width(128)) data_mux(.sel(datamux_sel), .a(way1_out), .b(way2_out), .out(datamux_out));
 
 mux16 word_mux(.sel(offset), .in(datamux_out), .out(mem_rdata));
 					

@@ -5,13 +5,14 @@ module mp3
     input clk,
 
     /* Memory signals */
-    input mem_resp,
-    input lc3b_word mem_rdata,
-    output mem_read,
-    output mem_write,
-    output lc3b_mem_wmask mem_byte_enable,
-    output lc3b_word mem_address,
-    output lc3b_word mem_wdata
+	 input pmem_resp,
+	 input lc3b_c_block pmem_rdata,
+	 
+	 output pmem_read,
+	 output pmem_write,
+	 output lc3b_mem_wmask mem_byte_enable,
+	 output lc3b_word pmem_address,
+	 output lc3b_c_block pmem_wdata
 );
 
 //non-register signals
@@ -28,6 +29,14 @@ logic new_mem_read;
 logic load_regs;
 logic ld_reg_store;
 logic ld_cc_store;
+
+//memory signals
+logic mem_resp;
+lc3b_word mem_rdata;
+logic mem_read;
+logic mem_write;
+lc3b_word mem_address;
+lc3b_word mem_wdata;
 
 //fetch/decode signals
 lc3b_word f_de_npc;
@@ -110,6 +119,28 @@ logic decode_br_stall;
 logic execute_br_stall;
 logic mem_stall;
 logic mem_br_stall;
+
+cache l1_cache
+(
+	.clk,
+	
+	.mem_address,
+	.mem_wdata,
+	.mem_read,
+	.mem_write,
+	
+	.mem_byte_enable,
+	.mem_rdata,
+	.mem_resp,
+	
+	.pmem_rdata,
+	.pmem_resp,
+	
+	.pmem_address,
+	.pmem_read,
+	.pmem_write,
+	.pmem_wdata
+);
 
 arbiter arbiter
 (
