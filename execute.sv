@@ -30,7 +30,7 @@ module execute
     
     output logic ex_load_cc,
     output logic ex_load_regfile,
-    output logic ex_branch_stall,
+    output logic execute_br_stall
 );
 
 lc3b_word addr1mux_out;
@@ -162,7 +162,7 @@ and_gate branch_stall_check
 (
     .a(valid_in),
     .b(cw_in.branch_stall),
-    .out(ex_branch_stall)
+    .out(execute_branch_stall)
 );
 
 ex_stall_logic ex_stall_logic

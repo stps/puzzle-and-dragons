@@ -87,6 +87,8 @@ fetch_stall_logic fetch_stall_logic
 	.load_de
 );
 
+
+assign inst_address = pc_out;
 assign ir = icache_rdata;
 
 endmodule : fetch

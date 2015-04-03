@@ -28,9 +28,9 @@ begin
 		valid = 1'b0;
 	end
 	
-	if (execute_br_stall == 1'b1)
+	if (execute_br_stall == 1'b1) // keep inserting bubbles for branch
 	begin
-		load_ex = 1'b0;
+		load_ex = 1'b1;
 		valid = 1'b0;
 	end
 	
