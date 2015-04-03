@@ -18,7 +18,7 @@ ctrl.aluop = alu_pass;
 ctrl.load_cc = 1'b0;
 ctrl.load_regfile = 1'b0;
 ctrl.branch_stall = 1'b0;
-ctrl.sr2mux_sel = 1'b0;
+ctrl.sr2mux_sel = 2'b00;
 ctrl.mem_read = 1'b0;
 ctrl.mem_write = 1'b0;
 ctrl.addr1mux_sel = 1'b0;
@@ -41,11 +41,11 @@ case(opcode)
         ctrl.drmux_sel = 2'b11;
         ctrl.regfilemux_sel = 1'b1;
         if(imm_check == 0) begin
-            ctrl.sr2mux_sel = 1'b0;
+            ctrl.sr2mux_sel = 2'b00;
             ctrl.sr2_needed = 1'b1;
         end
         else begin
-            ctrl.sr2mux_sel = 1'b1;
+            ctrl.sr2mux_sel = 2'b01;
         end
         ctrl.load_cc = 1'b1;
     end
@@ -58,11 +58,11 @@ case(opcode)
         ctrl.drmux_sel = 2'b11;
         ctrl.regfilemux_sel = 1'b1;
         if(imm_check == 0) begin
-            ctrl.sr2mux_sel = 1'b0;
+            ctrl.sr2mux_sel = 2'b00;
             ctrl.sr2_needed = 1'b1;
         end
         else begin
-            ctrl.sr2mux_sel = 1'b1;
+            ctrl.sr2mux_sel = 2'b01;
         end
 
         ctrl.load_cc = 1'b1;
@@ -141,6 +141,7 @@ case(opcode)
         ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
         ctrl.drmux_sel = 2'b11;
+		  ctrl.sr2mux_sel = 2'b10;
     end
     
     op_lea: begin

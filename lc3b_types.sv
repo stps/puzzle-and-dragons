@@ -57,7 +57,7 @@ typedef struct packed {
     lc3b_aluop aluop;
     logic addr1mux_sel;
     logic [1:0] addr2mux_sel;
-    logic sr2mux_sel;
+    logic [1:0] sr2mux_sel;
     logic memaddrmux_sel;
     logic [1:0] drmux_sel;
     logic regfilemux_sel;

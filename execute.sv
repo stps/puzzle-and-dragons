@@ -43,6 +43,7 @@ lc3b_word adj11_out;
 lc3b_word zadj_out;
 lc3b_word adder_out;
 lc3b_word sext_out;
+lc3b_word sext_shf_out;
 lc3b_word cond_lshf_out;
 
 assign npc = npc_in;
@@ -67,11 +68,12 @@ mux2 memaddrmux
     .out(address)
 );
 
-mux2 sr2mux
+mux4 sr2mux
 (
     .sel(cw_in.sr2mux_sel),
     .a(sr2),
     .b(sext_out),
+	 .c(sext_shf_out),
     .out(sr2mux_out)
 );
 
@@ -127,6 +129,12 @@ sext #(.width(5)) sext
 (
     .in(ir_in[4:0]),
     .out(sext_out)
+);
+
+sext #(.width(4)) sext_shf
+(
+    .in(ir_in[3:0]),
+    .out(sext_shf_out)
 );
 
 alu alu
