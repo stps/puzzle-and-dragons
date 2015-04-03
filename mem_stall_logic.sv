@@ -15,18 +15,18 @@ module mem_stall_logic
 	output logic mem_stall
 );
 
-logic mem_stall;
+logic mem_stall_int;
 
 always_comb
 begin
 	
 	load_wb = 1'b1; // by default, continue
 	valid = 1'b1;
-	mem_stall = 1'b0;
+	mem_stall_int = 1'b0;
 	
 	if (dcache_resp == 1'b0 && (mem_read || mem_write)) // while waiting for cache miss, just stall mem
 	begin
-		mem_stall = 1'b1;
+		mem_stall_int = 1'b1;
 	end
 	
 	if (decode_br_stall == 1'b1) // only needs to stall frontend of pipeline, MEM can continue
@@ -51,11 +51,13 @@ begin
 	begin
 	end
 	
-	if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
+	if (mem_stall_int == 1'b1) // stall everything except WB, insert bubbles in WB
 	begin
 		load_wb = 1'b1;
 		valid = 1'b0;
 	end
+	
+	mem_stall = mem_stall_int;
 end
 
 endmodule : mem_stall_logic
