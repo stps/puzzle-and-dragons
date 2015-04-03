@@ -244,8 +244,8 @@ arbiter arbiter
 fetch fetch_int
 (
     .clk,
-    .pc_mux_sel(pc_mux_sel),
-    .trap_pc(trap_pc),
+    .pc_mux_sel,
+    .trap_pc,
     .target_pc(ex_mem_address_out),
 	 
 	 .dep_stall,

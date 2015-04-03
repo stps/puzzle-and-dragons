@@ -50,6 +50,8 @@ module mem
 logic indirect_op;
 lc3b_word trap_logic_out;
 
+logic [1:0] br_pcmux_sel;
+
 assign mem_address = address_in;
 assign mem_read = cw_in.mem_read && valid_in;
 assign mem_write = cw_in.mem_write && valid_in;
@@ -68,6 +70,13 @@ always_comb begin
 		indirect_op = 1'b1;
 	else
 		indirect_op = 1'b0;
+		
+	if (cw_in.opcode == op_jsr || cw_in.opcode == op_jmp)
+		mem_pc_mux = 2'b01;
+	else if (cw_in.opcode == op_trap)
+		mem_pc_mux = 2'b10;
+	else
+		mem_pc_mux = br_pcmux_sel;
 end
 
 mux2 indirectaddr_mux
@@ -100,7 +109,7 @@ cccomp comp
 (
 	.a(ir_in),
 	.b(cc_in),
-	.out(mem_pc_mux)
+	.out(br_pcmux_sel)
 );
 
 //TODO: add more BR logic for trap
