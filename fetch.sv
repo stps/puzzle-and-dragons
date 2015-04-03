@@ -18,7 +18,8 @@ module fetch
 	//need to connect to icache
 	input lc3b_word icache_rdata,
 	input logic icache_resp,
-	
+	input logic mem_valid_in,
+
 	output lc3b_word icache_address,
 	output logic icache_read,
 
@@ -33,6 +34,7 @@ logic ld_pc;
 lc3b_word pc_mux_out;
 lc3b_word pc_out;
 lc3b_word plus2_out;
+logic icache_stall_int;
 
 assign new_pc = plus2_out; 
 
@@ -67,7 +69,9 @@ pc_logic pc_logic
 	.execute_br_stall,
 	.mem_stall,
 	.mem_br_stall,
-	.icache_resp,
+	.icache_stall_int,
+	.mem_valid_in,
+	.pc_mux_sel,
 	.ld_pc
 );
 
@@ -85,10 +89,12 @@ fetch_stall_logic fetch_stall_logic
 	.mem_stall,
 	.mem_br_stall,
 	
+	.icache_read,
 	.icache_resp,
 	
 	.valid,
-	.load_de
+	.load_de,
+	.icache_stall_int
 );
 
 endmodule : fetch

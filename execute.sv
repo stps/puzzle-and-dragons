@@ -245,7 +245,7 @@ and_gate branch_stall_check
 (
     .a(valid_in),
     .b(cw_in.branch_stall),
-    .out(execute_branch_stall)
+    .out(execute_br_stall)
 );
 
 ex_stall_logic ex_stall_logic
