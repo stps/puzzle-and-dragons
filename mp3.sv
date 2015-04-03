@@ -265,9 +265,9 @@ fetch fetch_int
 );
 
 //fetch/decode registers
-register f_de_npc_reg(.clk, .load(load_regs), .in(f_de_npc), .out(f_de_npc_out));
-register f_de_ir_reg(.clk, .load(load_regs), .in(f_de_ir), .out(f_de_ir_out));
-register #(.width(1)) f_de_valid_reg(.clk, .load(load_regs), .in(f_de_valid), .out(f_de_valid_out));
+register f_de_npc_reg(.clk, .load(load_de && load_regs), .in(f_de_npc), .out(f_de_npc_out));
+register f_de_ir_reg(.clk, .load(load_de && load_regs), .in(f_de_ir), .out(f_de_ir_out));
+register #(.width(1)) f_de_valid_reg(.clk, .load(load_de && load_regs), .in(valid_de), .out(f_de_valid_out));
 
 decode decode_int
 (
