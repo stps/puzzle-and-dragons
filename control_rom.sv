@@ -98,6 +98,11 @@ case(opcode)
     end
 
     op_jsr: begin
+        ctrl.destmux_sel = 1'b1;
+        if(jsr_check == 1'b0) begin
+        end
+        else begin
+        end
     end
     
     op_jmp: begin
@@ -119,7 +124,29 @@ case(opcode)
         ctrl.load_cc = 1'b1;
         ctrl.drmux_sel = 2'b11;
     end
+    
+    op_lea: begin
+        ctrl.addr1mux_sel = 1'b0;
+        ctrl.addr2mux_sel = 2'b10;
+        ctrl.memaddrmux_sel = 1'b1;
+        ctrl.drmux_sel = 2'b01;
+        ctrl.load_regfile = 1'b1;
+        ctrl.load_cc = 1'b1;
+    end
+    
+    op_ldb: begin
+    end
+    
+    op_ldi: begin
+    end
+    
+    op_stb: begin
+    end
+    
+    op_sti: begin
+    end
 
+    
     default: begin
         ctrl = 0; /* Unknown opcode, set control word to zero */
     end
