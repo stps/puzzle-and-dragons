@@ -339,7 +339,7 @@ execute execute_int
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
-	.valid_in(),
+	.valid_in(de_ex_valid_out),
 
 	.icache_stall_int,
 	.dep_stall,
