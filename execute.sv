@@ -37,6 +37,7 @@ lc3b_word adj11_out;
 lc3b_word zadj_out;
 lc3b_word adder_out;
 lc3b_word sext_out;
+lc3b_word cond_lshf_out;
 
 assign npc = npc_in;
 assign cc = cc_in;
@@ -102,10 +103,17 @@ zadj zadj
     .out(zadj_out)
 );
 
+cond_lshf cond_lshf
+(
+    .enable(cw_in.lshf_enable),
+    .in(addr2mux_out),
+    .out(cond_lshf_out)
+);
+
 adder adder
 (
     .in1(addr1mux_out),
-    .in2(addr2mux_out),
+    .in2(cond_lshf_out),
     .out(adder_out)
 );
 
