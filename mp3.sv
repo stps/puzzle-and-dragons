@@ -368,34 +368,34 @@ register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(e
 
 mem mem_int
 (
-    .clk,
+	.clk,
     
-    .address_in(ex_mem_address_out),
-    .cw_in(ex_mem_cw_out),
-    .new_pc_in(ex_mem_npc_out),
-    .cc_in(ex_mem_cc_out),
-    .result_in(ex_mem_result_out),
-    .ir_in(ex_mem_ir_out),
-    .dr_in(ex_mem_dr_out),
-    .valid_in(1'b1),
-    
-    .mem_rdata(dcache_rdata),
-    .dcache_resp,
-    
-    .mem_address(dcache_address),
-    .mem_read(dcache_read),
-    .mem_write(dcache_write),
-    .mem_wdata(dcache_wdata),
-    
-	 .mem_pc_mux(pc_mux_sel),
-    
-    .address(mem_wb_address),
-    .data(mem_wb_data),
-    .cw(mem_wb_cw),
-    .new_pc(mem_wb_npc),
-    .result(mem_wb_result),
-    .ir(mem_wb_ir),
-    .dr(mem_wb_dr),
+	.address_in(ex_mem_address_out),
+	.cw_in(ex_mem_cw_out),
+	.new_pc_in(ex_mem_npc_out),
+	.cc_in(ex_mem_cc_out),
+	.result_in(ex_mem_result_out),
+	.ir_in(ex_mem_ir_out),
+	.dr_in(ex_mem_dr_out),
+	.valid_in(1'b1),
+		 
+	.mem_rdata(dcache_rdata),
+	.dcache_resp,
+		 
+	.mem_address(dcache_address),
+	.mem_read(dcache_read),
+	.mem_write(dcache_write),
+	.mem_wdata(dcache_wdata),
+		 
+	.mem_pc_mux(pc_mux_sel),
+		 
+	.address(mem_wb_address),
+	.data(mem_wb_data),
+	.cw(mem_wb_cw),
+	.new_pc(mem_wb_npc),
+	.result(mem_wb_result),
+	.ir(mem_wb_ir),
+	.dr(mem_wb_dr),
 
 	.valid(valid_wb),
 	
@@ -404,9 +404,9 @@ mem mem_int
 	.load_wb,
 	
 	.mem_load_cc(mem_ld_cc),
-    .mem_load_regfile(mem_ld_reg)
+   .mem_load_regfile(mem_ld_reg),
     
-    .mem_byte_enable
+   .mem_byte_enable
 );
 
 //mem/write_back register
