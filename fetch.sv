@@ -69,6 +69,7 @@ pc_logic pc_logic
 
 assign icache_address = pc_out;
 assign icache_read = 1'b1;
+
 fetch_stall_logic fetch_stall_logic
 (
 	.dep_stall,
@@ -85,9 +86,6 @@ fetch_stall_logic fetch_stall_logic
 
 
 assign inst_address = pc_out;
-//assign mem_read = 1'b1;
 assign ir = icache_rdata;
-
-
 
 endmodule : fetch

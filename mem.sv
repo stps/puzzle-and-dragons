@@ -89,5 +89,4 @@ and_gate branch_stall_check
     .out(mem_branch_stall)
 );
 
-
 endmodule : mem
