@@ -334,9 +334,8 @@ execute execute_int
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
-	.valid_in(),
+	.valid_in(de_ex_valid_out),
 
-	
 	.dep_stall,
 	.decode_br_stall,
 	.mem_stall,

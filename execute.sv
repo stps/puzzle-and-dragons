@@ -61,7 +61,6 @@ assign ir = ir_in;
 assign dr = dr_in;
 assign address = memaddrmux_out;
 assign result = alu_result;
-//assign cw = cw_in;
 
 always_comb
 begin
@@ -106,17 +105,22 @@ always_comb
 begin
 	memlatch_sel = 1'b0;
 	
-	if (cw_in.opcode == op_sti && next_opcode == op_sti)
+	if (next_opcode == op_sti)
 		memlatch_sel = 1'b1;
 	
-	if (cw_in.opcode == op_sti && next_opcode != op_sti)
+	/*if (cw_in.opcode == op_sti && next_opcode != op_sti)
 		execute_indirect_stall = 1'b1;
 	else
+		execute_indirect_stall = 1'b0;*/
+	
+	if (next_opcode == op_sti || next_opcode == op_ldi)
+		execute_indirect_stall = 1'b1;
+	else 
 		execute_indirect_stall = 1'b0;
 		
-	if (cw_in.opcode == op_sti)
+	if (next_opcode == op_sti)
 		indirect_bubble_cw = sti_str;
-	else if (cw_in.opcode == op_ldi)
+	else if (next_opcode == op_ldi)
 		indirect_bubble_cw = ldi_ldr;
 	else
 		indirect_bubble_cw = cw_in;
