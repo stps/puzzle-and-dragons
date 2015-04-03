@@ -17,6 +17,12 @@ module mem_stall_logic
 				load_wb = 1'b1; // by default, continue
 				valid = 1'b1;
 			
+				if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
+				begin
+					load_wb = 1'b1;
+					valid = 1'b0;
+				end
+			
 				if (decode_br_stall == 1'b1) // only needs to stall frontend of pipeline, MEM can continue
 				begin
 					load_wb = 1'b1;
@@ -33,12 +39,6 @@ module mem_stall_logic
 				begin
 					load_wb = 1'b1;
 					valid = 1'b1;
-				end
-				
-				if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
-				begin
-					load_wb = 1'b0;
-					valid = 1'b0;
 				end
 				
 				if (mem_br_stall == 1'b1) // MEM keeps working, frontend stalls, fetch inserts bubbles
