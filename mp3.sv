@@ -23,6 +23,7 @@ lc3b_word target_pc;
 lc3b_word reg_data;
 lc3b_reg dest_reg;
 lc3b_word pc_out;
+lc3b_mem_wmask mem_byte_enable;
 
 logic load_regs;
 logic ld_reg_store;
@@ -106,12 +107,12 @@ logic dcache_write;
 lc3b_word dcache_wdata;
 
 lc3b_word dcache_pmem_address;
-logic dcache_pmem_resp
+logic dcache_pmem_resp;
 logic dcache_pmem_read;
 lc3b_c_block dcache_pmem_rdata;
 logic dcache_pmem_write;
 lc3b_c_block dcache_pmem_wdata;
-;
+
 
 /* T
 	E
@@ -143,7 +144,7 @@ cache i_cache
 	.mem_write(1'b0),
 	.mem_wdata(),
 	
-	.mem_read(),
+	.mem_read(icache_read),
 	.mem_rdata(icache_rdata),
 	
 	.pmem_address(icache_pmem_address),
@@ -184,16 +185,23 @@ arbiter arbiter
 (
 	.clk,
 	
-	.mem_read_in(new_mem_read),
-	.mem_write_in(new_mem_write),
+	.icache_read,
+	.icache_address,
 	
-	.mem_address_fetch(pc_out),
-	.mem_address_mem(new_mem_address),
+	.dcache_read,
+	.dcache_write,
+	.dcache_address,
+	
+	.pmem_resp,
 	
 	.ld_regs(load_regs),
-	.mem_address,
-	.mem_read,
-	.mem_write
+	
+	.icache_pmem_resp,
+	.dcache_pmem_resp,
+	
+	.pmem_address,
+	.pmem_read,
+	.pmem_write
 );
 
 

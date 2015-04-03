@@ -4,16 +4,23 @@ module arbiter
 (
 	input clk,
 	
-	input mem_read_in,
-	input mem_write_in,
+	input icache_read,
+	input lc3b_word icache_address,
 	
-	input lc3b_word mem_address_fetch,
-	input lc3b_word mem_address_mem,
+	input dcache_read,
+	input dcache_write,
+	input lc3b_word dcache_address,
+	
+	input logic pmem_resp,
 	
 	output logic ld_regs,
-	output lc3b_word mem_address,
-	output logic mem_read,
-	output logic mem_write
+	
+	output logic icache_pmem_resp,
+	output logic dcache_pmem_resp,
+	
+	output lc3b_word pmem_address,
+	output logic pmem_read,
+	output logic pmem_write
 );
 
 enum int unsigned {
@@ -23,24 +30,34 @@ enum int unsigned {
 
 always_comb
 begin : state_actions
-	mem_read = 1'b0;
-	mem_write = 1'b0;
-	mem_address = mem_address_fetch;
+	pmem_read = 1'b0;
+	pmem_write = 1'b0;
+	icache_pmem_resp = 1'b0;
+	dcache_pmem_resp = 1'b0;
+	pmem_address = icache_address;
 	ld_regs = 1'b1;
 	
 	case(state)
 		one: begin
-			mem_read = 1'b1;
-			
-			if (mem_write_in || mem_read_in) begin
-				ld_regs = 1'b0;
+			if (icache_read) begin
+				pmem_read = 1'b1;
+				
+				if (pmem_resp)
+					icache_pmem_resp = 1'b1;
 			end
+					
+			
+			if (dcache_write || dcache_read)
+				ld_regs = 1'b0;
 		end
 		
 		two: begin
-			mem_read = mem_read_in;
-			mem_write = mem_write_in;
-			mem_address = mem_address_mem;
+			pmem_read = dcache_read;
+			pmem_write = dcache_write;
+			pmem_address = dcache_address;
+			
+			if (pmem_resp)
+				dcache_pmem_resp = 1'b1;
 		end
 		
 		default: ;
@@ -53,15 +70,19 @@ begin : next_state_logic
 	
     case(state)
         one: begin
-            if (mem_write_in || mem_read_in)
-                next_state = two;
+            if (dcache_write || dcache_read) begin
+					if (pmem_resp)
+						next_state = two;
+				end
+				
 				else
 					next_state = one;
         end
 		
 		
         two: begin
-            next_state = one;
+				if (pmem_resp)
+					next_state = one;
         end
         
         default: ;
