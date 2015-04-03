@@ -96,7 +96,7 @@ case(opcode)
     op_br: begin
         ctrl.addr1mux_sel = 1'b0;
         ctrl.addr2mux_sel = 2'b10;
-        ctrl.memaddrmux_sel = 1'b1;
+        ctrl.memaddrmux_sel = 1'b0;
     end
 
     op_trap: begin //need trapvector shit
