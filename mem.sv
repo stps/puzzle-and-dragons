@@ -39,8 +39,12 @@ module mem
 	output logic load_wb,
 	
 	output logic mem_load_cc,
-   output logic mem_load_regfile
+    output logic mem_load_regfile,
+    
+    output logic [1:0] mem_byte_enable
 );
+
+lc3b_word trap_logic_out;
 
 assign mem_address = address_in;
 assign mem_read = cw_in.mem_read && valid_in;
@@ -49,12 +53,31 @@ assign mem_wdata = result_in;
 
 
 assign address = address_in;
-assign data = mem_rdata;
+//assign data = mem_rdata;
+assign data = trap_logic_out;
 assign cw = cw_in;
 assign new_pc = new_pc_in;
 assign result = result_in;
 assign ir = ir_in;
 assign dr = dr_in;
+
+we_logic we_logic
+(
+    .write_enable(address[0]),
+    .byte_check(cw.lshf_enable),
+    .rw(cw.mem_read || cw.mem_write),
+    
+    .mem_byte_enable
+);
+
+trap_logic trap_logic
+(
+    .dcache_out(mem_rdata),
+    .mem_bit(address[0]),
+    .byte_check(cw.lshf_enable),
+
+    .trap_logic_out
+);
 
 cccomp comp
 (
