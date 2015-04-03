@@ -16,7 +16,6 @@ module mem
 	input lc3b_word mem_rdata,
 	input logic mem_resp,
 	
-	
 	output lc3b_word mem_address,
 	output logic mem_read,
 	output logic mem_write,
