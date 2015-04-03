@@ -360,7 +360,7 @@ register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_regs), .in(ex_mem_valid)
 
 we_logic
 (
-    .write_enable(ex_mem_address_out),
+    .write_enable(ex_mem_address_out[0]),
     .byte_check(ex_mem_cw_out.lshf_enable),
     .rw(ex_mem_cw_out.mem_read || ex_mem_cw_out.mem_write),
     
