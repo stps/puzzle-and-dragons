@@ -149,7 +149,9 @@ case(opcode)
         ctrl.lshf_enable = 1'b1;
         ctrl.addr1mux_sel = 1'b1;
         ctrl.addr2mux_sel = 2'b01;
+        ctrl.load_regfile = 1'b1;
         ctrl.load_cc = 1'b1;
+        ctrl.drmux_sel = 2'b01;
     end
     
     op_ldi: begin //just ldr atm
