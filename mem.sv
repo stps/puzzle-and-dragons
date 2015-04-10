@@ -116,8 +116,6 @@ cccomp comp
 	.out(br_pcmux_sel)
 );
 
-//TODO: add more BR logic for trap
-
 and_gate load_cc_check
 (
     .a(valid_in),

@@ -98,7 +98,7 @@ begin
 			  ctrl.addr2mux_sel = 2'b10;
 		 end
 
-		 op_trap: begin //need trapvector shit
+		 op_trap: begin
 			  ctrl.destmux_sel = 1'b1; // R7 <= PC
 			  ctrl.load_regfile = 1'b1;
 			  ctrl.drmux_sel = 2'b10;
@@ -106,7 +106,7 @@ begin
 			  ctrl.mem_read = 1'b1;
 		 end
 
-		 op_jsr: begin //prob not done
+		 op_jsr: begin
 			  ctrl.destmux_sel = 1'b1;
 			  ctrl.load_regfile = 1'b1;
 			  ctrl.drmux_sel = 2'b10;
@@ -160,7 +160,7 @@ begin
 			  ctrl.drmux_sel = 2'b01;
 		 end
 		 
-		 op_ldi: begin //just ldr atm
+		 op_ldi: begin
 			  ctrl.sr1_needed = 1'b1;
 			  ctrl.mem_read = 1'b1;
 			  ctrl.load_regfile = 1'b1;
@@ -178,7 +178,7 @@ begin
 			  ctrl.addr2mux_sel = 2'b01;
 		 end
 		 
-		 op_sti: begin //just str atm
+		 op_sti: begin
 			  ctrl.sr1_needed = 1'b1;
 			  ctrl.mem_write = 1'b1;
 			  ctrl.addr1mux_sel = 1'b1;

@@ -267,13 +267,13 @@ decode decode_int
 (
 	.clk,
 
-   .npc_in(f_de_npc_out),
-   .ir_in(f_de_ir_out),
-   .valid_in(),
+	.npc_in(f_de_npc_out),
+	.ir_in(f_de_ir_out),
+	.valid_in(),
 
-   .reg_data,
-   .cc_data(gencc_out),
-   .dest_reg,
+	.reg_data,
+	.cc_data(gencc_out),
+	.dest_reg,
 	
 	.ex_ld_cc,
 	.mem_ld_cc,
@@ -366,7 +366,7 @@ register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(e
 mem mem_int
 (
 	.clk,
-    
+	
 	.address_in(ex_mem_address_out),
 	.cw_in(ex_mem_cw_out),
 	.new_pc_in(ex_mem_npc_out),
@@ -375,18 +375,18 @@ mem mem_int
 	.ir_in(ex_mem_ir_out),
 	.dr_in(ex_mem_dr_out),
 	.valid_in(1'b1),
-		 
+	
 	.mem_rdata(dcache_rdata),
 	.dcache_resp,
 	.indirect_data_in(mem_wb_data_out),
-		 
+	
 	.mem_address(dcache_address),
 	.mem_read(dcache_read),
 	.mem_write(dcache_write),
 	.mem_wdata(dcache_wdata),
-		 
+	
 	.mem_pc_mux(pc_mux_sel),
-		 
+	
 	.address(mem_wb_address),
 	.data(mem_wb_data),
 	.cw(mem_wb_cw),
@@ -403,9 +403,9 @@ mem mem_int
 	.load_wb,
 	
 	.mem_load_cc(mem_ld_cc),
-   .mem_load_regfile(mem_ld_reg),
-    
-   .mem_byte_enable
+	.mem_load_regfile(mem_ld_reg),
+
+	.mem_byte_enable
 );
 
 //mem/write_back register

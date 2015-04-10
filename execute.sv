@@ -3,7 +3,7 @@ import lc3b_types::*;
 module execute
 (
     input clk,
-    
+
     input lc3b_word npc_in,
     input lc3b_control_word cw_in,
     input lc3b_word ir_in,
@@ -12,14 +12,14 @@ module execute
     input lc3b_nzp cc_in,
     input lc3b_reg dr_in,
     input logic valid_in,
-	 
-	 input logic dep_stall,
-	 input logic decode_br_stall,
-	 input logic mem_stall,
-	 input logic mem_br_stall,
-	 
-	 input lc3b_opcode next_opcode,
-    
+
+    input logic dep_stall,
+    input logic decode_br_stall,
+    input logic mem_stall,
+    input logic mem_br_stall,
+
+    input lc3b_opcode next_opcode,
+
     output lc3b_word address,
     output lc3b_control_word cw,
     output lc3b_word npc,
@@ -28,13 +28,13 @@ module execute
     output lc3b_word ir,
     output lc3b_reg dr,
     output logic valid,
-	 output logic load_mem,
-    
+    output logic load_mem,
+
     output logic ex_load_cc,
     output logic ex_load_regfile,
     output logic execute_br_stall,
-	 output logic execute_indirect_stall,
-	 input logic icache_stall_int
+    output logic execute_indirect_stall,
+    input logic icache_stall_int
 );
 
 logic memlatch_sel;
@@ -153,7 +153,7 @@ mux4 sr2mux
     .sel(cw_in.sr2mux_sel),
     .a(sr2),
     .b(sext_out),
-	 .c(sext_shf_out),
+    .c(sext_shf_out),
     .out(sr2mux_out)
 );
 
@@ -248,15 +248,15 @@ and_gate branch_stall_check
 
 ex_stall_logic ex_stall_logic
 (
-	.dep_stall,
-	.decode_br_stall,
-	.execute_br_stall,
-	.mem_stall,
-	.mem_br_stall,
-	
-	.valid,
-	.load_mem,
-	.icache_stall_int
+    .dep_stall,
+    .decode_br_stall,
+    .execute_br_stall,
+    .mem_stall,
+    .mem_br_stall,
+
+    .valid,
+    .load_mem,
+    .icache_stall_int
 );
 
 endmodule : execute
