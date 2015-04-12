@@ -55,7 +55,7 @@ logic [1:0] br_pcmux_sel;
 assign mem_address = address_in;
 assign mem_read = cw_in.mem_read && valid_in;
 assign mem_write = cw_in.mem_write && valid_in;
-assign mem_wdata = result_in;
+//assign mem_wdata = result_in;
 
 assign data = trap_logic_out;
 assign cw = cw_in;

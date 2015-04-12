@@ -168,6 +168,7 @@ begin
 			  ctrl.addr1mux_sel = 1'b1;
 			  ctrl.addr2mux_sel = 2'b01;
 			  ctrl.drmux_sel = 2'b01;
+			  ctrl.indirectaddrmux_sel = 1'b1;
 		 end
 		 
 		 op_stb: begin
@@ -183,6 +184,7 @@ begin
 			  ctrl.mem_write = 1'b1;
 			  ctrl.addr1mux_sel = 1'b1;
 			  ctrl.addr2mux_sel = 2'b01;
+			  ctrl.indirectaddrmux_sel = 1'b1;
 		 end
 		 
 		 default: begin
