@@ -344,7 +344,7 @@ execute execute_int
 	.result(ex_mem_result),
 	.ir(ex_mem_ir),
 	.dr(ex_mem_dr),
-	.valid(valid_mem),
+	.valid(ex_mem_valid),
 	.load_mem,
 	
 	.ex_load_cc(ex_ld_cc),
@@ -374,7 +374,7 @@ mem mem_int
 	.result_in(ex_mem_result_out),
 	.ir_in(ex_mem_ir_out),
 	.dr_in(ex_mem_dr_out),
-	.valid_in(1'b1),
+	.valid_in(ex_mem_valid_out),
 	
 	.mem_rdata(dcache_rdata),
 	.dcache_resp,
