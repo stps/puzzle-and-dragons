@@ -391,6 +391,8 @@ register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_mem && load_regs), .in(ex_m
 register ex_mem_result_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
 register ex_mem_ir_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_ir), .out(ex_mem_ir_out));
 register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
+register #(.width(3)) ex_mem_rs_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_rs), .out(ex_mem_rs_out));
+register #(.width(3)) ex_mem_rt_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_rt), .out(ex_mem_rt_out));
 register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
 
 mem mem_int
