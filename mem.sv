@@ -16,6 +16,7 @@ module mem
 	input lc3b_word mem_rdata,
 	input dcache_resp,
 	input lc3b_word indirect_data_in,
+	input lc3b_word indirect_reg_in,
 	
 	output lc3b_word mem_address,
 	output logic mem_read,
@@ -25,7 +26,6 @@ module mem
 	output logic [1:0] mem_pc_mux,
 	
 	//latches
-	output lc3b_word address,
 	output lc3b_word data,
 	output lc3b_control_word cw,
 	output lc3b_word new_pc,
@@ -52,17 +52,14 @@ lc3b_word trap_logic_out;
 
 logic [1:0] br_pcmux_sel;
 
-assign mem_address = address_in;
 assign mem_read = cw_in.mem_read && valid_in;
 assign mem_write = cw_in.mem_write && valid_in;
-//assign mem_wdata = result_in;
 
 assign data = trap_logic_out;
 assign cw = cw_in;
 assign new_pc = new_pc_in;
 assign result = result_in;
 assign ir = ir_in;
-assign dr = dr_in;
 
 always_comb begin
 	if (cw_in.opcode == op_sti || cw_in.opcode == op_ldi)
@@ -88,12 +85,21 @@ mux2 indirectaddr_mux
 	.sel(cw_in.indirectaddrmux_sel),
 	.a(address_in),
 	.b(indirect_data_in),
-	.out(address)
+	.out(mem_address)
+);
+
+
+mux2 indirectreg_mux
+(
+	.sel(cw_in.indirectaddrmux_sel),
+	.a(dr_in),
+	.b(indirect_reg_in),
+	.out(dr)
 );
 
 we_logic we_logic
 (
-    .write_enable(address[0]),
+    .write_enable(mem_address[0]),
     .byte_check(cw.lshf_enable),
     .rw(cw.mem_read || cw.mem_write),
     
@@ -103,7 +109,7 @@ we_logic we_logic
 trap_logic trap_logic
 (
     .dcache_out(mem_rdata),
-    .mem_bit(address[0]),
+    .mem_bit(mem_address[0]),
     .byte_check(cw.lshf_enable),
 
     .trap_logic_out

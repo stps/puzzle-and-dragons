@@ -108,7 +108,7 @@ always_comb
 begin
 	memlatch_sel = 1'b0;
 	
-	if (next_opcode == op_sti)
+	if (next_opcode == op_sti || next_opcode == op_ldi)
 		memlatch_sel = 1'b1;
 	
 	if (next_opcode == op_sti || next_opcode == op_ldi)

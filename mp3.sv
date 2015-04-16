@@ -105,7 +105,6 @@ logic icache_pmem_read;
 logic icache_pmem_resp;
 
 //dcache signals
-lc3b_word dcache_address;
 logic dcache_resp;
 logic dcache_read;
 lc3b_word dcache_rdata;
@@ -186,7 +185,7 @@ cache d_cache
 (
 	.clk,
 	
-	.mem_address(dcache_address),
+	.mem_address(mem_wb_address),
 	.mem_byte_enable,
 	.mem_resp(dcache_resp),
 
@@ -379,15 +378,15 @@ mem mem_int
 	.mem_rdata(dcache_rdata),
 	.dcache_resp,
 	.indirect_data_in(mem_wb_data_out),
+	.indirect_reg_in(mem_wb_dr_out),
 	
-	.mem_address(dcache_address),
+	.mem_address(mem_wb_address),
 	.mem_read(dcache_read),
 	.mem_write(dcache_write),
 	.mem_wdata(dcache_wdata),
 	
 	.mem_pc_mux(pc_mux_sel),
 	
-	.address(mem_wb_address),
 	.data(mem_wb_data),
 	.cw(mem_wb_cw),
 	.new_pc(mem_wb_npc),
