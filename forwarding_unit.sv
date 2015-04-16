@@ -3,7 +3,7 @@ import lc3b_types::*;
 module forwarding_unit
 (
     input logic ex_mem_load_regfile,
-    input logic mem_wb_load_regfile
+    input logic mem_wb_load_regfile,
     input lc3b_reg ex_mem_dr_out,
     input lc3b_reg mem_wb_dr_out,
     input lc3b_reg de_ex_rs_out,
