@@ -44,6 +44,8 @@ lc3b_word de_ex_sr1;
 lc3b_word de_ex_sr2;
 lc3b_nzp de_ex_cc;
 lc3b_reg de_ex_dr;
+lc3b_reg de_ex_rs;
+lc3b_reg de_ex_rt;
 logic de_ex_valid;
 
 lc3b_word de_ex_npc_out;
@@ -53,6 +55,8 @@ lc3b_word de_ex_sr1_out;
 lc3b_word de_ex_sr2_out;
 lc3b_nzp de_ex_cc_out;
 lc3b_reg de_ex_dr_out;
+lc3b_reg de_ex_rs_out;
+lc3b_reg de_ex_rt_out;
 logic de_ex_valid_out;
 
 //execute/memory signals
@@ -63,6 +67,8 @@ lc3b_nzp ex_mem_cc;
 lc3b_word ex_mem_result;
 lc3b_word ex_mem_ir;
 lc3b_reg ex_mem_dr;
+lc3b_reg ex_mem_rs;
+lc3b_reg ex_mem_rt;
 logic ex_mem_valid;
 
 lc3b_word ex_mem_address_out;
@@ -72,6 +78,8 @@ lc3b_nzp ex_mem_cc_out;
 lc3b_word ex_mem_result_out;
 lc3b_word ex_mem_ir_out;
 lc3b_reg ex_mem_dr_out;
+lc3b_reg ex_mem_rs_out;
+lc3b_reg ex_mem_rt_out;
 logic ex_mem_valid_out;
 
 //memory/write_back signals
@@ -293,6 +301,8 @@ decode decode_int
 	.sr2(de_ex_sr2),
 	.cc_out(de_ex_cc),
 	.dr(de_ex_dr),
+	.sr1_reg(de_ex_rs),
+	.sr2_reg(de_ex_rt),
 	.valid(valid_ex),
 	.load_ex,
 	
@@ -346,6 +356,8 @@ execute execute_int
 	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
+	.sr1_reg_in(de_ex_rs_out),
+	.sr2_reg_in(de_ex_rt_out),
 	.valid_in(de_ex_valid_out),
 
 	.icache_stall_int,
@@ -363,6 +375,8 @@ execute execute_int
 	.result(ex_mem_result),
 	.ir(ex_mem_ir),
 	.dr(ex_mem_dr),
+	.sr1_reg(ex_mem_rs),
+	.sr2_reg(ex_mem_rt),
 	.valid(ex_mem_valid),
 	.load_mem,
 	

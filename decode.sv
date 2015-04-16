@@ -31,6 +31,8 @@ module decode
 	output lc3b_word sr2,
 	output lc3b_nzp cc_out,
 	output lc3b_reg dr,
+	output lc3b_reg sr1_reg,
+	output lc3b_reg sr2_reg,
 	output logic valid,
 	output logic load_ex,
 	
@@ -46,6 +48,9 @@ module decode
 
 lc3b_reg regfilemux_out;
 lc3b_reg destmux_out;
+
+assign sr1_reg = ir_in[8:6];
+assign sr2_reg = regfilemux_out;
 
 always_comb
 begin

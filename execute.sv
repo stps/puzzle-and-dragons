@@ -11,6 +11,8 @@ module execute
     input lc3b_word sr2,
     input lc3b_nzp cc_in,
     input lc3b_reg dr_in,
+	 input lc3b_reg sr1_reg_in,
+	 input lc3b_reg sr2_reg_in,
     input logic valid_in,
 
     input logic dep_stall,
@@ -27,6 +29,8 @@ module execute
     output lc3b_word result,
     output lc3b_word ir,
     output lc3b_reg dr,
+	 output lc3b_reg sr1_reg,
+	 output lc3b_reg sr2_reg,
     output logic valid,
     output logic load_mem,
 
@@ -59,6 +63,8 @@ assign npc = npc_in;
 assign cc = cc_in;
 assign ir = ir_in;
 assign dr = dr_in;
+assign sr1_reg = sr1_reg_in;
+assign sr2_reg = sr2_reg_in;
 assign address = memaddrmux_out;
 
 always_comb
