@@ -315,6 +315,24 @@ register #(.width(3)) de_ex_cc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_
 register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
 register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
 
+mux4 forwardA_mux
+(
+	.sel(forwardA_mux_sel),
+	.a(de_ex_sr1_out),
+	.b(reg_data),
+	.c(ex_mem_result_out),
+	.out(forwardA_mux_out)
+);
+
+mux4 forwardB_mux
+(
+	.sel(forwardB_mux_sel),
+	.a(de_ex_sr2_out),
+	.b(reg_data),
+	.c(ex_mem_result_out),
+	.out(forwardB_mux_out)
+);
+
 execute execute_int
 (
 	.clk,
