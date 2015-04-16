@@ -13,8 +13,8 @@ module forwarding_unit
 
 always_comb
 begin
-    forwardA_mux_sel = 2b'00;
-    forwardB_mux_sel = 2b'00;
+    forwardA_mux_sel = 2'b00;
+    forwardB_mux_sel = 2'b00;
     
 end
 

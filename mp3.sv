@@ -159,6 +159,11 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
+//hazard signals
+logic mem_ex_hazard;
+logic wb_ex_hazard;
+logic wb_mem_hazard;
+
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
 assign wb_drid = mem_wb_dr_out;
@@ -326,6 +331,20 @@ register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs), .in(de_ex_
 register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rs), .out(de_ex_rs_out));
 register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rt), .out(de_ex_rt_out));
 register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
+
+
+hazard_detection hazard_detection
+(
+	.de_ex_rs_out,
+	.de_ex_rt_out,
+	.mem_wb_dr_out,
+	.ex_mem_dr_out,
+	
+	.mem_ex_hazard,
+	.wb_ex_hazard,
+	.wb_mem_hazard
+
+);
 
 forwarding_unit forwarding_unit
 (
