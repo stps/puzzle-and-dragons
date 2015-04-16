@@ -159,6 +159,12 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
+//forwarding unit signals
+logic [1:0] forwardA_mux_sel;
+logic [1:0] forwardB_mux_sel;
+lc3bword forwardA_mux_out;
+lc3bword forwardB_mux_out;
+
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
 assign wb_drid = mem_wb_dr_out;
@@ -329,6 +335,8 @@ register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(val
 
 forwarding_unit forwarding_unit
 (
+    .ex_mem_load_regfile(load_mem && load_regs),
+    .mem_wb_load_regfile(load_wb && load_regs),
     .ex_mem_dr_out,
     .mem_wb_dr_out,
     .de_ex_rs_out,
