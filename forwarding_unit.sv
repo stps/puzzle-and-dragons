@@ -15,18 +15,19 @@ module forwarding_unit
 
 always_comb
 begin
-    forwardA_mux_sel = 2'b00;
-    forwardB_mux_sel = 2'b00;
-
-    if(ex_mem_load_regfile && ex_mem_dr_out != 0 && ex_mem_dr_out == de_ex_rs_out)
-        forwardA_mux_sel = 2'b10;
-    if(ex_mem_load_regfile && ex_mem_dr_out != 0 && ex_mem_dr_out == de_ex_rt_out)
-        forwardB_mux_sel = 2'b10;
-        
-    if(mem_wb_load_regfile && mem_wb_dr_out != 0 && mem_wb_dr_out == de_ex_rs_out)
+    if(mem_wb_load_regfile && mem_wb_dr_out != 0 && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
+        && ex_mem_dr_out != de_ex_rs_out && mem_wb_dr_out == de_ex_rs_out)
         forwardA_mux_sel = 2'b01;
-    if(mem_wb_load_regfile && mem_wb_dr_out != 0 && mem_wb_dr_out == de_ex_rt_out)
+    else if(ex_mem_load_regfile && ex_mem_dr_out != 0 && ex_mem_dr_out == de_ex_rs_out)
+        forwardA_mux_sel = 2'b10;
+    else forwardA_mux_sel = 2'b00;
+
+    if(mem_wb_load_regfile && mem_wb_dr_out != 0 && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
+        && ex_mem_dr_out != de_ex_rt_out && mem_wb_dr_out == de_ex_rt_out)
         forwardB_mux_sel = 2'b01;
+    else if(ex_mem_load_regfile && ex_mem_dr_out != 0 && ex_mem_dr_out == de_ex_rt_out)
+        forwardB_mux_sel = 2'b10;
+    else forwardB_mux_sel = 2'b00;
 end
 
 endmodule : forwarding_unit

@@ -252,30 +252,30 @@ arbiter arbiter
 
 fetch fetch_int
 (
-    .clk,
-    .pc_mux_sel,
-    .trap_pc,
-    .target_pc(ex_mem_address_out),
-	 
-	 .dep_stall,
-	 .decode_br_stall,
-	 .execute_br_stall,
-	 .execute_indirect_stall,
-	 .mem_stall,
-	 .mem_br_stall,
-    
-    .icache_rdata,
-	 .icache_resp,
-	 .icache_address,
-	 .icache_read,
-	 .icache_stall_int,
-	 
-	 .mem_valid_in(ex_mem_valid_out),
-	 
-	 .new_pc(f_de_npc),
-    .ir(f_de_ir),
-	 .valid(valid_de),
-	 .load_de
+	.clk,
+	.pc_mux_sel,
+	.trap_pc,
+	.target_pc(ex_mem_address_out),
+
+	.dep_stall,
+	.decode_br_stall,
+	.execute_br_stall,
+	.execute_indirect_stall,
+	.mem_stall,
+	.mem_br_stall,
+
+	.icache_rdata,
+	.icache_resp,
+	.icache_address,
+	.icache_read,
+	.icache_stall_int,
+
+	.mem_valid_in(ex_mem_valid_out),
+
+	.new_pc(f_de_npc),
+	.ir(f_de_ir),
+	.valid(valid_de),
+	.load_de
 );
 
 //fetch/decode registers
@@ -421,7 +421,7 @@ execute execute_int
 	.load_mem,
 	
 	.ex_load_cc(ex_ld_cc),
-   .ex_load_regfile(ex_ld_reg),
+	.ex_load_regfile(ex_ld_reg),
 	.execute_br_stall,
 	.execute_indirect_stall
 );
