@@ -379,6 +379,7 @@ mem mem_int
 	.dcache_resp,
 	.indirect_data_in(mem_wb_data_out),
 	.indirect_reg_in(mem_wb_dr_out),
+	.indirect_result_in(mem_wb_result_out),
 	
 	.mem_address(mem_wb_address),
 	.mem_read(dcache_read),
