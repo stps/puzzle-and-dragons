@@ -313,6 +313,8 @@ register de_ex_sr1_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr1), .out(d
 register de_ex_sr2_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
 register #(.width(3)) de_ex_cc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_cc), .out(de_ex_cc_out));
 register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
+register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rs), .out(de_ex_rs_out));
+register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rt), .out(de_ex_rt_out));
 register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
 
 execute execute_int
