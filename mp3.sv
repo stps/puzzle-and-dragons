@@ -317,6 +317,24 @@ register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs), .in(de_ex_
 register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rt), .out(de_ex_rt_out));
 register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
 
+mux4 forwardA_mux
+(
+	.sel(forwardA_mux_sel),
+	.a(de_ex_sr1_out),
+	.b(reg_data),
+	.c(ex_mem_result_out),
+	.out(forwardA_mux_out)
+);
+
+mux4 forwardB_mux
+(
+	.sel(forwardB_mux_sel),
+	.a(de_ex_sr2_out),
+	.b(reg_data),
+	.c(ex_mem_result_out),
+	.out(forwardB_mux_out)
+);
+
 execute execute_int
 (
 	.clk,
@@ -381,6 +399,7 @@ mem mem_int
 	.dcache_resp,
 	.indirect_data_in(mem_wb_data_out),
 	.indirect_reg_in(mem_wb_dr_out),
+	.indirect_result_in(mem_wb_result_out),
 	
 	.mem_address(mem_wb_address),
 	.mem_read(dcache_read),

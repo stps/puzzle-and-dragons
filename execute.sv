@@ -46,7 +46,6 @@ lc3b_word addr1mux_out;
 lc3b_word addr2mux_out;
 lc3b_word memaddrmux_out;
 lc3b_word sr2mux_out;
-lc3b_word alu_result;
 lc3b_word adj6_out;
 lc3b_word adj9_out;
 lc3b_word adj11_out;
@@ -61,7 +60,6 @@ assign cc = cc_in;
 assign ir = ir_in;
 assign dr = dr_in;
 assign address = memaddrmux_out;
-assign result = alu_result;
 
 always_comb
 begin
@@ -222,7 +220,7 @@ alu alu
     .aluop(cw_in.aluop),
     .a(sr1),
     .b(sr2mux_out),
-    .f(alu_result)
+    .f(result)
 );
 
 and_gate load_cc_check

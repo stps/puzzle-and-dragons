@@ -17,6 +17,7 @@ module mem
 	input dcache_resp,
 	input lc3b_word indirect_data_in,
 	input lc3b_word indirect_reg_in,
+	input lc3b_word indirect_result_in,
 	
 	output lc3b_word mem_address,
 	output logic mem_read,
@@ -76,6 +77,8 @@ always_comb begin
 		
 	if (cw_in.opcode == op_stb)
 		mem_wdata = {result_in[7:0], result_in[7:0]};
+	else if (cw_in.indirectaddrmux_sel)
+		mem_wdata = indirect_result_in;
 	else
 		mem_wdata = result_in;
 end
