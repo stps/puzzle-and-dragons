@@ -327,6 +327,17 @@ register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs), .in(de_ex_
 register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rt), .out(de_ex_rt_out));
 register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
 
+forwarding_unit forwarding_unit
+(
+    .ex_mem_dr_out,
+    .mem_wb_dr_out,
+    .de_ex_rs_out,
+    .de_ex_rt_out,
+    
+    .forwardA_mux_sel,
+    .forwardB_mux_sel
+);
+
 mux4 forwardA_mux
 (
 	.sel(forwardA_mux_sel),
@@ -352,8 +363,8 @@ execute execute_int
 	.npc_in(de_ex_npc_out),
 	.cw_in(de_ex_cw_out),
 	.ir_in(de_ex_ir_out),
-	.sr1(de_ex_sr1_out),
-	.sr2(de_ex_sr2_out),
+	.sr1(forwardA_mux_out),
+	.sr2(forwardB_mux_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
 	.sr1_reg_in(de_ex_rs_out),
