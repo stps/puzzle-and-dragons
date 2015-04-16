@@ -159,10 +159,18 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
+
 //hazard signals
 logic mem_ex_hazard;
 logic wb_ex_hazard;
 logic wb_mem_hazard;
+
+//forwarding unit signals
+logic [1:0] forwardA_mux_sel;
+logic [1:0] forwardB_mux_sel;
+lc3b_word forwardA_mux_out;
+lc3b_word forwardB_mux_out;
+
 
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
@@ -348,6 +356,8 @@ hazard_detection hazard_detection
 
 forwarding_unit forwarding_unit
 (
+    .ex_mem_load_regfile(load_mem && load_regs),
+    .mem_wb_load_regfile(load_wb && load_regs),
     .ex_mem_dr_out,
     .mem_wb_dr_out,
     .de_ex_rs_out,
