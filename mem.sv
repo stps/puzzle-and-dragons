@@ -68,12 +68,14 @@ always_comb begin
 	else
 		indirect_op = 1'b0;
 		
-	if (cw_in.opcode == op_jsr || cw_in.opcode == op_jmp)
+	if ((cw_in.opcode == op_jsr || cw_in.opcode == op_jmp) && valid_in == 1'b1)
 		mem_pc_mux = 2'b01;
-	else if (cw_in.opcode == op_trap)
+	else if (cw_in.opcode == op_trap && valid_in == 1'b1)
 		mem_pc_mux = 2'b10;
-	else
+	else if (cw_in.opcode == op_br && valid_in == 1'b1)
 		mem_pc_mux = br_pcmux_sel;
+	else
+		mem_pc_mux = 2'b00;
 		
 	if (cw_in.opcode == op_stb)
 		mem_wdata = {result_in[7:0], result_in[7:0]};
@@ -82,6 +84,7 @@ always_comb begin
 	else
 		mem_wdata = result_in;
 end
+
 
 mux2 indirectaddr_mux
 (
