@@ -157,7 +157,7 @@ mux4 sr2mux
     .sel(cw_in.sr2mux_sel),
     .a(sr2),
     .b(sext_out),
-    .c(sext_shf_out),
+    .c({12'b000000000000, ir_in[3:0]}), //sext_shf_out
     .out(sr2mux_out)
 );
 
