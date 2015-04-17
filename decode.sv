@@ -24,6 +24,10 @@ module decode
 	input logic mem_ld_reg,
 	input logic wb_ld_reg,
 	
+	input logic ex_valid,
+	input logic mem_valid,
+	input logic wb_valid,
+	
 	output lc3b_word npc, 
 	output lc3b_control_word cw,
 	output lc3b_word ir,
@@ -127,6 +131,10 @@ dep_check_logic dep_check_logic
 	.ex_ld_reg,
 	.mem_ld_reg,
 	.wb_ld_reg,
+	
+	.ex_valid,
+	.mem_valid,
+	.wb_valid,
 	
 	.dep_stall
 );

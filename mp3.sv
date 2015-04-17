@@ -305,6 +305,10 @@ decode decode_int
 	.mem_ld_reg,
 	.wb_ld_reg,
 	
+	.ex_valid(de_ex_valid_out),
+	.mem_valid(ex_mem_valid_out),
+	.wb_valid(mem_wb_valid_out),
+	
 	.npc(de_ex_npc),
 	.cw(de_ex_cw),
 	.ir(de_ex_ir),
