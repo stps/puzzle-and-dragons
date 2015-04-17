@@ -289,7 +289,7 @@ decode decode_int
 
 	.npc_in(f_de_npc_out),
 	.ir_in(f_de_ir_out),
-	.valid_in(),
+	.valid_in(f_de_valid_out),
 
 	.reg_data,
 	.cc_data(gencc_out),
@@ -392,8 +392,8 @@ execute execute_int
 	.npc_in(de_ex_npc_out),
 	.cw_in(de_ex_cw_out),
 	.ir_in(de_ex_ir_out),
-	.sr1(forwardA_mux_out),
-	.sr2(forwardB_mux_out),
+	.sr1(de_ex_sr1_out),
+	.sr2(de_ex_sr2_out),
 	.cc_in(de_ex_cc_out),
 	.dr_in(de_ex_dr_out),
 	.sr1_reg_in(de_ex_rs_out),

@@ -48,6 +48,7 @@ module decode
 
 lc3b_reg regfilemux_out;
 lc3b_reg destmux_out;
+lc3b_control_word cw_rom;
 
 assign sr1_reg = ir_in[8:6];
 assign sr2_reg = regfilemux_out;
@@ -65,7 +66,14 @@ control_rom control_store
     .imm_check(ir_in[5]),
     .jsr_check(ir_in[11]),
     .rshf_check(ir_in[4]),
-    .ctrl(cw)
+    .ctrl(cw_rom)
+);
+
+nop_check nop_check
+(
+	.instruction(ir_in),
+	.cw_rom,
+	.ctrl(cw)
 );
 
 regfile regfile_int
@@ -106,7 +114,7 @@ dep_check_logic dep_check_logic
 	
 	.sr1_needed(cw.sr1_needed),
 	.sr2_needed(cw.sr2_needed),
-	.opcode(cw.opcode),
+	.cw(cw),
 	
 	.ex_ld_cc,
 	.mem_ld_cc,

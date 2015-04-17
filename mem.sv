@@ -139,6 +139,13 @@ and_gate load_regfile_check
     .out(mem_load_regfile)
 );
 
+and_gate branch_stall_check
+(
+    .a(valid_in),
+    .b(cw_in.branch_stall),
+    .out(mem_br_stall)
+);
+
 	
 mem_stall_logic mem_stall_logic
 (

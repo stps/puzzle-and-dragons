@@ -22,7 +22,11 @@ module pc_logic
 				else
 				begin
 					if (dep_stall == 1'b1 || decode_br_stall == 1'b1 || execute_br_stall == 1'b1 || mem_stall == 1'b1 || mem_br_stall == 1'b1 || icache_stall_int == 1'b1)
+					begin	
 						ld_pc = 1'b0;
+						if (pc_mux_sel == 2'b10 || pc_mux_sel == 2'b01)
+							ld_pc = 1'b1;
+					end
 					else
 						ld_pc = 1'b1;
 				end

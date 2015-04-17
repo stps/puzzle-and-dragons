@@ -8,7 +8,7 @@ module dep_check_logic
 	
 	input logic sr1_needed,
 	input logic sr2_needed,
-	input lc3b_opcode opcode,
+	input lc3b_control_word cw,
 	
 	input logic ex_ld_cc,
 	input logic mem_ld_cc,
@@ -74,7 +74,7 @@ begin
 			end
 		end
 		
-		if (opcode == op_br)
+		if (cw.opcode == op_br && cw.branch_stall == 1'b1)
 		begin
 			if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_ld_cc == 1'b1)
 				dep_stall = 1'b1;

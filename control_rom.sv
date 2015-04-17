@@ -96,6 +96,7 @@ begin
 		 op_br: begin
 			  ctrl.addr1mux_sel = 1'b0;
 			  ctrl.addr2mux_sel = 2'b10;
+			  ctrl.branch_stall = 1'b1;
 		 end
 
 		 op_trap: begin
@@ -104,12 +105,14 @@ begin
 			  ctrl.drmux_sel = 2'b10;
 			  ctrl.memaddrmux_sel = 1'b1;
 			  ctrl.mem_read = 1'b1;
+			  ctrl.branch_stall = 1'b1;
 		 end
 
 		 op_jsr: begin
 			  ctrl.destmux_sel = 1'b1;
 			  ctrl.load_regfile = 1'b1;
 			  ctrl.drmux_sel = 2'b10;
+			  ctrl.branch_stall = 1'b1;
 			  if(jsr_check == 1'b0) begin
 					ctrl.sr1_needed = 1'b1;
 					ctrl.addr1mux_sel = 1'b1;
@@ -123,6 +126,7 @@ begin
 			  ctrl.sr1_needed = 1'b1;
 			  ctrl.addr1mux_sel = 1'b1;
 			  ctrl.addr2mux_sel = 2'b00;
+			  ctrl.branch_stall = 1'b1;
 		 end
 
 		 op_shf: begin
