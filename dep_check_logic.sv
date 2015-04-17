@@ -80,7 +80,7 @@ begin
 		
 		if (cw.opcode == op_br && cw.branch_stall == 1'b1)
 		begin
-			if (ex_ld_cc == 1'b1 || mem_ld_cc == 1'b1 || wb_ld_cc == 1'b1)
+			if ((ex_ld_cc == 1'b1 && ex_valid) || (mem_ld_cc == 1'b1 && mem_valid) || (wb_ld_cc == 1'b1 && wb_valid))
 				dep_stall = 1'b1;
 		end
 		

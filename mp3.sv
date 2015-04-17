@@ -393,6 +393,10 @@ forwarding_unit forwarding_unit
     .mem_wb_dr_out,
     .de_ex_rs_out,
     .de_ex_rt_out,
+	 
+	 .de_ex_valid_out,
+	 .ex_mem_valid_out,
+	 .mem_wb_valid_out,
     
     .forwardA_mux_sel,
     .forwardB_mux_sel
