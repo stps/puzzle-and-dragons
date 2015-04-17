@@ -157,6 +157,7 @@ mem_stall_logic mem_stall_logic
 	.mem_br_stall(),
 	.dcache_resp,
 	.indirect_op,
+	.valid_in,
 	
 	.valid,
 	.load_wb,

@@ -9,6 +9,7 @@ module decode_stall_logic
 	input logic mem_stall,
 	input logic mem_br_stall,
 	input logic icache_stall_int,
+	input logic valid_in,
 	
 	output logic valid,
 	output logic load_ex
@@ -57,6 +58,9 @@ begin
 		load_ex = 1'b0;
 		valid = 1'b0;
 	end
+	
+	if (valid_in == 1'b0)
+		valid = 1'b0;
 end
 
 endmodule : decode_stall_logic

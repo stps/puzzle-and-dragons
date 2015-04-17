@@ -140,6 +140,7 @@ decode_stall_logic decode_stall_logic
 	.mem_stall,
 	.mem_br_stall,
 	.icache_stall_int,
+	.valid_in,
 	
 	.valid,
 	.load_ex

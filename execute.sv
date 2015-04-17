@@ -257,6 +257,7 @@ ex_stall_logic ex_stall_logic
     .execute_br_stall,
     .mem_stall,
     .mem_br_stall,
+	 .valid_in,
 
     .valid,
     .load_mem,

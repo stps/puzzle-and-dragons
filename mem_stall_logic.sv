@@ -11,6 +11,7 @@ module mem_stall_logic
 	input dcache_resp,
 	input icache_stall_int,
 	input indirect_op,
+	input valid_in,
 	
 	output logic valid,
 	output logic load_wb,
@@ -71,6 +72,9 @@ begin
 	end
 	
 	mem_stall = mem_stall_int;
+	
+	if (valid_in == 1'b0)
+		valid = 1'b0;
 end
 
 endmodule : mem_stall_logic

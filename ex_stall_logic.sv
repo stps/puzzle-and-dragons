@@ -8,6 +8,7 @@ module ex_stall_logic
 	input logic mem_stall,
 	input logic mem_br_stall,
 	input logic icache_stall_int,
+	input logic valid_in,
 	
 	output logic valid,
 	output logic load_mem
@@ -46,6 +47,8 @@ begin
 		valid = 1'b0;
 	end
 	
+	if (valid_in == 1'b0)
+		valid = 1'b0;
 end
 
 endmodule : ex_stall_logic
