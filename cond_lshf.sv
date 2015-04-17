@@ -13,7 +13,7 @@ always_comb
 begin
     out = in;
     if(enable == 0)
-        out = {in, 1'b0};
+        out = {in[14:0], 1'b0};
 end
 
 endmodule : cond_lshf
