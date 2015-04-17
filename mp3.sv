@@ -159,7 +159,6 @@ logic ex_ld_reg;
 logic mem_ld_reg;
 logic wb_ld_reg;
 
-
 //hazard signals
 logic mem_ex_hazard;
 logic wb_ex_hazard;
@@ -170,7 +169,6 @@ logic [1:0] forwardA_mux_sel;
 logic [1:0] forwardB_mux_sel;
 lc3b_word forwardA_mux_out;
 lc3b_word forwardB_mux_out;
-
 
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;

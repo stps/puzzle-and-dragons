@@ -12,4 +12,5 @@ begin
 	else
 		 out = b;
 end
+
 endmodule : mux2

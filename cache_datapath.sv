@@ -72,7 +72,7 @@ array way2_array(.clk, .write(ld_way2), .index(line), .datain(way2mux_out), .dat
 // data
 mux2 #(.width(128)) data_mux(.sel(datamux_sel), .a(way1_out), .b(way2_out), .out(datamux_out));
 
-mux16 word_mux(.sel(offset), .in(datamux_out), .out(mem_rdata));
+cache_mux16 word_mux(.sel(offset), .in(datamux_out), .out(mem_rdata));
 					
 update_block update(.in(datamux_out), .offset, .mem_byte_enable, .mem_wdata, .out(update_out));
 
