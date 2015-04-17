@@ -22,6 +22,10 @@ module dep_check_logic
 	input logic mem_ld_reg,
 	input logic wb_ld_reg,
 	
+	input logic ex_valid,
+	input logic mem_valid,
+	input logic wb_valid,
+	
 	output logic dep_stall
 	
 );
@@ -36,19 +40,19 @@ begin
 		begin
 			if (ex_ld_reg == 1'b1)
 			begin
-				if (ex_drid == sr1)
+				if (ex_drid == sr1 && ex_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 			
 			if (mem_ld_reg  == 1'b1)
 			begin
-				if (mem_drid == sr1)
+				if (mem_drid == sr1 && mem_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 			
 			if (wb_ld_reg == 1'b1)
 			begin
-				if (wb_drid == sr1)
+				if (wb_drid == sr1 && wb_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 		end
@@ -57,19 +61,19 @@ begin
 		begin
 			if (ex_ld_reg == 1'b1)
 			begin
-				if (ex_drid == sr2)
+				if (ex_drid == sr2 && ex_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 			
 			if (mem_ld_reg  == 1'b1)
 			begin
-				if (mem_drid == sr2)
+				if (mem_drid == sr2 && mem_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 			
 			if (wb_ld_reg == 1'b1)
 			begin
-				if (wb_drid == sr2)
+				if (wb_drid == sr2 && wb_valid == 1'b1)
 					dep_stall = 1'b1;
 			end
 		end
