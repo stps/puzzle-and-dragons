@@ -4,6 +4,7 @@ module forwarding_unit
 (
     input logic ex_mem_load_regfile,
     input logic mem_wb_load_regfile,
+    input lc3b_opcode opcode,
     input lc3b_reg ex_mem_dr_out,
     input lc3b_reg mem_wb_dr_out,
     input lc3b_reg de_ex_rs_out,
@@ -15,7 +16,7 @@ module forwarding_unit
 
 always_comb
 begin
-    if (mem_wb_load_regfile //&& !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
+    if (mem_wb_load_regfile && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
         && ex_mem_dr_out != de_ex_rs_out && mem_wb_dr_out == de_ex_rs_out)
 		forwardA_mux_sel = 2'b01;
     else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rs_out)
@@ -23,7 +24,7 @@ begin
     else 
 		forwardA_mux_sel = 2'b00;
 
-    if (mem_wb_load_regfile //&& !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
+    if (mem_wb_load_regfile && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
         && ex_mem_dr_out != de_ex_rt_out && mem_wb_dr_out == de_ex_rt_out)
 		forwardB_mux_sel = 2'b01;
     else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rt_out)
