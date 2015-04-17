@@ -29,6 +29,9 @@
 *.mif
 *.hex
 
+*.asm
+*.asm~
+
 # ignore Quartus II generated folders
 db/
 incremental_db/
