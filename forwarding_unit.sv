@@ -24,8 +24,7 @@ begin
 	 if (ex_mem_valid_out && de_ex_valid_out)
 	 begin
 	 
-    if (mem_wb_load_regfile && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
-        && ex_mem_dr_out != de_ex_rs_out && mem_wb_dr_out == de_ex_rs_out)
+    if (mem_wb_load_regfile && ex_mem_dr_out != de_ex_rs_out && ((mem_wb_dr_out == de_ex_rs_out) && mem_wb_valid_out))
 		forwardA_mux_sel = 2'b01;
     else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rs_out)
 		forwardA_mux_sel = 2'b10;
@@ -38,8 +37,7 @@ begin
 
 	if (ex_mem_valid_out && de_ex_valid_out)
 	begin
-    if (mem_wb_load_regfile && !(ex_mem_load_regfile && (ex_mem_dr_out != 0))
-        && ex_mem_dr_out != de_ex_rt_out && mem_wb_dr_out == de_ex_rt_out)
+    if (mem_wb_load_regfile && ex_mem_dr_out != de_ex_rt_out && ((mem_wb_dr_out == de_ex_rt_out) && mem_wb_valid_out))
 		forwardB_mux_sel = 2'b01;
     else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rt_out)
 		forwardB_mux_sel = 2'b10;
