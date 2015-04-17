@@ -98,6 +98,7 @@ begin : state_actions
 						if (pmem_resp) begin
 							ld_valid1 = 1'b1;
 							ld_tag1 = 1'b1;
+							
 							if (mem_read)
 								ld_lru = 1'b1;
 							ld_way1 = 1'b1;
@@ -118,6 +119,7 @@ begin : state_actions
 						if (pmem_resp) begin
 							ld_valid2 = 1'b1;
 							ld_tag2 = 1'b1;
+							
 							if (mem_read)
 								ld_lru = 1'b1;
 							ld_way2 = 1'b1;

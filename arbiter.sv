@@ -46,7 +46,7 @@ begin : state_actions
 				if (l2_resp) begin
 					icache_pmem_resp = 1'b1;
 					
-					if (~dcache_pmem_write && ~dcache_pmem_read)
+					if (~dcache_pmem_write  && ~dcache_pmem_read)
 						ld_regs = 1'b1;
 				end
 			end
@@ -77,11 +77,17 @@ begin : next_state_logic
 	
     case(state)
         one: begin
-            if (dcache_pmem_write || dcache_pmem_read) begin
-					if (icache_pmem_read && l2_resp)
-						next_state = two;
+            if (dcache_pmem_write  || dcache_pmem_read) begin
+					if (icache_pmem_read ) begin
+						if (l2_resp)
+							next_state = two;
+						else
+							next_state = one;
+					end
+					
 					else
 						next_state = two;
+						
 				end
 				
 				else
@@ -96,6 +102,8 @@ begin : next_state_logic
         three: begin
 				if (l2_resp)
 					next_state = one;
+				else
+					next_state = three;
         end
         
         default: ;
