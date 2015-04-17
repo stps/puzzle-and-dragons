@@ -91,6 +91,13 @@ register #(.width(3)) cc
 	.out(cc_out)
 );
 
+and_gate branch_stall_check
+(
+    .a(valid_in),
+    .b(cw.branch_stall),
+    .out(decode_br_stall)
+);
+
 dep_check_logic dep_check_logic
 (
 	.sr1(ir_in[8:6]),
