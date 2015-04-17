@@ -11,8 +11,8 @@ module execute
     input lc3b_word sr2,
     input lc3b_nzp cc_in,
     input lc3b_reg dr_in,
-	 input lc3b_reg sr1_reg_in,
-	 input lc3b_reg sr2_reg_in,
+    input lc3b_reg sr1_reg_in,
+    input lc3b_reg sr2_reg_in,
     input logic valid_in,
 
     input logic dep_stall,
@@ -29,8 +29,8 @@ module execute
     output lc3b_word result,
     output lc3b_word ir,
     output lc3b_reg dr,
-	 output lc3b_reg sr1_reg,
-	 output lc3b_reg sr2_reg,
+    output lc3b_reg sr1_reg,
+    output lc3b_reg sr2_reg,
     output logic valid,
     output logic load_mem,
 
@@ -56,7 +56,6 @@ lc3b_word adj11_out;
 lc3b_word zadj_out;
 lc3b_word adder_out;
 lc3b_word sext_out;
-lc3b_word sext_shf_out;
 lc3b_word cond_lshf_out;
 
 assign npc = npc_in;
@@ -157,7 +156,7 @@ mux4 sr2mux
     .sel(cw_in.sr2mux_sel),
     .a(sr2),
     .b(sext_out),
-    .c({12'b000000000000, ir_in[3:0]}), //sext_shf_out
+    .c({12'b000000000000, ir_in[3:0]}),
     .out(sr2mux_out)
 );
 
@@ -215,12 +214,6 @@ sext #(.width(5)) sext
     .out(sext_out)
 );
 
-sext #(.width(4)) sext_shf
-(
-    .in(ir_in[3:0]),
-    .out(sext_shf_out)
-);
-
 alu alu
 (
     .aluop(cw_in.aluop),
@@ -257,7 +250,7 @@ ex_stall_logic ex_stall_logic
     .execute_br_stall,
     .mem_stall,
     .mem_br_stall,
-	 .valid_in,
+    .valid_in,
 
     .valid,
     .load_mem,
