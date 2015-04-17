@@ -11,16 +11,16 @@ module arbiter
 	input dcache_pmem_write,
 	input lc3b_word dcache_pmem_address,
 	
-	input logic pmem_resp,
+	input logic l2_resp,
 	
 	output logic ld_regs,
 	
 	output logic icache_pmem_resp,
 	output logic dcache_pmem_resp,
 	
-	output lc3b_word pmem_address,
-	output logic pmem_read,
-	output logic pmem_write
+	output lc3b_word l2_address,
+	output logic l2_read,
+	output logic l2_write
 );
 
 enum int unsigned {
@@ -31,19 +31,19 @@ enum int unsigned {
 
 always_comb
 begin : state_actions
-	pmem_read = 1'b0;
-	pmem_write = 1'b0;
+	l2_read = 1'b0;
+	l2_write = 1'b0;
 	icache_pmem_resp = 1'b0;
 	dcache_pmem_resp = 1'b0;
-	pmem_address = icache_pmem_address;
+	l2_address = icache_pmem_address;
 	ld_regs = 1'b0;
 	
 	case(state)
 		one: begin
 			if (icache_pmem_read) begin
-				pmem_read = 1'b1;
+				l2_read = 1'b1;
 				
-				if (pmem_resp) begin
+				if (l2_resp) begin
 					icache_pmem_resp = 1'b1;
 					
 					if (~dcache_pmem_write && ~dcache_pmem_read)
@@ -58,11 +58,11 @@ begin : state_actions
 		two: ;
 		
 		three: begin
-			pmem_read = dcache_pmem_read;
-			pmem_write = dcache_pmem_write;
-			pmem_address = dcache_pmem_address;
+			l2_read = dcache_pmem_read;
+			l2_write = dcache_pmem_write;
+			l2_address = dcache_pmem_address;
 			
-			if (pmem_resp)
+			if (l2_resp)
 				dcache_pmem_resp = 1'b1;
 				ld_regs = 1'b1;
 		end
@@ -78,7 +78,7 @@ begin : next_state_logic
     case(state)
         one: begin
             if (dcache_pmem_write || dcache_pmem_read) begin
-					if (icache_pmem_read && pmem_resp)
+					if (icache_pmem_read && l2_resp)
 						next_state = two;
 					else
 						next_state = two;
@@ -94,7 +94,7 @@ begin : next_state_logic
 		
 		
         three: begin
-				if (pmem_resp)
+				if (l2_resp)
 					next_state = one;
         end
         

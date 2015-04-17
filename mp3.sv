@@ -6,13 +6,13 @@ module mp3
 
     /* Memory signals */
 	 input pmem_resp,
-	 input lc3b_c_block pmem_rdata,
+	 input lc3b_l2_block pmem_rdata,
 	 
 	 output pmem_read,
 	 output pmem_write,
 	 
 	 output lc3b_word pmem_address,
-	 output lc3b_c_block pmem_wdata
+	 output lc3b_l2_block pmem_wdata
 );
 
 //non-register signals
@@ -126,6 +126,14 @@ lc3b_c_block dcache_pmem_rdata;
 logic dcache_pmem_write;
 lc3b_c_block dcache_pmem_wdata;
 
+//arbiter signals
+lc3b_word l2_address;
+logic l2_read;
+logic l2_write;
+logic l2_resp;
+lc3b_c_block l2_rdata;
+lc3b_c_block l2_wdata;
+
 //stall signals
 logic dep_stall;
 logic decode_br_stall;
@@ -194,7 +202,7 @@ cache i_cache
 	.pmem_resp(icache_pmem_resp),
 
 	.pmem_read(icache_pmem_read),
-	.pmem_rdata,
+	.pmem_rdata(l2_rdata),
 	
 	.pmem_write(),
 	.pmem_wdata()
@@ -218,10 +226,10 @@ cache d_cache
 	.pmem_resp(dcache_pmem_resp),
 
 	.pmem_read(dcache_pmem_read),
-	.pmem_rdata,
+	.pmem_rdata(l2_rdata),
 	
 	.pmem_write(dcache_pmem_write),
-	.pmem_wdata
+	.pmem_wdata(l2_wdata)
 );
 
 arbiter arbiter
@@ -235,16 +243,37 @@ arbiter arbiter
 	.dcache_pmem_write,
 	.dcache_pmem_address,
 	
-	.pmem_resp,
+	.l2_resp,
 	
 	.ld_regs(load_regs),
 	
 	.icache_pmem_resp,
 	.dcache_pmem_resp,
 	
+	.l2_address,
+	.l2_read,
+	.l2_write
+);
+
+l2_cache l2_cache
+(
+	.clk,
+
+	.mem_address(l2_address),
+	.mem_wdata(l2_wdata),
+	.mem_read(l2_read),
+	.mem_write(l2_write),
+	 
+	.mem_rdata(l2_rdata),
+	.mem_resp(l2_resp),
+	 
+	.pmem_rdata,
+	.pmem_resp,
+	 
 	.pmem_address,
 	.pmem_read,
-	.pmem_write
+	.pmem_write,
+	.pmem_wdata
 );
 
 
