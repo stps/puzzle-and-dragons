@@ -178,6 +178,18 @@ logic [1:0] forwardB_mux_sel;
 lc3b_word forwardA_mux_out;
 lc3b_word forwardB_mux_out;
 
+//leapfrogging signals
+logic leapfrog_load;
+lc3b_word mem_wb_address_in;
+lc3b_control_word mem_wb_cw_in;
+lc3b_word mem_wb_npc_in;
+lc3b_word mem_wb_result_in;
+lc3b_word mem_wb_ir_in;
+lc3b_reg mem_wb_dr_in;
+logic mem_wb_valid_in;
+
+assign leapfrog_load = 1'b0;
+
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
 assign wb_drid = mem_wb_dr_out;
@@ -519,15 +531,24 @@ mem mem_int
 	.mem_byte_enable
 );
 
+mux2 address_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_address), .b (ex_mem_address_out), .out(mem_wb_address_in));
+//dont need data
+mux2 #(.width($bits(lc3b_control_word))) cw_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_cw), .b(ex_mem_cw_out), .out(mem_wb_cw_in));
+mux2 npc_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_npc), .b(ex_mem_npc_out), .out(mem_wb_npc_in));
+mux2 result_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_result), .b(ex_mem_result_out), .out(mem_wb_result_in));
+mux2 ir_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_ir), .b(ex_mem_ir_out), .out(mem_wb_ir_in));
+mux2 #(.width(3)) dr_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_dr), .b(ex_mem_dr_out), .out(mem_wb_dr_in));
+mux2 #(.width(1)) valid_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_valid), .b(ex_mem_valid_out), .out(mem_wb_valid_in));
+
 //mem/write_back register
-register mem_wb_address_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_address), .out(mem_wb_address_out));
+register mem_wb_address_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_address_in), .out(mem_wb_address_out));
 register mem_wb_data_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_data), .out(mem_wb_data_out));
-register #(.width($bits(lc3b_control_word))) mem_wb_cw_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_cw), .out(mem_wb_cw_out));
+register #(.width($bits(lc3b_control_word))) mem_wb_cw_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_cw_in), .out(mem_wb_cw_out));
 register mem_wb_npc_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_npc), .out(mem_wb_npc_out));
-register mem_wb_result_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_result), .out(mem_wb_result_out));
-register mem_wb_ir_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_ir), .out(mem_wb_ir_out));
-register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_dr), .out(mem_wb_dr_out));
-register #(.width(1)) mem_wb_valid_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_valid), .out(mem_wb_valid_out));
+register mem_wb_result_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_result_in), .out(mem_wb_result_out));
+register mem_wb_ir_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_ir_in), .out(mem_wb_ir_out));
+register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_dr_in), .out(mem_wb_dr_out));
+register #(.width(1)) mem_wb_valid_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_valid_in), .out(mem_wb_valid_out));
 
 write_back write_back_int
 (
