@@ -10,7 +10,8 @@ module control_rom
     output lc3b_control_word ctrl
 );
 
-input logic [1:0] 
+input logic [2:0] lc3x_op;
+assign lc3x_op = {bit5, bit4, bit3};
 
 always_comb
 begin
@@ -199,67 +200,58 @@ begin
 		//if bit 5 is high use imm5
 		op_rti: begin
 			//sub
-			if() begin
+			if(lc3x_op == 1'b000) begin
 				ctrl.sr1_needed = 1'b1;
-				ctrl.aluop = alu_add;
+				ctrl.aluop = alu_sub;
 				ctrl.load_regfile = 1'b1;
 				ctrl.drmux_sel = 2'b11;
 				ctrl.regfilemux_sel = 1'b1;
-				if(bit5 == 0) begin
-					ctrl.sr2mux_sel = 2'b00;
-					ctrl.sr2_needed = 1'b1;
-				end
-				else begin
-					ctrl.sr2mux_sel = 2'b01;
-				end
+				ctrl.sr2mux_sel = 2'b00;
+				ctrl.sr2_needed = 1'b1;
 				ctrl.load_cc = 1'b1;
 			end
 			//mult
-			if() begin
+			if(lc3x_op == 1'b001) begin
 				ctrl.sr1_needed = 1'b1;
-				ctrl.aluop = alu_add;
+				ctrl.aluop = alu_mul;
 				ctrl.load_regfile = 1'b1;
 				ctrl.drmux_sel = 2'b11;
 				ctrl.regfilemux_sel = 1'b1;
-				if(bit5 == 0) begin
-					ctrl.sr2mux_sel = 2'b00;
-					ctrl.sr2_needed = 1'b1;
-				end
-				else begin
-					ctrl.sr2mux_sel = 2'b01;
-				end
+				ctrl.sr2mux_sel = 2'b00;
+				ctrl.sr2_needed = 1'b1;
+				ctrl.load_cc = 1'b1;
+			end
+			//div
+			if(lc3x_op == 1'b010) begin
+				ctrl.sr1_needed = 1'b1;
+				ctrl.aluop = alu_div;
+				ctrl.load_regfile = 1'b1;
+				ctrl.drmux_sel = 2'b11;
+				ctrl.regfilemux_sel = 1'b1;
+				ctrl.sr2mux_sel = 2'b00;
+				ctrl.sr2_needed = 1'b1;
 				ctrl.load_cc = 1'b1;
 			end
 			//xor
-			if() begin
+			if(lc3x_op == 1'b011) begin
 				ctrl.sr1_needed = 1'b1;
-				ctrl.aluop = alu_add;
+				ctrl.aluop = alu_xor;
 				ctrl.load_regfile = 1'b1;
 				ctrl.drmux_sel = 2'b11;
 				ctrl.regfilemux_sel = 1'b1;
-				if(bit5 == 0) begin
-					ctrl.sr2mux_sel = 2'b00;
-					ctrl.sr2_needed = 1'b1;
-				end
-				else begin
-					ctrl.sr2mux_sel = 2'b01;
-				end
+				ctrl.sr2mux_sel = 2'b00;
+				ctrl.sr2_needed = 1'b1;
 				ctrl.load_cc = 1'b1;
 			end
 			//or
-			if() begin
+			if(lc3x_op == 1'b100) begin
 				ctrl.sr1_needed = 1'b1;
-				ctrl.aluop = alu_add;
+				ctrl.aluop = alu_or;
 				ctrl.load_regfile = 1'b1;
 				ctrl.drmux_sel = 2'b11;
 				ctrl.regfilemux_sel = 1'b1;
-				if(bit5 == 0) begin
-					ctrl.sr2mux_sel = 2'b00;
-					ctrl.sr2_needed = 1'b1;
-				end
-				else begin
-					ctrl.sr2mux_sel = 2'b01;
-				end
+				ctrl.sr2mux_sel = 2'b00;
+				ctrl.sr2_needed = 1'b1;
 				ctrl.load_cc = 1'b1;
 			end
 		end

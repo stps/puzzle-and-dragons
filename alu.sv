@@ -17,6 +17,12 @@ begin
         alu_sll: f = a << b;
         alu_srl: f = a >> b;
         alu_sra: f = $signed(a) >>> b;
+        //lc-3x
+        alu_sub: f = a - b;
+        alu_mul: f = a * b;
+        alu_div: f = a / b;
+        alu_or: f = a | b;
+        alu_xor: f = a ^ b;
         default: $display("Unknown aluop");
     endcase
 end
