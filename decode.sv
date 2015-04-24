@@ -70,6 +70,7 @@ control_rom control_store
     .bit5(ir_in[5]),
     .bit11(ir_in[11]),
     .bit4(ir_in[4]),
+    .bit3(ir_in[3]),
     .ctrl(cw_rom)
 );
 

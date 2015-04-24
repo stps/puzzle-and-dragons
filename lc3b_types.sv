@@ -50,7 +50,12 @@ typedef enum bit [3:0] {
     alu_pass,
     alu_sll,
     alu_srl,
-    alu_sra
+    alu_sra,
+    //lc-3x
+    alu_sub,
+    alu_mul,
+    alu_or,
+    alu_xor
 } lc3b_aluop;
 
 typedef struct packed {
