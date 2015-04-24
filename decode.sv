@@ -67,9 +67,9 @@ end
 control_rom control_store
 (
     .opcode(lc3b_opcode'(ir_in[15:12])),
-    .imm_check(ir_in[5]),
-    .jsr_check(ir_in[11]),
-    .rshf_check(ir_in[4]),
+    .bit5(ir_in[5]),
+    .bit11(ir_in[11]),
+    .bit4(ir_in[4]),
     .ctrl(cw_rom)
 );
 

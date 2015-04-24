@@ -65,7 +65,7 @@ typedef struct packed {
     logic memaddrmux_sel;
     logic [1:0] drmux_sel;
     logic regfilemux_sel;
-	 logic indirectaddrmux_sel;
+    logic indirectaddrmux_sel;
     logic mem_read;
     logic mem_write;
     logic destmux_sel;
