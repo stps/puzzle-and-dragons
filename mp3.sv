@@ -179,6 +179,7 @@ lc3b_word forwardA_mux_out;
 lc3b_word forwardB_mux_out;
 
 //leapfrogging signals
+logic leapfrog_stall;
 logic leapfrog_load;
 lc3b_word mem_wb_address_in;
 lc3b_control_word mem_wb_cw_in;
@@ -188,7 +189,7 @@ lc3b_word mem_wb_ir_in;
 lc3b_reg mem_wb_dr_in;
 logic mem_wb_valid_in;
 
-assign leapfrog_load = 1'b0;
+//assign leapfrog_load = 1'b0;
 
 assign mem_drid = ex_mem_dr_out;
 assign ex_drid = de_ex_dr_out;
@@ -453,6 +454,11 @@ execute execute_int
 	.mem_stall,
 	.mem_br_stall,
 	
+	//leapfrogging
+	.mem_dr(ex_mem_dr_out),
+	.leapfrog_load,
+	.leapfrog_stall,
+	
 	.next_opcode(ex_mem_cw_out.opcode),
 	
 	.address(ex_mem_address),
@@ -471,6 +477,7 @@ execute execute_int
 	.ex_load_regfile(ex_ld_reg),
 	.execute_br_stall,
 	.execute_indirect_stall
+	
 );
 
 //execute/memory registers

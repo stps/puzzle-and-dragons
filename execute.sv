@@ -21,6 +21,10 @@ module execute
     input logic mem_br_stall,
 
     input lc3b_opcode next_opcode,
+	 
+	 input lc3b_reg mem_dr,
+	 output logic leapfrog_load,
+	 output logic leapfrog_stall,
 
     output lc3b_word address,
     output lc3b_control_word cw,
@@ -255,6 +259,17 @@ ex_stall_logic ex_stall_logic
     .valid,
     .load_mem,
     .icache_stall_int
+);
+
+leapfrog_logic leapfrog_logic
+(
+	.mem_stall,
+	.cw(cw_in),
+	.mem_dr,
+	.sr1(sr1_reg_in),
+	.sr2(sr2_reg_in),
+	.leapfrog_load,
+	.leapfrog_stall
 );
 
 endmodule : execute
