@@ -458,6 +458,7 @@ execute execute_int
 	.mem_dr(ex_mem_dr_out),
 	.leapfrog_load,
 	.leapfrog_stall,
+	.wb_ld_cc, 
 	
 	.next_opcode(ex_mem_cw_out.opcode),
 	

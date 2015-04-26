@@ -23,6 +23,7 @@ module execute
     input lc3b_opcode next_opcode,
 	 
 	 input lc3b_reg mem_dr,
+	 input logic wb_ld_cc,
 	 output logic leapfrog_load,
 	 output logic leapfrog_stall,
 
