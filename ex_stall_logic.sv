@@ -34,7 +34,7 @@ begin
 	begin
 	end
 	
-	if (mem_stall == 1'b1 && leapfrog_load == 1'b0) // stall everything except WB, insert bubbles in WB
+	if (mem_stall == 1'b1 && leapfrog_load == 1'b0) // fix pls
 	begin
 		load_mem = 1'b0;
 		valid = 1'b0;
