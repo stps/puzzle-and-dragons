@@ -22,7 +22,7 @@ begin
 	leapfrog_load = 1'b0;
 	leapfrog_stall = 1'b0;
 	
-	if (mem_stall == 1'b1 && (cw.mem_read == 1'b1 || cw.mem_write == 1'b1))
+	if (mem_stall == 1'b1)
 	begin
 		leapfrog_load = 1'b1;
 		leapfrog_stall = 1'b0;
@@ -33,7 +33,7 @@ begin
 			leapfrog_stall = 1'b1;
 		end
 		
-		if (cw.opcode == op_br && cw.branch_stall == 1'b1)
+		if (cw.opcode == op_br && cw.branch_stall == 1'b1) // need to account for unconditional branch
 		begin
 			leapfrog_load = 1'b0;
 			leapfrog_stall = 1'b1;
