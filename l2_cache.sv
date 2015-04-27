@@ -22,29 +22,53 @@ module l2_cache
 );
 
 logic hit;
+logic [2:0] lru_out;
+
 logic dirty1_out;
 logic dirty2_out;
-logic lru_out;
+logic dirty3_out;
+logic dirty4_out;
+
 logic tag1_valid;
 logic tag2_valid;
+logic tag3_valid;
+logic tag4_valid;
 
 logic dirty1_in;
 logic dirty2_in;
+logic dirty3_in;
+logic dirty4_in;
 	 
 logic ld_way1;
 logic ld_way2;
+logic ld_way3;
+logic ld_way4;
+
 logic ld_valid1;
 logic ld_valid2;
+logic ld_valid3;
+logic ld_valid4;
+
 logic ld_tag1;
 logic ld_tag2;
+logic ld_tag3;
+logic ld_tag4;
+
 logic ld_dirty1;
 logic ld_dirty2;
+logic ld_dirty3;
+logic ld_dirty4;
+
 logic ld_lru;
  
 logic way1mux_sel;
 logic way2mux_sel;
-logic datamux_sel;
-logic [1:0] addrmux_sel;
+logic way3mux_sel;
+logic way4mux_sel;
+
+
+logic [1:0] datamux_sel;
+logic [2:0] addrmux_sel;
 
 l2_cache_datapath datapath_int
 (
