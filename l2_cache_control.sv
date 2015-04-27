@@ -18,7 +18,6 @@ module l2_cache_control
 	 input tag3_valid,
 	 input tag4_valid,
 	 
-	 
 	 output logic dirty1_in,
 	 output logic dirty2_in,
 	 output logic dirty3_in,
