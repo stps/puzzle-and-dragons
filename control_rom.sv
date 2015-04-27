@@ -10,7 +10,7 @@ module control_rom
     output lc3b_control_word ctrl
 );
 
-input logic [2:0] lc3x_op;
+logic [2:0] lc3x_op;
 assign lc3x_op = {bit5, bit4, bit3};
 
 always_comb
