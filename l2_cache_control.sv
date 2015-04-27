@@ -272,7 +272,7 @@ begin : next_state_logic
 	
 	case (state) 
 		idle: begin
-			if (mem_read && ~hit)
+			if (mem_read && hit)
 				next_states = resp;
 				
 			if (mem_read && ~hit)

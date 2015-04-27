@@ -24,7 +24,7 @@ begin
     end
 end
 
-always_ff @(negedge clk)
+always_ff @(posedge clk)
 begin
     if (ld_lru)
         data[index] = in;
