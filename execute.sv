@@ -256,6 +256,9 @@ ex_stall_logic ex_stall_logic
     .mem_stall,
     .mem_br_stall,
     .valid_in,
+	 
+	 .leapfrog_load,
+	 .leapfrog_stall,
 
     .valid,
     .load_mem,
@@ -269,6 +272,7 @@ leapfrog_logic leapfrog_logic
 	.mem_dr,
 	.sr1(sr1_reg_in),
 	.sr2(sr2_reg_in),
+	.wb_ld_cc,
 	.leapfrog_load,
 	.leapfrog_stall
 );

@@ -11,6 +11,9 @@ module decode_stall_logic
 	input logic icache_stall_int,
 	input logic valid_in,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output logic valid,
 	output logic load_ex
 );
@@ -37,18 +40,24 @@ begin
 		valid = 1'b0;
 	end
 	
+	if (mem_stall == 1'b1 && leapfrog_load == 1'b0) // stall everything except WB, insert bubbles in WB
+	begin
+		load_ex = 1'b0;
+		valid = 1'b0;
+	end
+	
+	if (leapfrog_stall == 1'b1)	// something is in memory and it can't be leapfrogged
+	begin
+		load_ex = 1'b0;
+		valid = 1'b0;
+	end
+	
 	if (execute_indirect_stall == 1'b1) // stall fetch and decode while EX inserts bubble for STI/LDI
 	begin
 		load_ex = 1'b0;
 		valid = 1'b0;
 	end
-	
-	if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
-	begin
-		load_ex = 1'b0;
-		valid = 1'b0;
-	end
-	
+
 	if (mem_br_stall == 1'b1)
 	begin
 	end

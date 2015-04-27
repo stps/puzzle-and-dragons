@@ -10,6 +10,9 @@ module ex_stall_logic
 	input logic icache_stall_int,
 	input logic valid_in,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output logic valid,
 	output logic load_mem
 );
@@ -31,7 +34,13 @@ begin
 	begin
 	end
 	
-	if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
+	if (mem_stall == 1'b1 && leapfrog_load == 1'b0) // stall everything except WB, insert bubbles in WB
+	begin
+		load_mem = 1'b0;
+		valid = 1'b0;
+	end
+				
+	if (leapfrog_stall == 1'b1) // something is in memory and it can't be leapfrogged
 	begin
 		load_mem = 1'b0;
 		valid = 1'b0;

@@ -12,6 +12,9 @@ module fetch_stall_logic
 	input logic icache_read,
 	input logic icache_resp,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output logic valid,
 	output logic load_de,
 	output logic icache_stall_int
@@ -48,6 +51,18 @@ module fetch_stall_logic
 					valid = 1'b0;
 				end
 				
+				if (mem_stall == 1'b1 && leapfrog_load == 1'b0) // stall everything except WB, insert bubbles in WB
+				begin
+					load_de = 1'b0;
+					valid = 1'b0;
+				end
+	
+				if (leapfrog_stall == 1'b1) // something is in memory and it can't be leapfrogged
+				begin
+					load_de = 1'b0;
+					valid = 1'b0;
+				end
+				
 				if (execute_indirect_stall == 1'b1) // stall fetch and decode while EX inserts bubble for STI/LDI
 				begin
 					load_de = 1'b0;
@@ -55,12 +70,6 @@ module fetch_stall_logic
 				end
 				
 				if (dep_stall == 1'b1) // DE stage tells fetch to stall, and EX to insert bubbles
-				begin
-					load_de = 1'b0;
-					valid = 1'b0;
-				end
-				
-				if (mem_stall == 1'b1) // stall everything except WB, insert bubbles in WB
 				begin
 					load_de = 1'b0;
 					valid = 1'b0;

@@ -19,6 +19,9 @@ module fetch
 	input lc3b_word icache_rdata,
 	input logic icache_resp,
 	input logic mem_valid_in,
+	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
 
 	output lc3b_word icache_address,
 	output logic icache_read,
@@ -90,6 +93,9 @@ fetch_stall_logic fetch_stall_logic
 	
 	.icache_read,
 	.icache_resp,
+	
+	.leapfrog_load,
+	.leapfrog_stall,
 	
 	.valid,
 	.load_de,

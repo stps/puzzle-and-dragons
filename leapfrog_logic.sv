@@ -24,8 +24,9 @@ begin
 	
 	if (mem_stall == 1'b1 && (cw.mem_read == 1'b1 || cw.mem_write == 1'b1))
 	begin
-		leapfrog_stall = 1'b0;
 		leapfrog_load = 1'b1;
+		leapfrog_stall = 1'b0;
+		
 		if (mem_dr == sr1 || mem_dr == sr2)
 		begin
 			leapfrog_load = 1'b0;
@@ -40,7 +41,7 @@ begin
 			begin
 				leapfrog_load = 1'b1;
 				leapfrog_stall = 1'b0;
-			end
+			end // prob need more edge cases for if cc changed but by something earlier and not still in WB
 		end
 	end
 end

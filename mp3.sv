@@ -311,6 +311,9 @@ fetch fetch_int
 	.icache_stall_int,
 
 	.mem_valid_in(ex_mem_valid_out),
+	
+	.leapfrog_load,
+	.leapfrog_stall,
 
 	.new_pc(f_de_npc),
 	.ir(f_de_ir),
@@ -346,6 +349,9 @@ decode decode_int
 	.ex_ld_reg,	 
 	.mem_ld_reg,
 	.wb_ld_reg,
+	
+	.leapfrog_load,
+	.leapfrog_stall,
 	
 	.ex_valid(de_ex_valid_out),
 	.mem_valid(ex_mem_valid_out),
@@ -552,7 +558,7 @@ mux2 #(.width(1)) valid_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_valid), .b(ex
 register mem_wb_address_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_address_in), .out(mem_wb_address_out));
 register mem_wb_data_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_data), .out(mem_wb_data_out));
 register #(.width($bits(lc3b_control_word))) mem_wb_cw_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_cw_in), .out(mem_wb_cw_out));
-register mem_wb_npc_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_npc), .out(mem_wb_npc_out));
+register mem_wb_npc_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_npc_in), .out(mem_wb_npc_out));
 register mem_wb_result_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_result_in), .out(mem_wb_result_out));
 register mem_wb_ir_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_ir_in), .out(mem_wb_ir_out));
 register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_dr_in), .out(mem_wb_dr_out));

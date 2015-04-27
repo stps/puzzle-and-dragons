@@ -28,6 +28,9 @@ module decode
 	input logic mem_valid,
 	input logic wb_valid,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output lc3b_word npc, 
 	output lc3b_control_word cw,
 	output lc3b_word ir,
@@ -149,6 +152,9 @@ decode_stall_logic decode_stall_logic
 	.mem_br_stall,
 	.icache_stall_int,
 	.valid_in,
+	
+	.leapfrog_load,
+	.leapfrog_stall,
 	
 	.valid,
 	.load_ex
