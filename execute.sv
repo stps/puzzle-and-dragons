@@ -216,6 +216,7 @@ sext #(.width(5)) sext
 
 alu alu
 (
+    .clk,
     .aluop(cw_in.aluop),
     .a(sr1),
     .b(sr2mux_out),
