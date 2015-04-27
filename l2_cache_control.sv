@@ -118,11 +118,6 @@ begin : state_actions
 	
 	case (state)
 		idle: begin
-			if (hit && mem_read) begin
-				mem_resp = 1'b1;
-				ld_lru = 1'b1;
-			end
-			
 			if (hit && mem_write) begin
 				ld_lru = 1'b1;
 				
@@ -278,6 +273,9 @@ begin : next_state_logic
 	
 	case (state) 
 		idle: begin
+			if (mem_read && ~hit)
+				next_states = resp;
+				
 			if (mem_read && ~hit)
 				next_states = read;
 				

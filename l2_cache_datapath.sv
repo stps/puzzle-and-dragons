@@ -11,7 +11,7 @@ module l2_cache_datapath
 	 input dirty2_in,
 	 input dirty3_in,
 	 input dirty4_in,
-	 
+		
 	 input ld_way1,
 	 input ld_way2,
 	 input ld_way3,
