@@ -45,7 +45,7 @@ assign new_pc = plus2_out;
 register #(.width(16)) pc
 (
 	.clk,
-	.load(ld_pc && load_regs),
+	.load(ld_pc),
 	.in(pc_mux_out),
 	.out(pc_out)
 

@@ -19,6 +19,9 @@ module mem
 	input lc3b_word indirect_reg_in,
 	input lc3b_word indirect_result_in,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output lc3b_word mem_address,
 	output logic mem_read,
 	output logic mem_write,
@@ -161,6 +164,9 @@ mem_stall_logic mem_stall_logic
 	.dcache_resp,
 	.indirect_op,
 	.valid_in,
+	
+	.leapfrog_load,
+	.leapfrog_stall,
 	
 	.valid,
 	.load_wb,

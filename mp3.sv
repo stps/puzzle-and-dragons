@@ -323,9 +323,9 @@ fetch fetch_int
 );
 
 //fetch/decode registers
-register f_de_npc_reg(.clk, .load(load_de && load_regs), .in(f_de_npc), .out(f_de_npc_out));
-register f_de_ir_reg(.clk, .load(load_de && load_regs), .in(f_de_ir), .out(f_de_ir_out));
-register #(.width(1)) f_de_valid_reg(.clk, .load(load_de && load_regs), .in(valid_de), .out(f_de_valid_out));
+register f_de_npc_reg(.clk, .load(load_de && load_regs || load_de && leapfrog_load), .in(f_de_npc), .out(f_de_npc_out));
+register f_de_ir_reg(.clk, .load(load_de && load_regs || load_de && leapfrog_load), .in(f_de_ir), .out(f_de_ir_out));
+register #(.width(1)) f_de_valid_reg(.clk, .load(load_de && load_regs || load_de && leapfrog_load), .in(valid_de), .out(f_de_valid_out));
 
 decode decode_int
 (
@@ -380,16 +380,16 @@ decode decode_int
 );
 
 //decode/execute registers
-register de_ex_npc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_npc), .out(de_ex_npc_out));
-register #(.width($bits(lc3b_control_word))) de_ex_cw_reg(.clk, .load(load_ex && load_regs), .in(de_ex_cw), .out(de_ex_cw_out));
-register de_ex_ir_reg(.clk, .load(load_ex && load_regs), .in(de_ex_ir), .out(de_ex_ir_out));
-register de_ex_sr1_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr1), .out(de_ex_sr1_out));
-register de_ex_sr2_reg(.clk, .load(load_ex && load_regs), .in(de_ex_sr2), .out(de_ex_sr2_out));
-register #(.width(3)) de_ex_cc_reg(.clk, .load(load_ex && load_regs), .in(de_ex_cc), .out(de_ex_cc_out));
-register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs), .in(de_ex_dr), .out(de_ex_dr_out));
-register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rs), .out(de_ex_rs_out));
-register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs), .in(de_ex_rt), .out(de_ex_rt_out));
-register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs), .in(valid_ex), .out(de_ex_valid_out));
+register de_ex_npc_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_npc), .out(de_ex_npc_out));
+register #(.width($bits(lc3b_control_word))) de_ex_cw_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_cw), .out(de_ex_cw_out));
+register de_ex_ir_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_ir), .out(de_ex_ir_out));
+register de_ex_sr1_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_sr1), .out(de_ex_sr1_out));
+register de_ex_sr2_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_sr2), .out(de_ex_sr2_out));
+register #(.width(3)) de_ex_cc_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_cc), .out(de_ex_cc_out));
+register #(.width(3)) de_ex_dr_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_dr), .out(de_ex_dr_out));
+register #(.width(3)) de_ex_rs_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_rs), .out(de_ex_rs_out));
+register #(.width(3)) de_ex_rt_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(de_ex_rt), .out(de_ex_rt_out));
+register #(.width(1)) de_ex_valid_reg(.clk, .load(load_ex && load_regs || load_ex && leapfrog_load), .in(valid_ex), .out(de_ex_valid_out));
 
 
 hazard_detection hazard_detection
@@ -489,16 +489,16 @@ execute execute_int
 );
 
 //execute/memory registers
-register ex_mem_address_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_address), .out(ex_mem_address_out));
-register #(.width($bits(lc3b_control_word))) ex_mem_cw_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_cw), .out(ex_mem_cw_out));
-register ex_mem_npc_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_npc), .out(ex_mem_npc_out));
-register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_cc), .out(ex_mem_cc_out));
-register ex_mem_result_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_result), .out(ex_mem_result_out));
-register ex_mem_ir_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_ir), .out(ex_mem_ir_out));
-register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_dr), .out(ex_mem_dr_out));
-register #(.width(3)) ex_mem_rs_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_rs), .out(ex_mem_rs_out));
-register #(.width(3)) ex_mem_rt_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_rt), .out(ex_mem_rt_out));
-register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs), .in(ex_mem_valid), .out(ex_mem_valid_out));
+register ex_mem_address_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_address), .out(ex_mem_address_out));
+register #(.width($bits(lc3b_control_word))) ex_mem_cw_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_cw), .out(ex_mem_cw_out));
+register ex_mem_npc_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_npc), .out(ex_mem_npc_out));
+register #(.width(3)) ex_mem_cc_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_cc), .out(ex_mem_cc_out));
+register ex_mem_result_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_result), .out(ex_mem_result_out));
+register ex_mem_ir_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_ir), .out(ex_mem_ir_out));
+register #(.width(3)) ex_mem_dr_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_dr), .out(ex_mem_dr_out));
+register #(.width(3)) ex_mem_rs_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_rs), .out(ex_mem_rs_out));
+register #(.width(3)) ex_mem_rt_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_rt), .out(ex_mem_rt_out));
+register #(.width(1)) ex_mem_valid_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_valid), .out(ex_mem_valid_out));
 
 mem mem_int
 (
@@ -556,14 +556,14 @@ mux2 #(.width(3)) dr_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_dr), .b(ex_mem_d
 mux2 #(.width(1)) valid_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_valid), .b(ex_mem_valid), .out(mem_wb_valid_in));
 
 //mem/write_back register
-register mem_wb_address_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_address_in), .out(mem_wb_address_out));
-register mem_wb_data_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_data), .out(mem_wb_data_out));
-register #(.width($bits(lc3b_control_word))) mem_wb_cw_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_cw_in), .out(mem_wb_cw_out));
-register mem_wb_npc_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_npc_in), .out(mem_wb_npc_out));
-register mem_wb_result_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_result_in), .out(mem_wb_result_out));
-register mem_wb_ir_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_ir_in), .out(mem_wb_ir_out));
-register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_dr_in), .out(mem_wb_dr_out));
-register #(.width(1)) mem_wb_valid_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_valid_in), .out(mem_wb_valid_out));
+register mem_wb_address_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_address_in), .out(mem_wb_address_out));
+register mem_wb_data_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_data), .out(mem_wb_data_out));
+register #(.width($bits(lc3b_control_word))) mem_wb_cw_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_cw_in), .out(mem_wb_cw_out));
+register mem_wb_npc_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_npc_in), .out(mem_wb_npc_out));
+register mem_wb_result_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_result_in), .out(mem_wb_result_out));
+register mem_wb_ir_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_ir_in), .out(mem_wb_ir_out));
+register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_dr_in), .out(mem_wb_dr_out));
+register #(.width(1)) mem_wb_valid_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_valid_in), .out(mem_wb_valid_out));
 
 write_back write_back_int
 (
