@@ -296,6 +296,7 @@ fetch fetch_int
 	.pc_mux_sel,
 	.trap_pc,
 	.target_pc(ex_mem_address_out),
+	.load_regs,
 
 	.dep_stall,
 	.decode_br_stall,
@@ -545,14 +546,14 @@ mem mem_int
 	.mem_byte_enable
 );
 
-mux2 address_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_address), .b (ex_mem_address_out), .out(mem_wb_address_in));
+mux2 address_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_address), .b (ex_mem_address), .out(mem_wb_address_in));
 //dont need data
-mux2 #(.width($bits(lc3b_control_word))) cw_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_cw), .b(ex_mem_cw_out), .out(mem_wb_cw_in));
-mux2 npc_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_npc), .b(ex_mem_npc_out), .out(mem_wb_npc_in));
-mux2 result_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_result), .b(ex_mem_result_out), .out(mem_wb_result_in));
-mux2 ir_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_ir), .b(ex_mem_ir_out), .out(mem_wb_ir_in));
-mux2 #(.width(3)) dr_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_dr), .b(ex_mem_dr_out), .out(mem_wb_dr_in));
-mux2 #(.width(1)) valid_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_valid), .b(ex_mem_valid_out), .out(mem_wb_valid_in));
+mux2 #(.width($bits(lc3b_control_word))) cw_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_cw), .b(ex_mem_cw), .out(mem_wb_cw_in));
+mux2 npc_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_npc), .b(ex_mem_npc), .out(mem_wb_npc_in));
+mux2 result_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_result), .b(ex_mem_result), .out(mem_wb_result_in));
+mux2 ir_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_ir), .b(ex_mem_ir), .out(mem_wb_ir_in));
+mux2 #(.width(3)) dr_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_dr), .b(ex_mem_dr), .out(mem_wb_dr_in));
+mux2 #(.width(1)) valid_reg_lf_mux (.sel(leapfrog_load), .a(mem_wb_valid), .b(ex_mem_valid), .out(mem_wb_valid_in));
 
 //mem/write_back register
 register mem_wb_address_reg(.clk, .load(load_wb && load_regs), .in(mem_wb_address_in), .out(mem_wb_address_out));

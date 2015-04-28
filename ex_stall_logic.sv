@@ -58,6 +58,9 @@ begin
 	
 	if (valid_in == 1'b0)
 		valid = 1'b0;
+		
+	if (leapfrog_load == 1'b1)
+		load_mem = 1'b0;
 end
 
 endmodule : ex_stall_logic

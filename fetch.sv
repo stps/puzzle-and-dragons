@@ -6,6 +6,7 @@ module fetch
 	input logic [1:0] pc_mux_sel,
 	input lc3b_word trap_pc,
 	input lc3b_word target_pc,
+	input logic load_regs,
 
 	//stall signals
 	input logic dep_stall,
@@ -44,7 +45,7 @@ assign new_pc = plus2_out;
 register #(.width(16)) pc
 (
 	.clk,
-	.load(ld_pc),
+	.load(ld_pc && load_regs),
 	.in(pc_mux_out),
 	.out(pc_out)
 
@@ -72,6 +73,8 @@ pc_logic pc_logic
 	.execute_br_stall,
 	.mem_stall,
 	.mem_br_stall,
+	.leapfrog_load,
+	.leapfrog_stall,
 	.icache_stall_int,
 	.mem_valid_in,
 	.pc_mux_sel,

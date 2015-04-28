@@ -13,6 +13,9 @@ module mem_stall_logic
 	input indirect_op,
 	input valid_in,
 	
+	input logic leapfrog_load,
+	input logic leapfrog_stall,
+	
 	output logic valid,
 	output logic load_wb,
 	output logic mem_stall
@@ -75,6 +78,11 @@ begin
 	
 	if (valid_in == 1'b0)
 		valid = 1'b0;
+	
+	if (leapfrog_load == 1'b1)
+		load_wb = 1'b1;
+		
+	
 end
 
 endmodule : mem_stall_logic
