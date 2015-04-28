@@ -27,7 +27,7 @@ begin
 		leapfrog_load = 1'b1;
 		leapfrog_stall = 1'b0;
 		
-		if (mem_dr == sr1 || mem_dr == sr2)
+		if (mem_dr == sr1 || mem_dr == sr2 || cw.opcode == op_ldr || cw.opcode == op_ldi || cw.opcode == op_lea || cw.opcode == op_str || cw.opcode == op_sti)
 		begin
 			leapfrog_load = 1'b0;
 			leapfrog_stall = 1'b1;
