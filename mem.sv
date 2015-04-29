@@ -56,8 +56,8 @@ lc3b_word trap_logic_out;
 
 logic [1:0] br_pcmux_sel;
 
-assign mem_read = cw_in.mem_read && valid_in;
-assign mem_write = cw_in.mem_write && valid_in;
+assign mem_read = cw_in.mem_read && valid_in || cw_in.mem_read && cw_in.indirectaddrmux_sel;
+assign mem_write = cw_in.mem_write && valid_in || cw_in.mem_write && cw_in.indirectaddrmux_sel;
 
 assign data = trap_logic_out;
 assign cw = cw_in;

@@ -9,6 +9,7 @@ module ex_stall_logic
 	input logic mem_br_stall,
 	input logic icache_stall_int,
 	input logic valid_in,
+	input logic execute_indirect_stall,
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
@@ -58,6 +59,9 @@ begin
 	
 	if (valid_in == 1'b0)
 		valid = 1'b0;
+		
+//	if (execute_indirect_stall == 1'b1)
+//		valid = 1'b1;
 		
 	if (leapfrog_load == 1'b1)
 		load_mem = 1'b0;
