@@ -60,7 +60,7 @@ begin
 	
 	if (indirect_op) begin
 		load_wb = 1'b1;
-		valid = 1'b1;
+		valid = 1'b0;
 	end
 	
 	if (mem_stall_int == 1'b1) // stall everything except WB, insert bubbles in WB

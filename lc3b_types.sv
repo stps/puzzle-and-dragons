@@ -50,7 +50,13 @@ typedef enum bit [3:0] {
     alu_pass,
     alu_sll,
     alu_srl,
-    alu_sra
+    alu_sra,
+    //lc-3x
+    alu_sub,
+    alu_mul,
+    alu_div,
+    alu_or,
+    alu_xor
 } lc3b_aluop;
 
 typedef struct packed {
@@ -65,7 +71,7 @@ typedef struct packed {
     logic memaddrmux_sel;
     logic [1:0] drmux_sel;
     logic regfilemux_sel;
-	 logic indirectaddrmux_sel;
+    logic indirectaddrmux_sel;
     logic mem_read;
     logic mem_write;
     logic destmux_sel;
