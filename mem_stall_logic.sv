@@ -12,6 +12,7 @@ module mem_stall_logic
 	input icache_stall_int,
 	input indirect_op,
 	input valid_in,
+	input lc3b_control_word cw,
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
@@ -59,7 +60,7 @@ begin
 	
 	if (indirect_op) begin
 		load_wb = 1'b1;
-		valid = 1'b0;
+		valid = 1'b1;
 	end
 	
 	if (mem_stall_int == 1'b1) // stall everything except WB, insert bubbles in WB
@@ -81,6 +82,12 @@ begin
 	
 	if (leapfrog_load == 1'b1)
 		load_wb = 1'b1;
+	
+	if (cw.indirectaddrmux_sel == 1'b1)
+		valid = 1'b1;
+	
+	if (cw.indirectaddrmux_sel == 1'b1 && dcache_resp == 1'b0)
+		load_wb = 1'b0;
 		
 	
 end

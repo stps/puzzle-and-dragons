@@ -164,6 +164,7 @@ mem_stall_logic mem_stall_logic
 	.dcache_resp,
 	.indirect_op,
 	.valid_in,
+	.cw,
 	
 	.leapfrog_load,
 	.leapfrog_stall,
