@@ -60,6 +60,7 @@ logic ld_dirty3;
 logic ld_dirty4;
 
 logic ld_lru;
+logic ld_hit;
  
 logic way1mux_sel;
 logic way2mux_sel;

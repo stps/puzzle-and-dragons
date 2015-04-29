@@ -44,6 +44,7 @@ module l2_cache_control
 	 output logic ld_dirty4,
 	 
 	 output logic ld_lru,
+	 output logic ld_hit,
 	 
 	 output logic way1mux_sel,
 	 output logic way2mux_sel,
@@ -62,6 +63,7 @@ enum int unsigned {
     /* List of states */
 	 idle,
 	 read,
+	 write_cache,
 	 write_mem,
 	 resp
 } state, next_states;
@@ -94,6 +96,7 @@ begin : state_actions
 	ld_dirty4 = 1'b0;
 	
 	ld_lru = 1'b0;
+	ld_hit = 1'b0;
 	
 	way1mux_sel = 1'b0;
 	way2mux_sel = 1'b0;
@@ -117,6 +120,10 @@ begin : state_actions
 	
 	case (state)
 		idle: begin
+			ld_hit = 1'b1;
+		end
+	
+		write_cache: begin
 			if (hit && mem_write) begin
 				ld_lru = 1'b1;
 				
@@ -222,9 +229,7 @@ begin : state_actions
 			end
 		end
 		
-		write_mem: begin
-			pmem_write = 1'b1;
-			
+		write_mem: begin			
 			if (lru_out[2:1] == 2'b00) begin
 				datamux_sel = 2'b00;
 				addrmux_sel = 3'b001;
@@ -244,6 +249,8 @@ begin : state_actions
 				datamux_sel = 2'b11;
 				addrmux_sel = 3'b100;
 			end
+			
+			pmem_write = 1'b1;
 			
 			if (pmem_resp) begin
 				if (lru_out[2:1] == 2'b00)
@@ -272,6 +279,10 @@ begin : next_state_logic
 	
 	case (state) 
 		idle: begin
+			next_states = write_cache;
+		end
+		
+		write_cache: begin
 			if (mem_read && hit)
 				next_states = resp;
 				
@@ -327,14 +338,14 @@ begin : next_state_logic
 			end
 		end
 		
-		resp: begin
-			next_states = idle;
-		end
-		
 		write_mem: begin
 			if (pmem_resp) begin
 				next_states = read;
 			end
+		end
+		
+		resp: begin
+			next_states = idle;
 		end
 		
 		default: begin

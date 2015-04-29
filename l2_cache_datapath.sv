@@ -33,6 +33,7 @@ module l2_cache_datapath
 	 input ld_dirty4,
 	 
 	 input ld_lru,
+	 input ld_hit,
 	 
 	 input way1mux_sel,
 	 input way2mux_sel,
@@ -70,6 +71,12 @@ logic tag2_equals;
 logic tag3_equals;
 logic tag4_equals;
 
+logic hit_int;
+logic tag1_valid_int;
+logic tag2_valid_int;
+logic tag3_valid_int;
+logic tag4_valid_int;
+
 logic [2:0] temp_lru;
 
 lc3b_l2_offset offset; 
@@ -80,12 +87,15 @@ lc3b_l2_block way1mux_out;
 lc3b_l2_block way2mux_out;
 lc3b_l2_block way3mux_out;
 lc3b_l2_block way4mux_out;
+
 lc3b_l2_block way1_out;
 lc3b_l2_block way2_out;
 lc3b_l2_block way3_out;
 lc3b_l2_block way4_out;
+
 lc3b_l2_block datamux_out;
 lc3b_l2_block update_out;
+
 lc3b_l2_tag tag1_out;
 lc3b_l2_tag tag2_out;
 lc3b_l2_tag tag3_out;
@@ -176,31 +186,30 @@ begin
 	else
 		tag4_equals = 0;
 		
-		
 	if (valid1_out && tag1_equals)
-		tag1_valid = 1;
+		tag1_valid_int = 1;
 	else
-		tag1_valid = 0;
+		tag1_valid_int = 0;
 	
 	if (valid2_out && tag2_equals)
-		tag2_valid = 1;
+		tag2_valid_int = 1;
 	else
-		tag2_valid = 0;
+		tag2_valid_int = 0;
 		
 	if (valid3_out && tag3_equals)
-		tag3_valid = 1;
+		tag3_valid_int = 1;
 	else
-		tag3_valid = 0;
+		tag3_valid_int = 0;
 	
 	if (valid4_out && tag4_equals)
-		tag4_valid = 1;
+		tag4_valid_int = 1;
 	else
-		tag4_valid = 0;
+		tag4_valid_int = 0;
 		
 	if (tag1_valid || tag2_valid || tag3_valid || tag4_valid)
-		hit = 1;
+		hit_int = 1;
 	else 
-		hit = 0;
+		hit_int = 0;
 		
 	if (tag1_valid || ld_way1)
 		temp_lru = {2'b11, lru_out[0]};
@@ -213,5 +222,12 @@ begin
 	else 
 		temp_lru = lru_out;
 end
+
+//hit and tag valid latches
+register #(.width(1)) hit_reg(.clk, .load(ld_hit), .in(hit_int), .out(hit));
+register #(.width(1)) tag1_valid_reg(.clk, .load(ld_hit), .in(tag1_valid_int), .out(tag1_valid));
+register #(.width(1)) tag2_valid_reg(.clk, .load(ld_hit), .in(tag2_valid_int), .out(tag2_valid));
+register #(.width(1)) tag3_valid_reg(.clk, .load(ld_hit), .in(tag3_valid_int), .out(tag3_valid));
+register #(.width(1)) tag4_valid_reg(.clk, .load(ld_hit), .in(tag4_valid_int), .out(tag4_valid));
 
 endmodule : l2_cache_datapath

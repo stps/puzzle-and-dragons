@@ -229,7 +229,7 @@ cache d_cache
 	.pmem_rdata(l2_rdata),
 	
 	.pmem_write(dcache_pmem_write),
-	.pmem_wdata(l2_wdata)
+	.pmem_wdata(dcache_pmem_wdata)
 );
 
 arbiter arbiter
@@ -242,6 +242,7 @@ arbiter arbiter
 	.dcache_pmem_read,
 	.dcache_pmem_write,
 	.dcache_pmem_address,
+	.dcache_pmem_wdata,
 	
 	.l2_resp,
 	
@@ -251,6 +252,8 @@ arbiter arbiter
 	.dcache_pmem_resp,
 	
 	.l2_address,
+	.l2_wdata, 
+	
 	.l2_read,
 	.l2_write
 );
