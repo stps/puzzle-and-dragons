@@ -279,7 +279,8 @@ begin : next_state_logic
 	
 	case (state) 
 		idle: begin
-			next_states = write_cache;
+			if (mem_read || mem_write)
+				next_states = write_cache;
 		end
 		
 		write_cache: begin

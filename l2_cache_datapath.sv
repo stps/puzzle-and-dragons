@@ -187,24 +187,24 @@ begin
 		tag4_equals = 0;
 		
 	if (valid1_out && tag1_equals)
-		tag1_valid_int = 1;
+		tag1_valid = 1;
 	else
-		tag1_valid_int = 0;
+		tag1_valid = 0;
 	
 	if (valid2_out && tag2_equals)
-		tag2_valid_int = 1;
+		tag2_valid = 1;
 	else
-		tag2_valid_int = 0;
+		tag2_valid = 0;
 		
 	if (valid3_out && tag3_equals)
-		tag3_valid_int = 1;
+		tag3_valid = 1;
 	else
-		tag3_valid_int = 0;
+		tag3_valid = 0;
 	
 	if (valid4_out && tag4_equals)
-		tag4_valid_int = 1;
+		tag4_valid = 1;
 	else
-		tag4_valid_int = 0;
+		tag4_valid = 0;
 		
 	if (tag1_valid || tag2_valid || tag3_valid || tag4_valid)
 		hit_int = 1;
@@ -225,9 +225,9 @@ end
 
 //hit and tag valid latches
 register #(.width(1)) hit_reg(.clk, .load(ld_hit), .in(hit_int), .out(hit));
-register #(.width(1)) tag1_valid_reg(.clk, .load(ld_hit), .in(tag1_valid_int), .out(tag1_valid));
-register #(.width(1)) tag2_valid_reg(.clk, .load(ld_hit), .in(tag2_valid_int), .out(tag2_valid));
-register #(.width(1)) tag3_valid_reg(.clk, .load(ld_hit), .in(tag3_valid_int), .out(tag3_valid));
-register #(.width(1)) tag4_valid_reg(.clk, .load(ld_hit), .in(tag4_valid_int), .out(tag4_valid));
+//register #(.width(1)) tag1_valid_reg(.clk, .load(ld_hit), .in(tag1_valid_int), .out(tag1_valid));
+//register #(.width(1)) tag2_valid_reg(.clk, .load(ld_hit), .in(tag2_valid_int), .out(tag2_valid));
+//register #(.width(1)) tag3_valid_reg(.clk, .load(ld_hit), .in(tag3_valid_int), .out(tag3_valid));
+//register #(.width(1)) tag4_valid_reg(.clk, .load(ld_hit), .in(tag4_valid_int), .out(tag4_valid));
 
 endmodule : l2_cache_datapath
