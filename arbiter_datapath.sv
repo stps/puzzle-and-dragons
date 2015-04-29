@@ -23,6 +23,6 @@ lc3b_word marmux_out;
 mux2 #(.width(16)) marmux(.sel(marmux_sel), .a(icache_pmem_address), .b(dcache_pmem_address), .out(marmux_out));
 
 register #(.width(16)) mar(.clk, .load(ld_mar), .in(marmux_out), .out(l2_address));
-register #(.width(16)) mdr(.clk, .load(ld_mdr), .in(dcache_pmem_wdata), .out(l2_wdata));
+register #(.width(128)) mdr(.clk, .load(ld_mdr), .in(dcache_pmem_wdata), .out(l2_wdata));
 
 endmodule : arbiter_datapath
