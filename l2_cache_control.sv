@@ -63,6 +63,7 @@ enum int unsigned {
     /* List of states */
 	 idle,
 	 read,
+	 read_valid,
 	 write_cache,
 	 write_mem,
 	 resp
@@ -103,13 +104,13 @@ begin : state_actions
 	way3mux_sel = 1'b0;
 	way4mux_sel = 1'b0;
 	
-	if (tag1_valid)
-		datamux_sel = 2'b00;
-	else if (tag2_valid)
+	datamux_sel = 2'b00;
+	
+	if (tag2_valid)
 		datamux_sel = 2'b01;
 	else if (tag3_valid)
 		datamux_sel = 2'b10;
-	else
+	else if (tag4_valid)
 		datamux_sel = 2'b11;
 	
 	addrmux_sel = 3'b000;
@@ -229,6 +230,10 @@ begin : state_actions
 			end
 		end
 		
+		read_valid: begin
+			ld_hit = 1'b1;
+		end
+		
 		write_mem: begin			
 			if (lru_out[2:1] == 2'b00) begin
 				datamux_sel = 2'b00;
@@ -303,7 +308,7 @@ begin : next_state_logic
 					next_states = write_mem;
 				else if (pmem_resp)
 					if (mem_read)
-						next_states = resp;
+						next_states = read_valid;
 					else 
 						next_states = idle;
 			end
@@ -313,7 +318,7 @@ begin : next_state_logic
 					next_states = write_mem;
 				else if (pmem_resp)
 					if (mem_read)
-						next_states = resp;
+						next_states = read_valid;
 					else 
 						next_states = idle;
 			end
@@ -323,7 +328,7 @@ begin : next_state_logic
 					next_states = write_mem;
 				else if (pmem_resp)
 					if (mem_read)
-						next_states = resp;
+						next_states = read_valid;
 					else 
 						next_states = idle;
 			end
@@ -333,10 +338,14 @@ begin : next_state_logic
 					next_states = write_mem;
 				else if (pmem_resp)
 					if (mem_read)
-						next_states = resp;
+						next_states = read_valid;
 					else 
 						next_states = idle;
 			end
+		end
+		
+		read_valid: begin
+			next_states = resp;
 		end
 		
 		write_mem: begin
