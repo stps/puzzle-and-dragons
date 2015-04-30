@@ -415,8 +415,10 @@ hazard_detection hazard_detection
 
 forwarding_unit forwarding_unit
 (
-    .ex_mem_load_regfile(ex_mem_cw_out.load_regfile),
-    .mem_wb_load_regfile(mem_wb_cw_out.load_regfile),
+    //.ex_mem_load_regfile(ex_mem_cw_out.load_regfile),
+    //.mem_wb_load_regfile(mem_wb_cw_out.load_regfile),
+	 .ex_mem_load_regfile(load_mem && load_regs),
+    .mem_wb_load_regfile(load_wb && load_regs),
     .ex_mem_dr_out,
     .mem_wb_dr_out,
     .de_ex_rs_out,
