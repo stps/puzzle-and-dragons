@@ -1,4 +1,8 @@
 lc3x_opcode = ['SUB', 'MULT', 'DIV', 'XOR', 'OR']
+macro1 = ['NOR']
+macro2 = ['XNOR']
+macro3 = ['NAND']
+macro4 = ['LDBSE']
 
 def write_output(opmatch):
     outfile.write("\t")
@@ -8,34 +12,45 @@ def write_output(opmatch):
                                     bin(int(line.split()[2][1:2]))[2:].zfill(3)+\
                                     bin(lc3x_opcode.index(line.split()[0]))[2:].zfill(3)+\
                                     bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:])
-	if (opmatch == "NOR"):
-		outfile.write("DATA2 4x"+hex(int("1000"+\
+    elif (opmatch == "macro1"):
+        outfile.write("DATA2 4x"+hex(int("1000"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
                                     bin(int(line.split()[2][1:2]))[2:].zfill(3)+\
                                     "100"+\
-                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:]+\
-									"\n"+"DATA2 4x"+hex(int("1001"+\
+                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:])
+        outfile.write("\n\t")
+        outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111"))[2:])
-	if (opmatch == "XNOR"):
-		outfile.write("DATA2 4x"+hex(int("1000"+\
+                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+    elif (opmatch == "macro2"):
+        outfile.write("DATA2 4x"+hex(int("1000"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
                                     bin(int(line.split()[2][1:2]))[2:].zfill(3)+\
                                     "011"+\
-                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:]+\
-									"\n"+"DATA2 4x"+hex(int("1001"+\
+                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:])
+        outfile.write("\n\t")
+        outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111"))[2:])
-	if (opmatch == "NAND"):
-		outfile.write("DATA2 4x"+hex(int("0101"+\
+                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+    elif (opmatch == "macro3"):
+        outfile.write("DATA2 4x"+hex(int("0101"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
                                     bin(int(line.split()[2][1:2]))[2:].zfill(3)+\
                                     "000"+\
-                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:]+\
-									"\n"+"DATA2 4x"+hex(int("1001"+\
+                                    bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:])
+        
+        outfile.write("\n\t")
+        outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111"))[2:])
-	#if (opmatch == "LDBSE"): 
+                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+    elif (opmatch == "macro4"):
+        #LDB, then sign extend the lower byte register
+        outfile.write("LDB "+line.split()[1]+line.split()[2]+line.split()[3])
+        outfile.write("\n\t")
+        outfile.write("DATA2 4x"+hex(int("1000"+\
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
+                                    "101000", 2))[2:])
     outfile.write(";")
     outfile.write(line)
 
@@ -58,14 +73,17 @@ with open(iname, 'r') as infile:
                 if line.split()[0].upper() in lc3x_opcode:
                     write_output("lc3x_opcode")
                     continue
-                if line.split()[0].upper() == "NOR":
-                    write_output("NOR")
+                elif line.split()[0].upper() in macro1:
+                    write_output("macro1")
                     continue
-                if line.split()[0].upper() == "XNOR":
-                    write_output("XNOR")
+                elif line.split()[0].upper() in macro2:
+                    write_output("macro2")
                     continue
-                if line.split()[0].upper() == "NAND":
-                    write_output("NAND")
+                elif line.split()[0].upper() in macro3:
+                    write_output("macro3")
+                    continue
+                elif line.split()[0].upper() in macro4:
+                    write_output("macro4")
                     continue
             except IndexError:
                 pass
