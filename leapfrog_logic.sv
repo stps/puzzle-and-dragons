@@ -33,6 +33,12 @@ begin
 			leapfrog_stall = 1'b1;
 		end
 		
+		if (cw.opcode == op_trap)
+		begin
+			leapfrog_load = 1'b0;
+			leapfrog_stall = 1'b1;
+		end
+		
 		if (cw.opcode == op_br && cw.branch_stall == 1'b1) // need to account for unconditional branch
 		begin
 			leapfrog_load = 1'b0;

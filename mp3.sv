@@ -17,6 +17,7 @@ module mp3
 
 //non-register signals
 logic [1:0] pc_mux_sel; //needs to come from mem
+logic [1:0] mem_pc_mux;
 lc3b_nzp gencc_out;
 lc3b_word trap_pc;
 lc3b_word target_pc;
@@ -189,6 +190,10 @@ lc3b_word mem_wb_ir_in;
 lc3b_reg mem_wb_dr_in;
 logic mem_wb_valid_in;
 
+lc3b_word branch_address;
+logic [1:0] leap_br_pcmux_sel;
+logic [1:0] leap_pc_mux;
+
 //assign leapfrog_load = 1'b0;
 
 assign mem_drid = ex_mem_dr_out;
@@ -298,7 +303,7 @@ fetch fetch_int
 	.clk,
 	.pc_mux_sel,
 	.trap_pc,
-	.target_pc(ex_mem_address_out),
+	.target_pc(branch_address),
 	.load_regs,
 
 	.dep_stall,
@@ -491,6 +496,40 @@ execute execute_int
 	
 );
 
+mux2 leap_branch
+(
+	.sel(leapfrog_load),
+	.a(ex_mem_address_out), // regular branch
+	.b(ex_mem_address),	// branch that is leapfrogged, jumps in execute
+	.out(branch_address)
+);
+
+mux2 #(.width(2)) pc_mux_mux
+(
+	.sel(leapfrog_load),
+	.a(mem_pc_mux),
+	.b(leap_pc_mux),
+	.out(pc_mux_sel)
+);
+
+leap_control_logic leap_control_logic
+(
+	.leapfrog_load,
+	.leap_br_pcmux_sel,
+	.cw_in(ex_mem_cw),
+	.valid_in(ex_mem_valid),
+	
+	.leap_pc_mux
+);
+
+
+cccomp comp
+(
+	.a(ex_mem_ir),
+	.b(ex_mem_cc),
+	.out(leap_br_pcmux_sel)
+);
+
 //execute/memory registers
 register ex_mem_address_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_address), .out(ex_mem_address_out));
 register #(.width($bits(lc3b_control_word))) ex_mem_cw_reg(.clk, .load(load_mem && load_regs || load_mem && leapfrog_load), .in(ex_mem_cw), .out(ex_mem_cw_out));
@@ -527,7 +566,7 @@ mem mem_int
 	.mem_write(dcache_write),
 	.mem_wdata(dcache_wdata),
 	
-	.mem_pc_mux(pc_mux_sel),
+	.mem_pc_mux,
 	
 	.data(mem_wb_data),
 	.cw(mem_wb_cw),
@@ -567,6 +606,7 @@ register mem_wb_result_reg(.clk, .load(load_wb && load_regs || load_wb && leapfr
 register mem_wb_ir_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_ir_in), .out(mem_wb_ir_out));
 register #(.width(3)) mem_wb_dr_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_dr_in), .out(mem_wb_dr_out));
 register #(.width(1)) mem_wb_valid_reg(.clk, .load(load_wb && load_regs || load_wb && leapfrog_load), .in(mem_wb_valid_in), .out(mem_wb_valid_out));
+
 
 write_back write_back_int
 (
