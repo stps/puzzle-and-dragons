@@ -10,6 +10,7 @@ module leapfrog_logic
 	
 	input logic wb_ld_cc,
 	// need to stall if branch while something in mem, UNLESS something else set CCs since
+	input logic valid_in,
 	
 	output logic leapfrog_load,
 	output logic leapfrog_stall
@@ -27,7 +28,7 @@ begin
 		leapfrog_load = 1'b1;
 		leapfrog_stall = 1'b0;
 		
-		if (mem_dr == sr1 || mem_dr == sr2 || cw.opcode == op_ldr || cw.opcode == op_ldi || cw.opcode == op_lea || cw.opcode == op_str || cw.opcode == op_sti)
+		if ((mem_dr == sr1 && cw.sr1_needed == 1'b1) || (mem_dr == sr2 && cw.sr2_needed == 1'b1) || cw.opcode == op_ldr || cw.opcode == op_ldi || cw.opcode == op_lea || cw.opcode == op_str || cw.opcode == op_sti)
 		begin
 			leapfrog_load = 1'b0;
 			leapfrog_stall = 1'b1;
@@ -49,6 +50,13 @@ begin
 				leapfrog_stall = 1'b0;
 			end // prob need more edge cases for if cc changed but by something earlier and not still in WB
 		end
+		
+		if (valid_in == 1'b0)
+		begin
+			leapfrog_load = 1'b1;
+			leapfrog_stall = 1'b0;
+		end
+		
 	end
 end
 

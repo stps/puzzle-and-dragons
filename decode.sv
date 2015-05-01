@@ -30,6 +30,7 @@ module decode
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
+	input logic lost_leapfrog,
 	
 	output lc3b_word npc, 
 	output lc3b_control_word cw,
@@ -124,6 +125,8 @@ dep_check_logic dep_check_logic
 	.sr2_needed(cw.sr2_needed),
 	.cw(cw),
 	
+	.leapfrog_load,
+	
 	.ex_ld_cc,
 	.mem_ld_cc,
 	.wb_ld_cc,
@@ -156,6 +159,7 @@ decode_stall_logic decode_stall_logic
 	
 	.leapfrog_load,
 	.leapfrog_stall,
+	.lost_leapfrog,
 	
 	.valid,
 	.load_ex

@@ -14,6 +14,7 @@ module fetch_stall_logic
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
+	input logic lost_leapfrog,
 	
 	output logic valid,
 	output logic load_de,
@@ -76,6 +77,12 @@ module fetch_stall_logic
 				end
 				
 				if (icache_stall_int == 1'b1) // while waiting for cache miss, just stall fetch
+				begin
+					load_de = 1'b0;
+					valid = 1'b0;
+				end
+				
+				if (lost_leapfrog == 1'b1)
 				begin
 					load_de = 1'b0;
 					valid = 1'b0;

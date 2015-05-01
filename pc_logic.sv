@@ -10,6 +10,7 @@ module pc_logic
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
+	input logic lost_leapfrog,
 	
 	input logic icache_stall_int,
 	input logic mem_valid_in,
@@ -24,7 +25,7 @@ module pc_logic
 				
 				else
 				begin
-					if (dep_stall == 1'b1 || decode_br_stall == 1'b1 || execute_br_stall == 1'b1 || mem_stall == 1'b1 && leapfrog_load == 1'b0 || leapfrog_stall == 1'b1 || mem_br_stall == 1'b1 || icache_stall_int == 1'b1)
+					if (dep_stall == 1'b1 || decode_br_stall == 1'b1 || execute_br_stall == 1'b1 || mem_stall == 1'b1 && leapfrog_load == 1'b0 || leapfrog_stall == 1'b1 || lost_leapfrog == 1'b1 || mem_br_stall == 1'b1 || icache_stall_int == 1'b1)
 					begin	
 						ld_pc = 1'b0;
 						if (pc_mux_sel == 2'b10 || pc_mux_sel == 2'b01)

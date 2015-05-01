@@ -26,6 +26,9 @@ module execute
 	 input logic wb_ld_cc,
 	 output logic leapfrog_load,
 	 output logic leapfrog_stall,
+	 output logic lost_leapfrog,
+	 input logic mem_ld_cc,
+	 input logic mem_valid,
 
     output lc3b_word address,
     output lc3b_control_word cw,
@@ -261,6 +264,10 @@ ex_stall_logic ex_stall_logic
 	 
 	 .leapfrog_load,
 	 .leapfrog_stall,
+	 .lost_leapfrog,
+	 .mem_ld_cc,
+	 .mem_valid,
+	 .cw(cw_in),
 
     .valid,
     .load_mem,
@@ -275,6 +282,7 @@ leapfrog_logic leapfrog_logic
 	.sr1(sr1_reg_in),
 	.sr2(sr2_reg_in),
 	.wb_ld_cc,
+	.valid_in,
 	.leapfrog_load,
 	.leapfrog_stall
 );

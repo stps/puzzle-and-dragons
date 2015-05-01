@@ -182,6 +182,7 @@ lc3b_word forwardB_mux_out;
 //leapfrogging signals
 logic leapfrog_stall;
 logic leapfrog_load;
+logic lost_leapfrog;
 lc3b_word mem_wb_address_in;
 lc3b_control_word mem_wb_cw_in;
 lc3b_word mem_wb_npc_in;
@@ -323,6 +324,7 @@ fetch fetch_int
 	
 	.leapfrog_load,
 	.leapfrog_stall,
+	.lost_leapfrog,
 
 	.new_pc(f_de_npc),
 	.ir(f_de_ir),
@@ -361,6 +363,7 @@ decode decode_int
 	
 	.leapfrog_load,
 	.leapfrog_stall,
+	.lost_leapfrog,
 	
 	.ex_valid(de_ex_valid_out),
 	.mem_valid(ex_mem_valid_out),
@@ -475,7 +478,10 @@ execute execute_int
 	.mem_dr(ex_mem_dr_out),
 	.leapfrog_load,
 	.leapfrog_stall,
-	.wb_ld_cc, 
+	.lost_leapfrog,
+	.wb_ld_cc,
+	.mem_ld_cc,
+	.mem_valid(ex_mem_valid_out),
 	
 	.next_opcode(ex_mem_cw_out.opcode),
 	
@@ -528,7 +534,7 @@ leap_control_logic leap_control_logic
 cccomp comp
 (
 	.a(ex_mem_ir),
-	.b(ex_mem_cc),
+	.b(gencc_out),
 	.out(leap_br_pcmux_sel)
 );
 
