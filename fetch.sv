@@ -23,6 +23,7 @@ module fetch
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
+	input logic lost_leapfrog,
 
 	output lc3b_word icache_address,
 	output logic icache_read,

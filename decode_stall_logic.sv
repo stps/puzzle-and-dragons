@@ -13,6 +13,7 @@ module decode_stall_logic
 	
 	input logic leapfrog_load,
 	input logic leapfrog_stall,
+	input logic lost_leapfrog,
 	
 	output logic valid,
 	output logic load_ex
@@ -70,6 +71,12 @@ begin
 	
 	if (valid_in == 1'b0)
 		valid = 1'b0;
+	
+	if (lost_leapfrog == 1'b1)
+	begin
+		load_ex = 1'b0;
+		valid = 1'b0;
+	end
 end
 
 endmodule : decode_stall_logic
