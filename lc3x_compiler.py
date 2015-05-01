@@ -21,17 +21,17 @@ def write_output(opmatch):
         outfile.write("\n\t")
         outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+"111111", 2))[2:])
     elif (opmatch == "macro2"):
         outfile.write("DATA2 4x"+hex(int("1000"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+\
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
                                     "011"+\
                                     bin(int(line.split()[3][1:2]))[2:].zfill(3), 2))[2:])
         outfile.write("\n\t")
         outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+"111111", 2))[2:])
     elif (opmatch == "macro3"):
         outfile.write("DATA2 4x"+hex(int("0101"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
@@ -42,7 +42,7 @@ def write_output(opmatch):
         outfile.write("\n\t")
         outfile.write("DATA2 4x"+hex(int("1001"+\
                                     bin(int(line.split()[1][1:2]))[2:].zfill(3)+\
-                                    bin(int(line.split()[2][1:2]))[2:].zfill(3)+"111111", 2))[2:])
+                                    bin(int(line.split()[1][1:2]))[2:].zfill(3)+"111111", 2))[2:])
     elif (opmatch == "macro4"):
         #LDB, then sign extend the lower byte register
         outfile.write("LDB "+line.split()[1]+line.split()[2]+line.split()[3])
