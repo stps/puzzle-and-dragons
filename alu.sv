@@ -11,13 +11,13 @@ module alu
 lc3b_word div_output;
 lc3b_word mult_output;
 
-lpm_divide  #(.lpm_widthn(16), .lpm_widthd(16), .lpm_pipeline(5)) lpm_divide_int
-(
-    .clock(clk),
-    .quotient(div_output),
-    .numer(a),
-    .denom(b)
-);
+//lpm_divide  #(.lpm_widthn(16), .lpm_widthd(16), .lpm_pipeline(5), .lpm_hint("LPM_REMAINDERPOSITIVE = TRUE")) lpm_divide_int
+//(
+//    .clock(clk),
+//    .quotient(div_output),
+//    .numer(a),
+//    .denom(b)
+//);
 
 //lpm_mult #(.lpm_widthb(16), .lpm_widtha(16), .lpm_widthp(16), .lpm_pipeline(3)) lpm_mult_int
 //(
