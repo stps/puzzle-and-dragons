@@ -125,6 +125,11 @@ begin : state_actions
 		end
 	
 		write_cache: begin
+			if (hit && mem_read) begin
+				mem_resp = 1'b1;
+				ld_lru = 1'b1;
+			end
+			
 			if (hit && mem_write) begin
 				ld_lru = 1'b1;
 				
@@ -290,7 +295,7 @@ begin : next_state_logic
 		
 		write_cache: begin
 			if (mem_read && hit)
-				next_states = resp;
+				next_states = idle;
 				
 			if (mem_read && ~hit)
 				next_states = read;
