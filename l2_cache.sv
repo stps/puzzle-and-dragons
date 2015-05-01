@@ -22,6 +22,7 @@ module l2_cache
 );
 
 logic hit;
+logic evictreq_out;
 logic [2:0] lru_out;
 
 logic dirty1_out;
@@ -61,15 +62,19 @@ logic ld_dirty4;
 
 logic ld_lru;
 logic ld_hit;
+logic ld_evict;
+logic ld_evictreq;
  
 logic way1mux_sel;
 logic way2mux_sel;
 logic way3mux_sel;
 logic way4mux_sel;
 
-
+logic addrmux_sel;
+logic wdatamux_sel;
 logic [1:0] datamux_sel;
-logic [2:0] addrmux_sel;
+logic [1:0] evictaddrmux_sel;
+logic [2:0] readaddrmux_sel;
 
 l2_cache_datapath datapath_int
 (

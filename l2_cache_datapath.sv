@@ -34,16 +34,22 @@ module l2_cache_datapath
 	 
 	 input ld_lru,
 	 input ld_hit,
+	 input ld_evict,
+	 input ld_evictreq,
 	 
 	 input way1mux_sel,
 	 input way2mux_sel,
 	 input way3mux_sel,
 	 input way4mux_sel,
 	 
+	 input addrmux_sel,
+	 input wdatamux_sel,
 	 input [1:0] datamux_sel,
-	 input [2:0] addrmux_sel,
+	 input [1:0] evictaddrmux_sel,
+	 input [2:0] readaddrmux_sel,
 	 
 	 output logic hit,
+	 output logic evictreq_out,
 	 output [2:0] lru_out,
 	 
 	 output logic dirty1_out,
@@ -101,10 +107,14 @@ lc3b_l2_tag tag2_out;
 lc3b_l2_tag tag3_out;
 lc3b_l2_tag tag4_out;
 
+lc3b_word readaddrmux_out;
+lc3b_word evictaddrmux_out;
+lc3b_word evictaddrreg_out;
+lc3b_l2_block evictdatareg_out;
+
 assign offset = mem_address[4];
 assign line = mem_address[7:5];
 assign tag = mem_address[15:8];
-assign pmem_wdata = datamux_out;
 
 // way1
 mux2 #(.width(256)) way1_mux(.sel(way1mux_sel), .a(update_out), .b(pmem_rdata), .out(way1mux_out));
@@ -153,16 +163,48 @@ array #(.width(8)) tag4_array(.clk, .write(ld_tag4), .index(line), .datain(tag),
 l2_cache_lru lru(.clk, .ld_lru, .in(temp_lru), .index(line), .lru_out);
 
 //address mux
-mux5 address_mux
+mux5 read_address_mux
 (
-	.sel(addrmux_sel), 
+	.sel(readaddrmux_sel), 
 	.a({mem_address[15:5], 5'b000}), 
 	.b({tag1_out, line, 5'b0000}), 
 	.c({tag2_out, line, 5'b0000}), 
 	.d({tag3_out, line, 5'b0000}), 
 	.e({tag4_out, line, 5'b0000}), 
-	.f(pmem_address)
+	.f(readaddrmux_out)
 );
+
+mux4 evict_address_mux
+(
+	.sel(evictaddrmux_sel),
+	.a({tag1_out, line, 5'b0000}), 
+	.b({tag2_out, line, 5'b0000}), 
+	.c({tag3_out, line, 5'b0000}), 
+	.d({tag4_out, line, 5'b0000}), 
+	.out(evictaddrmux_out)
+);
+
+//pmem address and wdata muxes
+mux2 address_mux
+(
+	.sel(addrmux_sel),
+	.a(readaddrmux_out),
+	.b(evictaddrreg_out),
+	.out(pmem_address)
+);
+
+mux2 wdata_mux
+(
+	.sel(wdatamux_sel),
+	.a(datamux_out),
+	.b(evictdatareg_out),
+	.out(pmem_wdata)
+);
+
+//evict buffer registers
+register #(.width(16)) evict_address_reg(.clk, .load(ld_evict), .in(evictaddrmux_out), .out(evictaddrreg_out));
+register #(.width(256)) evict_data_reg(.clk, .load(ld_evict), .in(datamux_out), .out(evictdatareg_out));
+register #(.width(1)) evict_required_req(.clk, .load(ld_evictreq), .in(ld_evict), .out(evictreq_out));
 
 always_comb
 begin
