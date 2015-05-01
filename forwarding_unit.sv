@@ -13,8 +13,8 @@ module forwarding_unit
 	 input logic de_ex_valid_out,
 	 input logic ex_mem_valid_out,
 	 input logic mem_wb_valid_out,
+	 input logic is_nop,
 
-    
     output logic [1:0] forwardA_mux_sel,
     output logic [1:0] forwardB_mux_sel
 );
@@ -26,7 +26,7 @@ begin
 	 
     if (mem_wb_load_regfile && ex_mem_dr_out != de_ex_rs_out && ((mem_wb_dr_out == de_ex_rs_out) && mem_wb_valid_out))
 		forwardA_mux_sel = 2'b01;
-    else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rs_out)
+    else if (ex_mem_load_regfile && ex_mem_dr_out == de_ex_rs_out && ~is_nop)
 		forwardA_mux_sel = 2'b10;
     else 
 		forwardA_mux_sel = 2'b00;

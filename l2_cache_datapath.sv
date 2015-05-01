@@ -193,7 +193,7 @@ mux2 address_mux
 	.out(pmem_address)
 );
 
-mux2 wdata_mux
+mux2 #(.width(256)) wdata_mux
 (
 	.sel(wdatamux_sel),
 	.a(datamux_out),

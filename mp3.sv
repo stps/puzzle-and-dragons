@@ -430,6 +430,8 @@ forwarding_unit forwarding_unit
 	 .de_ex_valid_out,
 	 .ex_mem_valid_out,
 	 .mem_wb_valid_out,
+	 
+	 .is_nop(ex_mem_cw_out.is_nop),
     
     .forwardA_mux_sel,
     .forwardB_mux_sel

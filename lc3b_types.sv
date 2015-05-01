@@ -78,6 +78,7 @@ typedef struct packed {
     logic sr1_needed;
     logic sr2_needed;
     logic lshf_enable;
+	 logic is_nop;
 } lc3b_control_word;
 
 endpackage : lc3b_types

@@ -31,6 +31,7 @@ begin
 		ctrl.sr1_needed = 1'b0;
 		ctrl.sr2_needed = 1'b0;
 		ctrl.lshf_enable = 1'b0;
+		ctrl.is_nop = 1'b1;
 	
 	end
 	else
