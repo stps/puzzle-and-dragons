@@ -1,0 +1,27 @@
+ORIGIN 0
+SEGMENT 0 CODE:
+    LDR R1, R0, ONE
+    LDR R2, R0, TWO
+    LDR R4, R0, FOUR
+    LDR R5, R0, FIVE
+   
+    ADD R3, R1, R2
+    SUB R3, R1, R2
+    MULT R3, R1, R2
+    MULT R3, R4, R5
+
+    AND R3, R1, R2
+    NAND R3, R1, R2
+
+    OR R3, R1, R2
+    NOR R3, R1, R2
+
+    XOR R3, R1, R2
+    XNOR R3, R1, R2
+HALT:
+    BRnzp HALT
+ 
+    ONE: DATA2 4x0001
+    TWO: DATA2 4x0002
+    FOUR: DATA2 4x0004
+    FIVE: DATA2 4x0005
